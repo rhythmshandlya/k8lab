@@ -238,9 +238,6 @@ export function Landing({
           />
           <p>{BRAND.shortDescription}</p>
           <div className="flex items-center gap-4">
-            <Link className="hover:text-foreground transition-colors" href="/community">
-              Community
-            </Link>
             <a className="hover:text-foreground transition-colors" href={BRAND.repositoryUrl}>
               GitHub
             </a>

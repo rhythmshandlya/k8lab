@@ -14,7 +14,6 @@ import { ObjectDetails } from "@/components/object-explorer/object-details";
 import { XtermTerminal, type TerminalRunResult } from "@/components/terminal/xterm-terminal";
 import { Badge } from "@/components/ui/badge";
 import { handleTabKeyDown } from "@/components/ui/tabs";
-import { BRAND } from "@/config/brand";
 import { Panel, PanelBody, PanelHeader } from "@/components/ui/panel";
 import {
   ResizableGroup,
@@ -587,7 +586,7 @@ function LevelWorkspaceSession({ level, owner }: { level: ProblemLevel; owner: s
     .reduce((sum, h) => sum + h.xpPenalty, 0);
   const netXp = Math.max(0, level.xp - hintPenalty);
   return (
-    <div className="flex h-[calc(100dvh-3.5rem)] flex-col gap-2 overflow-x-auto p-3">
+    <div className="relative flex h-[calc(100dvh-3.5rem)] min-h-0 min-w-0 flex-col gap-2 overflow-hidden p-3">
       <DraftStatus level={level} owner={owner} />
       {sim.error ? (
         <div
@@ -639,7 +638,12 @@ function LevelWorkspaceSession({ level, owner }: { level: ProblemLevel; owner: s
           maxSize="42%"
           className={cn("h-full", compact && compactPane !== "brief" && "hidden")}
         >
-          <div className="flex h-full flex-col gap-3 overflow-y-auto pr-1 pb-1">
+          <div
+            role="region"
+            aria-label="Problem details"
+            tabIndex={0}
+            className="relative flex h-full flex-col gap-3 overflow-y-auto overscroll-contain pr-1 pb-1"
+          >
             <div className="shrink-0">
               <IncidentBrief />
             </div>
@@ -915,17 +919,6 @@ function LevelWorkspaceSession({ level, owner }: { level: ProblemLevel; owner: s
                           registerRunner={(run) => {
                             terminalRunnerRef.current = run;
                           }}
-                          welcome={[
-                            `${BRAND.name} simulated shell, type 'help' for commands.`,
-                            `Engine: ${
-                              level.engine.kind === "webernetes"
-                                ? "Webernetes"
-                                : isBuild
-                                  ? "static architecture policy review"
-                                  : "scripted incident"
-                            }`,
-                            `Try: ${level.quickCommands[0]?.command ?? "kubectl get pods"}`,
-                          ]}
                         />
                       </ErrorBoundary>
                     </div>
