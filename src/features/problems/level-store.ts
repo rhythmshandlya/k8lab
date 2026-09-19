@@ -176,6 +176,7 @@ export const useLevelStore = create<LevelState>((set, get) => ({
         level.files.find((file) => file.access !== "hidden")?.path ??
         "",
       validation: null,
+      checks: null,
       solved: false,
       restoredFromStorage: false,
     });
@@ -184,10 +185,10 @@ export const useLevelStore = create<LevelState>((set, get) => ({
   setFile: (path, content) =>
     set((state) => {
       const file = state.level?.files.find((candidate) => candidate.path === path);
-      if (!file || file.access !== "editable") return state;
+      if (!file || file.access !== "editable" || state.files[path] === content) return state;
       const next = { ...state, files: { ...state.files, [path]: content } };
       persist(next);
-      return { files: next.files, validation: null, solved: false };
+      return { files: next.files, validation: null, checks: null, solved: false };
     }),
 
   setActiveFile: (path) =>

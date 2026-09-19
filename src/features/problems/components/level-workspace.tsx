@@ -268,9 +268,16 @@ function LevelWorkspaceSession({ level, owner }: { level: ProblemLevel; owner: s
   const refreshChecks = useCallback(async () => {
     if (!scenarioReady) return;
     setRefreshingChecks(true);
+    const checkedFiles = { ...useLevelStore.getState().files };
+    const checkedRevision = workspaceRevision(level, checkedFiles);
     try {
-      const report = await validateProblem(level, useLevelStore.getState().files);
-      if (mounted.current && getIdentity() === owner) setChecks(report);
+      const report = await validateProblem(level, checkedFiles);
+      if (
+        mounted.current &&
+        getIdentity() === owner &&
+        workspaceRevision(level, useLevelStore.getState().files) === checkedRevision
+      )
+        setChecks(report);
     } finally {
       setRefreshingChecks(false);
     }
@@ -296,7 +303,7 @@ function LevelWorkspaceSession({ level, owner }: { level: ProblemLevel; owner: s
     if (!sim.ready) return;
     const timer = setTimeout(() => void refreshChecks(), 350);
     return () => clearTimeout(timer);
-  }, [sim.ready, sim.snapshot, refreshChecks]);
+  }, [sim.ready, sim.snapshot, files, refreshChecks]);
 
   // Auto-select the most relevant broken object once, so the details panel is never
   // an empty "select something" placeholder while the incident is live.

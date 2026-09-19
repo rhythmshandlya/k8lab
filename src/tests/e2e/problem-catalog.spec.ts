@@ -11,6 +11,7 @@ for (const level of LEVELS) {
     await expect(page.getByText("Scenario ready", { exact: true })).toBeVisible({
       timeout: 60_000,
     });
+    await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
     for (const [path, source] of Object.entries(LEVEL_SOLUTIONS[level.slug]!.files)) {
       await page.getByRole("tab", { name: path, exact: true }).click();
       await expect(page.locator(".monaco-editor").first()).toBeVisible();
@@ -20,7 +21,10 @@ for (const level of LEVELS) {
         (window as any).monaco.editor.getEditors()[0].focus();
       });
       await page.keyboard.press("ControlOrMeta+a");
-      await page.keyboard.insertText(source);
+      // A clipboard paste preserves multiline YAML indentation. insertText is
+      // treated as typing by Monaco's edit context and applies auto-indent.
+      await page.evaluate((text) => navigator.clipboard.writeText(text), source);
+      await page.keyboard.press("ControlOrMeta+v");
       await expect
         .poll(() =>
           page.evaluate(() => (window as any).monaco.editor.getEditors()[0].getModel().getValue()),
