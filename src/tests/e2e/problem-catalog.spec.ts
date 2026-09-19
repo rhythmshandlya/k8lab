@@ -13,9 +13,19 @@ for (const level of LEVELS) {
     });
     for (const [path, source] of Object.entries(LEVEL_SOLUTIONS[level.slug]!.files)) {
       await page.getByRole("tab", { name: path, exact: true }).click();
-      await page.locator(".monaco-editor").first().click();
+      await expect(page.locator(".monaco-editor").first()).toBeVisible();
+      // Focus Monaco's input, not the surrounding container/minimap. Keep the edit
+      // itself on the keyboard path so onChange and draft persistence are exercised.
+      await page.evaluate(() => {
+        (window as any).monaco.editor.getEditors()[0].focus();
+      });
       await page.keyboard.press("ControlOrMeta+a");
       await page.keyboard.insertText(source);
+      await expect
+        .poll(() =>
+          page.evaluate(() => (window as any).monaco.editor.getEditors()[0].getModel().getValue()),
+        )
+        .toBe(source);
     }
     const build = level.challengeMode === "build";
     await page
@@ -39,7 +49,7 @@ for (const level of LEVELS) {
           exact: true,
         }),
       ).toBeVisible({ timeout: 1500 });
-    }).toPass({ timeout: 90_000 });
+    }).toPass({ timeout: level.engine.kind === "webernetes" ? 90_000 : 10_000 });
     await page.getByRole("button", { name: "Done", exact: true }).click();
     await page.getByText(/Submission history \(/).click();
     await expect(page.getByText(/Passed ·/).first()).toBeVisible();
