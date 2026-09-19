@@ -73,6 +73,7 @@ it("ignores client verdicts, stores server history and deduplicates identical re
   expect((await first.json()).report.passed).toBe(false);
   expect((await POST(request("submissions", "POST", body))).status).toBe(200);
   expect(state.judge).toHaveBeenCalledTimes(1);
+  expect((await POST(request("submissions", "POST", { ...body, files: {} }))).status).toBe(409);
   const history = await GET(request(`submissions?slug=${body.slug}`, "GET"));
   expect((await history.json()).submissions).toHaveLength(1);
   expect(

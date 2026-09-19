@@ -1,0 +1,624 @@
+[
+  {
+    "case": "engine-counts",
+    "counts": {
+      "webernetes": 16,
+      "scripted:private-registry-pull": 1,
+      "scripted:recreate-strategy-outage": 1,
+      "scripted:immutable-selector": 1,
+      "scripted:graceful-shutdown-502": 1,
+      "scripted:rollout-maxsurge-capacity": 1,
+      "fixture": 30,
+      "scripted:manifest-assessment": 9
+    }
+  },
+  {
+    "case": "catalog",
+    "levels": [
+      {
+        "slug": "service-selector-mismatch",
+        "engine": "webernetes",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "port-routing-bug",
+        "engine": "webernetes",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "broken-readiness-probe",
+        "engine": "webernetes",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "namespace-confusion",
+        "engine": "webernetes",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "command-override-crash",
+        "engine": "webernetes",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "service-has-no-endpoints",
+        "engine": "webernetes",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "pod-crashloop-mystery",
+        "engine": "webernetes",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "private-registry-pull-secret",
+        "engine": "scripted",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "rolling-update-gone-wrong",
+        "engine": "webernetes",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "recreate-strategy-outage",
+        "engine": "scripted",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "immutable-deployment-selector",
+        "engine": "scripted",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "dns-resolution-failure",
+        "engine": "webernetes",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "slow-start-without-startup-probe",
+        "engine": "webernetes",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "probe-hits-wrong-port",
+        "engine": "webernetes",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "liveness-probe-death-spiral",
+        "engine": "webernetes",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "config-drift",
+        "engine": "webernetes",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "broken-service-chain",
+        "engine": "webernetes",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "healthy-app-broken-sidecar",
+        "engine": "webernetes",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "graceful-shutdown-502s",
+        "engine": "scripted",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "rollout-cannot-fit-maxsurge",
+        "engine": "scripted",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "zombie-replicaset",
+        "engine": "webernetes",
+        "mode": "repair",
+        "contentVersion": 1
+      },
+      {
+        "slug": "all-replicas-one-failure-domain",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "payments",
+        "contentVersion": 1
+      },
+      {
+        "slug": "priority-preemption-cascade",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "analytics",
+        "contentVersion": 1
+      },
+      {
+        "slug": "build-three-zone-api",
+        "engine": "scripted",
+        "mode": "build",
+        "contentVersion": 1
+      },
+      {
+        "slug": "conntrack-ghost",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "kube-system",
+        "contentVersion": 1
+      },
+      {
+        "slug": "pod-ip-pool-exhausted",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "config-control",
+        "contentVersion": 1
+      },
+      {
+        "slug": "build-default-deny-service-graph",
+        "engine": "scripted",
+        "mode": "build",
+        "contentVersion": 1
+      },
+      {
+        "slug": "ndots-retry-storm",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "observability",
+        "contentVersion": 1
+      },
+      {
+        "slug": "hostnetwork-lost-cluster-dns",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "security",
+        "contentVersion": 1
+      },
+      {
+        "slug": "stateful-peers-cannot-discover",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "data",
+        "contentVersion": 1
+      },
+      {
+        "slug": "orphaned-ingress",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "shop",
+        "contentVersion": 1
+      },
+      {
+        "slug": "local-traffic-black-hole",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "payments",
+        "contentVersion": 1
+      },
+      {
+        "slug": "build-multi-team-gateway",
+        "engine": "scripted",
+        "mode": "build",
+        "contentVersion": 1
+      },
+      {
+        "slug": "volume-bound-wrong-zone",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "data",
+        "contentVersion": 1
+      },
+      {
+        "slug": "volume-attach-storm",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "search",
+        "contentVersion": 1
+      },
+      {
+        "slug": "build-recoverable-stateful-data-plane",
+        "engine": "scripted",
+        "mode": "build",
+        "contentVersion": 1
+      },
+      {
+        "slug": "operator-cannot-update-status",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "data",
+        "contentVersion": 1
+      },
+      {
+        "slug": "admission-webhook-deadlock",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "default",
+        "contentVersion": 1
+      },
+      {
+        "slug": "build-hardened-admin-workload",
+        "engine": "scripted",
+        "mode": "build",
+        "contentVersion": 1
+      },
+      {
+        "slug": "low-cpu-terrible-latency",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "store",
+        "contentVersion": 1
+      },
+      {
+        "slug": "logging-agent-system-oom",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "observability",
+        "contentVersion": 1
+      },
+      {
+        "slug": "diskpressure-runaway-logs",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "jobs",
+        "contentVersion": 1
+      },
+      {
+        "slug": "hpa-cannot-compute-replicas",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "store",
+        "contentVersion": 1
+      },
+      {
+        "slug": "sidecar-poisons-scaling-signal",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "orders",
+        "contentVersion": 1
+      },
+      {
+        "slug": "build-flash-sale-scaling-system",
+        "engine": "scripted",
+        "mode": "build",
+        "contentVersion": 1
+      },
+      {
+        "slug": "ten-percent-pods-all-traffic",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "payments",
+        "contentVersion": 1
+      },
+      {
+        "slug": "pdb-makes-drain-impossible",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "payments",
+        "contentVersion": 1
+      },
+      {
+        "slug": "delayed-crash-escapes-rollout-gate",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "store",
+        "contentVersion": 1
+      },
+      {
+        "slug": "finalizer-never-finishes",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "previews",
+        "contentVersion": 1
+      },
+      {
+        "slug": "conversion-webhook-locks-crs",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "default",
+        "contentVersion": 1
+      },
+      {
+        "slug": "informer-oomloop",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "billing",
+        "contentVersion": 1
+      },
+      {
+        "slug": "build-incident-survivable-observability",
+        "engine": "scripted",
+        "mode": "build",
+        "contentVersion": 1
+      },
+      {
+        "slug": "prometheus-user-id-cardinality",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "observability",
+        "contentVersion": 1
+      },
+      {
+        "slug": "etcd-nospace-freezes-writes",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "kube-system",
+        "contentVersion": 1
+      },
+      {
+        "slug": "certificates-expired-overnight",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "clusters",
+        "contentVersion": 1
+      },
+      {
+        "slug": "control-plane-upgrade-breaks-data-plane",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "kube-system",
+        "contentVersion": 1
+      },
+      {
+        "slug": "build-two-team-platform",
+        "engine": "scripted",
+        "mode": "build",
+        "contentVersion": 1
+      },
+      {
+        "slug": "quota-without-defaults-blocks-pods",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "team-blue",
+        "contentVersion": 1
+      },
+      {
+        "slug": "mutable-tag-split-brain",
+        "engine": "fixture",
+        "mode": "repair",
+        "namespace": "production",
+        "contentVersion": 1
+      },
+      {
+        "slug": "build-signed-promotion-pipeline",
+        "engine": "scripted",
+        "mode": "build",
+        "contentVersion": 1
+      }
+    ]
+  },
+  {
+    "case": "all modelled and static quick commands",
+    "count": 197,
+    "failures": []
+  },
+  {
+    "case": "invalid restartPolicy Never",
+    "slug": "all-replicas-one-failure-domain",
+    "applied": true,
+    "passed": true,
+    "failed": [],
+    "semanticIssues": [],
+    "podNodes": ["zone-a-1", "zone-b-1", "zone-c-1"]
+  },
+  {
+    "case": "pin all pods to zone-a-1",
+    "slug": "all-replicas-one-failure-domain",
+    "applied": true,
+    "passed": true,
+    "failed": [],
+    "semanticIssues": [],
+    "podNodes": ["zone-a-1", "zone-b-1", "zone-c-1"]
+  },
+  {
+    "case": "unschedulable required nodeSelector",
+    "slug": "all-replicas-one-failure-domain",
+    "applied": true,
+    "passed": true,
+    "failed": [],
+    "semanticIssues": [],
+    "podNodes": ["zone-a-1", "zone-b-1", "zone-c-1"]
+  },
+  {
+    "case": "workload command exits immediately",
+    "slug": "all-replicas-one-failure-domain",
+    "applied": true,
+    "passed": true,
+    "failed": [],
+    "semanticIssues": [],
+    "podNodes": ["zone-a-1", "zone-b-1", "zone-c-1"]
+  },
+  {
+    "case": "invalid restartPolicy Never",
+    "slug": "build-three-zone-api",
+    "applied": true,
+    "passed": true,
+    "failed": [],
+    "semanticIssues": [],
+    "podNodes": ["node-1"]
+  },
+  {
+    "case": "restricted namespace with privileged container",
+    "slug": "build-three-zone-api",
+    "applied": true,
+    "passed": true,
+    "failed": [],
+    "semanticIssues": [],
+    "podNodes": ["node-1"]
+  },
+  {
+    "case": "two readiness probe handlers",
+    "slug": "build-three-zone-api",
+    "applied": true,
+    "passed": true,
+    "failed": [],
+    "semanticIssues": [],
+    "podNodes": ["node-1"]
+  },
+  {
+    "case": "invalid container port 70000",
+    "slug": "build-three-zone-api",
+    "applied": true,
+    "passed": true,
+    "failed": [],
+    "semanticIssues": [],
+    "podNodes": ["node-1"]
+  },
+  {
+    "case": "no-op preStop true is treated as graceful drain",
+    "slug": "graceful-shutdown-502s",
+    "applied": true,
+    "passed": true,
+    "failed": [],
+    "semanticIssues": [],
+    "podNodes": ["node-2", "node-2"]
+  },
+  {
+    "case": "submit unapplied broken edit after valid apply",
+    "slug": "service-selector-mismatch",
+    "passed": true,
+    "semanticIssues": [],
+    "constraintFailures": []
+  },
+  {
+    "case": "command semantics",
+    "command": "kubectl get pods -o json",
+    "parsed": {
+      "kind": "get",
+      "resource": "pods",
+      "outputYaml": false,
+      "outputWide": false,
+      "allNamespaces": false,
+      "sortByLastTimestamp": false
+    },
+    "output": "NAME                       READY   STATUS    RESTARTS   AGE\nweb-app-84f897797b-i75u4   1/1     Running   0          1s\nweb-app-84f897797b-mg3g8   1/1     Running   0          1s",
+    "isError": false,
+    "signals": [
+      {
+        "type": "command",
+        "command": "kubectl get pods -o json",
+        "output": "NAME                       READY   STATUS    RESTARTS   AGE\nweb-app-84f897797b-i75u4   1/1     Running   0          1s\nweb-app-84f897797b-mg3g8   1/1     Running   0          1s"
+      }
+    ]
+  },
+  {
+    "case": "command semantics",
+    "command": "kubectl get pods --field-selector=status.phase=Pending",
+    "parsed": {
+      "kind": "get",
+      "resource": "pods",
+      "outputYaml": false,
+      "outputWide": false,
+      "allNamespaces": false,
+      "sortByLastTimestamp": false
+    },
+    "output": "NAME                       READY   STATUS    RESTARTS   AGE\nweb-app-84f897797b-i75u4   1/1     Running   0          1s\nweb-app-84f897797b-mg3g8   1/1     Running   0          1s",
+    "isError": false,
+    "signals": [
+      {
+        "type": "command",
+        "command": "kubectl get pods --field-selector=status.phase=Pending",
+        "output": "NAME                       READY   STATUS    RESTARTS   AGE\nweb-app-84f897797b-i75u4   1/1     Running   0          1s\nweb-app-84f897797b-mg3g8   1/1     Running   0          1s"
+      }
+    ]
+  },
+  {
+    "case": "command semantics",
+    "command": "kubectl get pods -l app!=web-app",
+    "parsed": {
+      "kind": "get",
+      "resource": "pods",
+      "outputYaml": false,
+      "outputWide": false,
+      "allNamespaces": false,
+      "selector": "app!=web-app",
+      "sortByLastTimestamp": false
+    },
+    "output": "No resources found.",
+    "isError": false,
+    "signals": [
+      {
+        "type": "command",
+        "command": "kubectl get pods -l app!=web-app",
+        "output": "No resources found."
+      }
+    ]
+  },
+  {
+    "case": "submit unapplied broken edit after valid apply",
+    "slug": "build-three-zone-api",
+    "passed": true,
+    "semanticIssues": ["Deployment/checkout-api container api has non-positive requests.cpu"],
+    "constraintFailures": []
+  },
+  {
+    "case": "canonical workload violates restricted namespace",
+    "slug": "build-three-zone-api",
+    "violations": [
+      {
+        "path": "deployment.yaml",
+        "container": "api",
+        "missing": [
+          "allowPrivilegeEscalation=false",
+          "drop ALL",
+          "runAsNonRoot=true",
+          "seccompProfile"
+        ]
+      }
+    ]
+  },
+  {
+    "case": "canonical workload violates restricted namespace",
+    "slug": "build-flash-sale-scaling-system",
+    "violations": [
+      {
+        "path": "api-deployment.yaml",
+        "container": "api",
+        "missing": [
+          "allowPrivilegeEscalation=false",
+          "drop ALL",
+          "runAsNonRoot=true",
+          "seccompProfile"
+        ]
+      },
+      {
+        "path": "worker-deployment.yaml",
+        "container": "worker",
+        "missing": [
+          "allowPrivilegeEscalation=false",
+          "drop ALL",
+          "runAsNonRoot=true",
+          "seccompProfile"
+        ]
+      }
+    ]
+  },
+  {
+    "case": "stale streak",
+    "days": ["2020-01-01", "2020-01-02"],
+    "result": {
+      "streakDays": 2,
+      "lastSolvedDay": "2020-01-02"
+    }
+  }
+]

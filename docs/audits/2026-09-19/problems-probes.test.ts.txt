@@ -1,0 +1,120 @@
+/** Phase-1 audit probes. Copy into src/tests/unit to run with vitest.config.ts.
+ * These observe defects; they are not production acceptance tests.
+ */
+import { writeFileSync } from "node:fs";
+import { describe, expect, it } from "vitest";
+import { load, dump } from "js-yaml";
+import { LEVELS, getLevelBySlug } from "@/content/levels";
+import { LEVEL_SOLUTIONS } from "@/content/levels/solutions";
+import { createProblemEngine } from "@/lib/kube/problem-engine";
+import { evaluateWorkspaceSemantics } from "@/lib/kube/workspace-semantics";
+import { evaluateLevelConstraints } from "@/lib/kube/manifest-constraints";
+import { parseCommand } from "@/lib/kube/command-runner";
+import { deriveStreak } from "@/lib/db/progress-repo";
+import { resolveQuickCommand } from "@/lib/kube/quick-command";
+
+describe("phase 1 audit observations", () => {
+  it("records independently mutated solutions and stale submissions", async () => {
+    const observations: Record<string, unknown>[] = [];
+    const counts: Record<string, number> = {};
+    for (const level of LEVELS) {
+      const key = level.engine.kind === "scripted" ? `${level.engine.kind}:${level.engine.scenarioId}` : level.engine.kind;
+      counts[key] = (counts[key] ?? 0) + 1;
+    }
+    observations.push({case: "engine-counts", counts});
+    observations.push({case:"catalog",levels:LEVELS.map(level=>({slug:level.slug,engine:level.engine.kind,mode:level.challengeMode,namespace:level.engine.kind==="fixture"?level.engine.fixture.broken.namespace:undefined,contentVersion:level.contentVersion}))});
+    const quickFailures: unknown[]=[];
+    let quickCount=0;
+    for(const level of LEVELS.filter(level=>level.engine.kind!=="webernetes")) {
+      const engine=createProblemEngine(level.engine);
+      const files=Object.fromEntries(level.files.filter(f=>f.access!=="hidden").map(f=>[f.path,f.initialValue]));
+      try {
+        expect((await engine.boot(level)).ok).toBe(true);
+        for(const quick of level.quickCommands) {
+          const command=resolveQuickCommand(quick,engine.getSnapshot().pods);
+          quickCount++;
+          if(!command) {quickFailures.push({slug:level.slug,command:quick.command,error:"unresolvable"});continue;}
+          const result=await engine.runCommand(command,"default",files);
+          if(result.isError)quickFailures.push({slug:level.slug,command,error:result.output});
+        }
+      } finally {await engine.close();}
+    }
+    observations.push({case:"all modelled and static quick commands",count:quickCount,failures:quickFailures});
+    const cases = [
+      {slug:"all-replicas-one-failure-domain", name:"invalid restartPolicy Never", mutate:(d:any)=> {d.spec.template.spec.restartPolicy="Never";}},
+      {slug:"all-replicas-one-failure-domain", name:"pin all pods to zone-a-1", mutate:(d:any)=> {d.spec.template.spec.nodeName="zone-a-1";}},
+      {slug:"all-replicas-one-failure-domain", name:"unschedulable required nodeSelector", mutate:(d:any)=> {d.spec.template.spec.nodeSelector={"kubernetes.io/hostname":"no-such-node"};}},
+      {slug:"all-replicas-one-failure-domain", name:"workload command exits immediately", mutate:(d:any)=> {d.spec.template.spec.containers[0].command=["/bin/sh","-c","exit 1"];}},
+      {slug:"build-three-zone-api", name:"invalid restartPolicy Never", mutate:(d:any)=> {d.spec.template.spec.restartPolicy="Never";}},
+      {slug:"build-three-zone-api", name:"restricted namespace with privileged container", mutate:(d:any)=> {d.spec.template.spec.containers[0].securityContext={privileged:true};}},
+      {slug:"build-three-zone-api", name:"two readiness probe handlers", mutate:(d:any)=> {d.spec.template.spec.containers[0].readinessProbe.exec={command:["true"]};}},
+      {slug:"build-three-zone-api", name:"invalid container port 70000", mutate:(d:any)=> {d.spec.template.spec.containers[0].ports[0].containerPort=70000;}},
+      {slug:"graceful-shutdown-502s", name:"no-op preStop true is treated as graceful drain", mutate:(d:any)=> {d.spec.template.spec.containers[0].lifecycle.preStop={exec:{command:["true"]}};}},
+    ];
+    for (const entry of cases) {
+      const level = getLevelBySlug(entry.slug)!;
+      const files = {...LEVEL_SOLUTIONS[level.slug]!.files};
+      const object:any = load(files["deployment.yaml"]!);
+      entry.mutate(object);
+      files["deployment.yaml"] = dump(object);
+      const engine = createProblemEngine(level.engine);
+      try {
+        expect((await engine.boot(level)).ok).toBe(true);
+        const applied = await engine.applyFiles(files);
+        const report = await engine.validate(level, files);
+        observations.push({case:entry.name,slug:level.slug,applied:applied.ok,passed:report.passed,failed:report.results.filter(r=>!r.passed),semanticIssues:evaluateWorkspaceSemantics(level,files),podNodes:engine.getSnapshot().pods.map(p=>p.spec?.nodeName)});
+      } finally { await engine.close(); }
+    }
+    for (const slug of ["service-selector-mismatch","build-three-zone-api"]) {
+      const level=getLevelBySlug(slug)!;
+      const solution={...LEVEL_SOLUTIONS[slug]!.files};
+      const files=Object.fromEntries(level.files.filter(f=>f.access!=="hidden").map(f=>[f.path,f.initialValue]));
+      const engine=createProblemEngine(level.engine);
+      try {
+        expect((await engine.boot(level)).ok).toBe(true);
+        expect((await engine.applyFiles(solution)).ok).toBe(true);
+        const solved={...files,...solution};
+        let report=await engine.validate(level,solved);
+        const deadline=Date.now()+20000;
+        while(!report.passed && Date.now()<deadline) {await new Promise(r=>setTimeout(r,250)); report=await engine.validate(level,solved);}
+        expect(report.passed).toBe(true);
+        const changed={...solved};
+        if(slug==="service-selector-mismatch") changed["service.yaml"]=files["service.yaml"]!;
+        else {
+          const object:any=load(changed["deployment.yaml"]!);
+          object.spec.template.spec.containers[0].resources.requests.cpu="0";
+          changed["deployment.yaml"]=dump(object);
+        }
+        const stale=await engine.validate(level,changed);
+        observations.push({case:"submit unapplied broken edit after valid apply",slug,passed:stale.passed,semanticIssues:evaluateWorkspaceSemantics(level,changed),constraintFailures:evaluateLevelConstraints(level,changed).filter(r=>!r.passed)});
+        if(slug==="service-selector-mismatch") {
+          for(const command of ["kubectl get pods -o json","kubectl get pods --field-selector=status.phase=Pending","kubectl get pods -l app!=web-app"]) {
+            const result=await engine.runCommand(command,"default",solved);
+            observations.push({case:"command semantics",command,parsed:parseCommand(command),...result});
+          }
+        }
+      } finally {await engine.close();}
+    }
+    const statics=LEVELS.filter(level=>level.challengeMode==="build");
+    for(const level of statics) {
+      const docs=Object.entries(LEVEL_SOLUTIONS[level.slug]!.files).map(([path,text])=>({path,doc:load(text) as any}));
+      const restricted=new Set(docs.filter(x=>x.doc?.kind==="Namespace" && x.doc.metadata?.labels?.["pod-security.kubernetes.io/enforce"]==="restricted").map(x=>x.doc.metadata.name));
+      const violations=docs.filter(x=>restricted.has(x.doc?.metadata?.namespace)).flatMap(({path,doc})=>{
+        const pod=doc.kind==="Pod"?doc.spec:doc.kind==="CronJob"?doc.spec?.jobTemplate?.spec?.template?.spec:doc.spec?.template?.spec;
+        if(!pod)return [];
+        return (pod.containers??[]).flatMap((c:any)=>{
+          const missing=[];
+          if(c.securityContext?.allowPrivilegeEscalation!==false) missing.push("allowPrivilegeEscalation=false");
+          if(!c.securityContext?.capabilities?.drop?.includes("ALL")) missing.push("drop ALL");
+          if(c.securityContext?.runAsNonRoot!==true && pod.securityContext?.runAsNonRoot!==true)missing.push("runAsNonRoot=true");
+          if(!["RuntimeDefault","Localhost"].includes(c.securityContext?.seccompProfile?.type ?? pod.securityContext?.seccompProfile?.type)) missing.push("seccompProfile");
+          return missing.length?[{path,container:c.name,missing}]:[];
+        });
+      });
+      if(violations.length) observations.push({case:"canonical workload violates restricted namespace",slug:level.slug,violations});
+    }
+    observations.push({case:"stale streak",days:["2020-01-01","2020-01-02"],result:deriveStreak(["2020-01-01","2020-01-02"])});
+    writeFileSync("/tmp/k8lab-phase1-audit.json",JSON.stringify(observations,null,2));
+    console.log(JSON.stringify(observations,null,2));
+  },60000);
+});

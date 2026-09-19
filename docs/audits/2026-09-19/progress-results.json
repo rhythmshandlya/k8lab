@@ -1,0 +1,28 @@
+{
+  "progress": {
+    "version": 1,
+    "xp": 500,
+    "streakDays": 1,
+    "solvedLevelSlugs": ["build-three-zone-api"],
+    "hintReveals": {},
+    "attemptedLevelSlugs": [],
+    "savedProblemSlugs": [],
+    "completedLessonSlugs": [],
+    "lastSolvedDay": "2099-01-01"
+  },
+  "submissions": [
+    {
+      "id": "12f5ab62-59b8-4d8f-a07e-b76176b0217b",
+      "userId": "phase1-audit",
+      "levelSlug": "build-three-zone-api",
+      "passed": true,
+      "checksTotal": 1,
+      "checksPassed": 0,
+      "durationMs": null,
+      "hintsRevealed": null,
+      "results": null,
+      "clientMutationId": "audit-submission-0001",
+      "createdAt": "2026-09-19T07:26:52.998Z"
+    }
+  ]
+}

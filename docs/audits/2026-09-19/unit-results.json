@@ -1,0 +1,3367 @@
+{
+  "numTotalTestSuites": 131,
+  "numPassedTestSuites": 131,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 285,
+  "numPassedTests": 285,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1789802576209,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["accessibility"],
+          "fullName": "accessibility Button (labeled and icon-only) has no violations",
+          "status": "passed",
+          "title": "Button (labeled and icon-only) has no violations",
+          "duration": 349.3100979999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["accessibility"],
+          "fullName": "accessibility Badge with an icon + text label has no violations",
+          "status": "passed",
+          "title": "Badge with an icon + text label has no violations",
+          "duration": 31.58661600000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["accessibility"],
+          "fullName": "accessibility Panel with a labeled header has no violations",
+          "status": "passed",
+          "title": "Panel with a labeled header has no violations",
+          "duration": 63.74462399999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["accessibility"],
+          "fullName": "accessibility decorative ClusterMark is hidden from the a11y tree",
+          "status": "passed",
+          "title": "decorative ClusterMark is hidden from the a11y tree",
+          "duration": 26.79059499999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802578422,
+      "endTime": 1789802578893.7905,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/component/a11y.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["AuthMenu"],
+          "fullName": "AuthMenu shows sign-in and exit actions in the guest menu when signed out",
+          "status": "passed",
+          "title": "shows sign-in and exit actions in the guest menu when signed out",
+          "duration": 341.240221,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["AuthMenu"],
+          "fullName": "AuthMenu shows a neutral placeholder (no Sign in) while the session is pending",
+          "status": "passed",
+          "title": "shows a neutral placeholder (no Sign in) while the session is pending",
+          "duration": 6.210264000000279,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["AuthMenu"],
+          "fullName": "AuthMenu clears guest mode and returns to the landing page",
+          "status": "passed",
+          "title": "clears guest mode and returns to the landing page",
+          "duration": 60.093593000000055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["AuthMenu"],
+          "fullName": "AuthMenu shows the signed-in user and signs out from the menu",
+          "status": "passed",
+          "title": "shows the signed-in user and signs out from the menu",
+          "duration": 50.61691900000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802578876,
+      "endTime": 1789802579333.617,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/component/auth-menu.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Badge"],
+          "fullName": "Badge renders its children",
+          "status": "passed",
+          "title": "renders its children",
+          "duration": 55.67789199999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Badge"],
+          "fullName": "Badge applies the requested tone styling",
+          "status": "passed",
+          "title": "applies the requested tone styling",
+          "duration": 4.820705999999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802578188,
+      "endTime": 1789802578248.8208,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/component/badge.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["BrandMark"],
+          "fullName": "BrandMark is decorative (hidden from a11y tree) by default",
+          "status": "passed",
+          "title": "is decorative (hidden from a11y tree) by default",
+          "duration": 35.88890700000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["BrandMark"],
+          "fullName": "BrandMark becomes a labeled image when given a title",
+          "status": "passed",
+          "title": "becomes a labeled image when given a title",
+          "duration": 167.19936000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802578158,
+      "endTime": 1789802578361.1995,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/component/cluster-mark.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["landing entry choice"],
+          "fullName": "landing entry choice separates the landing page from product navigation and presents both entry modes",
+          "status": "passed",
+          "title": "separates the landing page from product navigation and presents both entry modes",
+          "duration": 1525.4198900000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["landing entry choice"],
+          "fullName": "landing entry choice offers guest entry when account services are unavailable",
+          "status": "passed",
+          "title": "offers guest entry when account services are unavailable",
+          "duration": 138.29712299999983,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["landing entry choice"],
+          "fullName": "landing entry choice lets visitors control the incident demo",
+          "status": "passed",
+          "title": "lets visitors control the incident demo",
+          "duration": 268.42766600000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802578550,
+      "endTime": 1789802580483.4277,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/component/landing-entry.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["NetworkProbe"],
+          "fullName": "NetworkProbe runs and renders a bounded six-request sample",
+          "status": "passed",
+          "title": "runs and renders a bounded six-request sample",
+          "duration": 406.549884,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802578354,
+      "endTime": 1789802578760.5498,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/component/network-probe.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["problem workspace accessibility"],
+          "fullName": "problem workspace accessibility exposes explorer selection and keyboard-operable object view tabs",
+          "status": "passed",
+          "title": "exposes explorer selection and keyboard-operable object view tabs",
+          "duration": 400.1957529999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["problem workspace accessibility"],
+          "fullName": "problem workspace accessibility announces refresh progress and prefixes each live check with its state",
+          "status": "passed",
+          "title": "announces refresh progress and prefixes each live check with its state",
+          "duration": 54.592893000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["problem workspace accessibility"],
+          "fullName": "problem workspace accessibility renders explicit per-check pass or fail text in the validation dialog",
+          "status": "passed",
+          "title": "renders explicit per-check pass or fail text in the validation dialog",
+          "duration": 152.87621300000046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802580336,
+      "endTime": 1789802580943.8762,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/component/problem-workspace-accessibility.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["ServiceTopology viewport"],
+          "fullName": "ServiceTopology viewport fits real topology changes and panel resizes without reacting to status-only updates",
+          "status": "passed",
+          "title": "fits real topology changes and panel resizes without reacting to status-only updates",
+          "duration": 48.22516399999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802578343,
+      "endTime": 1789802578391.225,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/component/service-topology.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["SignInDialog"],
+          "fullName": "SignInDialog presents clear sign-in and account creation paths",
+          "status": "passed",
+          "title": "presents clear sign-in and account creation paths",
+          "duration": 617.8821010000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SignInDialog"],
+          "fullName": "SignInDialog shows a recoverable GitHub error instead of leaving the dialog busy",
+          "status": "passed",
+          "title": "shows a recoverable GitHub error instead of leaving the dialog busy",
+          "duration": 168.26157899999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["SignInDialog"],
+          "fullName": "SignInDialog uses the app-wide configured providers when an entry point omits capabilities",
+          "status": "passed",
+          "title": "uses the app-wide configured providers when an entry point omits capabilities",
+          "duration": 121.68453499999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802578329,
+      "endTime": 1789802579237.6846,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/component/sign-in-dialog.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Docs client Curriculum seam"],
+          "fullName": "Docs client Curriculum seam keeps authored Curriculum implementations out of the client import graph",
+          "status": "passed",
+          "title": "keeps authored Curriculum implementations out of the client import graph",
+          "duration": 514.5252690000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802578337,
+      "endTime": 1789802578851.5254,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/client-curriculum-dependencies.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["cn"],
+          "fullName": "cn joins truthy class names",
+          "status": "passed",
+          "title": "joins truthy class names",
+          "duration": 7.848038999999972,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cn"],
+          "fullName": "cn dedupes conflicting tailwind utilities, last wins",
+          "status": "passed",
+          "title": "dedupes conflicting tailwind utilities, last wins",
+          "duration": 0.7020500000000993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["cn"],
+          "fullName": "cn merges conditional object syntax",
+          "status": "passed",
+          "title": "merges conditional object syntax",
+          "duration": 0.26835399999981746,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802585574,
+      "endTime": 1789802585582.7021,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/cn.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["tokenize"],
+          "fullName": "tokenize splits on whitespace and respects quotes",
+          "status": "passed",
+          "title": "splits on whitespace and respects quotes",
+          "duration": 6.165960999999925,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseCommand"],
+          "fullName": "parseCommand parses get with resource aliases",
+          "status": "passed",
+          "title": "parses get with resource aliases",
+          "duration": 5.503643999999895,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseCommand"],
+          "fullName": "parseCommand keeps unstructured resource kinds for fixture-backed incidents",
+          "status": "passed",
+          "title": "keeps unstructured resource kinds for fixture-backed incidents",
+          "duration": 2.6028519999999844,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseCommand"],
+          "fullName": "parseCommand parses -o yaml and a name",
+          "status": "passed",
+          "title": "parses -o yaml and a name",
+          "duration": 1.178972000000158,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseCommand"],
+          "fullName": "parseCommand parses --sort-by for events",
+          "status": "passed",
+          "title": "parses --sort-by for events",
+          "duration": 1.0254130000000714,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseCommand"],
+          "fullName": "parseCommand parses describe, logs, apply, delete",
+          "status": "passed",
+          "title": "parses describe, logs, apply, delete",
+          "duration": 1.4923909999999978,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseCommand"],
+          "fullName": "parseCommand parses curl, dig, help, clear",
+          "status": "passed",
+          "title": "parses curl, dig, help, clear",
+          "duration": 1.552938999999924,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseCommand"],
+          "fullName": "parseCommand returns a helpful message for unknown commands, never throwing",
+          "status": "passed",
+          "title": "returns a helpful message for unknown commands, never throwing",
+          "duration": 2.1223720000000412,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseCommand"],
+          "fullName": "parseCommand flags an unknown top-level command",
+          "status": "passed",
+          "title": "flags an unknown top-level command",
+          "duration": 2.1347229999998945,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseCommand"],
+          "fullName": "parseCommand parses scale with kind/name and kind name forms",
+          "status": "passed",
+          "title": "parses scale with kind/name and kind name forms",
+          "duration": 4.926431000000093,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseCommand"],
+          "fullName": "parseCommand parses rollout status/restart/history",
+          "status": "passed",
+          "title": "parses rollout status/restart/history",
+          "duration": 1.6482280000000173,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseCommand"],
+          "fullName": "parseCommand parses exec with -- separator and flags",
+          "status": "passed",
+          "title": "parses exec with -- separator and flags",
+          "duration": 0.4360540000000128,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseCommand"],
+          "fullName": "parseCommand parses delete by kind + name alongside delete -f",
+          "status": "passed",
+          "title": "parses delete by kind + name alongside delete -f",
+          "duration": 0.6549079999999776,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseCommand"],
+          "fullName": "parseCommand parses create namespace and rejects other creates",
+          "status": "passed",
+          "title": "parses create namespace and rejects other creates",
+          "duration": 0.318208999999797,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseCommand"],
+          "fullName": "parseCommand parses get nodes and the -A/-l/-o wide flags",
+          "status": "passed",
+          "title": "parses get nodes and the -A/-l/-o wide flags",
+          "duration": 0.5282829999998739,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseCommand"],
+          "fullName": "parseCommand parses describe for rs, ns, and node",
+          "status": "passed",
+          "title": "parses describe for rs, ns, and node",
+          "duration": 0.5400110000000495,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["matchesLabelSelector"],
+          "fullName": "matchesLabelSelector supports equality, inequality, existence, and comma conjunction",
+          "status": "passed",
+          "title": "supports equality, inequality, existence, and comma conjunction",
+          "duration": 0.7427000000000135,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["new executors against a fake runtime"],
+          "fullName": "new executors against a fake runtime kubectl scale calls the runtime and reports kubectl-style output",
+          "status": "passed",
+          "title": "kubectl scale calls the runtime and reports kubectl-style output",
+          "duration": 3.8698839999999564,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["new executors against a fake runtime"],
+          "fullName": "new executors against a fake runtime kubectl rollout status reads live deployment status",
+          "status": "passed",
+          "title": "kubectl rollout status reads live deployment status",
+          "duration": 1.8445440000000417,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["new executors against a fake runtime"],
+          "fullName": "new executors against a fake runtime kubectl exec requires a live pod and prints stdout",
+          "status": "passed",
+          "title": "kubectl exec requires a live pod and prints stdout",
+          "duration": 1.394892000000027,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["new executors against a fake runtime"],
+          "fullName": "new executors against a fake runtime kubectl delete pod calls deleteResource with the manifest kind",
+          "status": "passed",
+          "title": "kubectl delete pod calls deleteResource with the manifest kind",
+          "duration": 0.7545999999999822,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["new executors against a fake runtime"],
+          "fullName": "new executors against a fake runtime degrades gracefully when the runtime lacks a capability",
+          "status": "passed",
+          "title": "degrades gracefully when the runtime lacks a capability",
+          "duration": 0.5746169999999893,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["new executors against a fake runtime"],
+          "fullName": "new executors against a fake runtime kubectl get pods -l filters by label and -A spans namespaces",
+          "status": "passed",
+          "title": "kubectl get pods -l filters by label and -A spans namespaces",
+          "duration": 1.8459649999999783,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["new executors against a fake runtime"],
+          "fullName": "new executors against a fake runtime kubectl get nodes renders node rows",
+          "status": "passed",
+          "title": "kubectl get nodes renders node rows",
+          "duration": 1.0655679999999847,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["new executors against a fake runtime"],
+          "fullName": "new executors against a fake runtime gets and describes unstructured fixture resources",
+          "status": "passed",
+          "title": "gets and describes unstructured fixture resources",
+          "duration": 7.460931999999957,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["new executors against a fake runtime"],
+          "fullName": "new executors against a fake runtime kubectl create namespace applies a namespace manifest",
+          "status": "passed",
+          "title": "kubectl create namespace applies a namespace manifest",
+          "duration": 2.6009050000000116,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Service DNS"],
+          "fullName": "Service DNS resolves an unqualified Service only in the caller's namespace",
+          "status": "passed",
+          "title": "resolves an unqualified Service only in the caller's namespace",
+          "duration": 2.551164000000199,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Service DNS"],
+          "fullName": "Service DNS resolves qualified names and rejects a wrong namespace or suffix",
+          "status": "passed",
+          "title": "resolves qualified names and rejects a wrong namespace or suffix",
+          "duration": 0.7380990000001475,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802583252,
+      "endTime": 1789802583312.738,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/command-parser.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Community progressive disclosure"],
+          "fullName": "Community progressive disclosure keeps competitive side rails hidden until three distinct players participate",
+          "status": "passed",
+          "title": "keeps competitive side rails hidden until three distinct players participate",
+          "duration": 5.41972399999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Community progressive disclosure"],
+          "fullName": "Community progressive disclosure counts people rather than duplicate rows",
+          "status": "passed",
+          "title": "counts people rather than duplicate rows",
+          "duration": 0.6676560000000791,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802585453,
+      "endTime": 1789802585458.6677,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/community-visibility.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Curriculum catalog"],
+          "fullName": "Curriculum catalog is a compact, body-free projection of every authored lesson",
+          "status": "passed",
+          "title": "is a compact, body-free projection of every authored lesson",
+          "duration": 38.275153000000046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Curriculum catalog"],
+          "fullName": "Curriculum catalog orders sections and neighbors independently of registration order",
+          "status": "passed",
+          "title": "orders sections and neighbors independently of registration order",
+          "duration": 16.59355400000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Curriculum catalog"],
+          "fullName": "Curriculum catalog prepares narrow per-page rail and playground projections",
+          "status": "passed",
+          "title": "prepares narrow per-page rail and playground projections",
+          "duration": 18.89317600000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Curriculum catalog"],
+          "fullName": "Curriculum catalog resolves one mission run with its accumulated cluster seed",
+          "status": "passed",
+          "title": "resolves one mission run with its accumulated cluster seed",
+          "duration": 1.9464849999999387,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Curriculum catalog"],
+          "fullName": "Curriculum catalog rejects ambiguous or unknown authoring registrations",
+          "status": "passed",
+          "title": "rejects ambiguous or unknown authoring registrations",
+          "duration": 1.1845650000000205,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802583675,
+      "endTime": 1789802583752.1846,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/curriculum-catalog.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["community discussion contracts"],
+          "fullName": "community discussion contracts accepts every supported discussion category and trims authored content",
+          "status": "passed",
+          "title": "accepts every supported discussion category and trims authored content",
+          "duration": 13.371028000000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["community discussion contracts"],
+          "fullName": "community discussion contracts rejects underspecified discussions and unsupported categories",
+          "status": "passed",
+          "title": "rejects underspecified discussions and unsupported categories",
+          "duration": 1.1892500000001291,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["community discussion contracts"],
+          "fullName": "community discussion contracts defaults replies to the root and validates nested reply ids",
+          "status": "passed",
+          "title": "defaults replies to the root and validates nested reply ids",
+          "duration": 1.019032000000152,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["community discussion contracts"],
+          "fullName": "community discussion contracts requires at least one server moderation change",
+          "status": "passed",
+          "title": "requires at least one server moderation change",
+          "duration": 0.7913049999999657,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["community discussion contracts"],
+          "fullName": "community discussion contracts builds stable, descriptive discussion URLs",
+          "status": "passed",
+          "title": "builds stable, descriptive discussion URLs",
+          "duration": 0.5206389999998464,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802584451,
+      "endTime": 1789802584467.7913,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/discussion-contracts.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["annotated docs code"],
+          "fullName": "annotated docs code keeps the YAML uninterrupted and explicitly keys each field-guide note",
+          "status": "passed",
+          "title": "keeps the YAML uninterrupted and explicitly keys each field-guide note",
+          "duration": 379.1570579999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["annotated docs code"],
+          "fullName": "annotated docs code copies the uninterrupted source without line numbers or callout prose",
+          "status": "passed",
+          "title": "copies the uninterrupted source without line numbers or callout prose",
+          "duration": 64.27442700000029,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["annotated docs code"],
+          "fullName": "annotated docs code has no structural accessibility violations",
+          "status": "passed",
+          "title": "has no structural accessibility violations",
+          "duration": 336.2949040000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["docs diagrams"],
+          "fullName": "docs diagrams uses the expanded native layout and omits the reconciliation overlay curves",
+          "status": "passed",
+          "title": "uses the expanded native layout and omits the reconciliation overlay curves",
+          "duration": 45.828903999999966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802580260,
+      "endTime": 1789802581086.8289,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/docs-content-render.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["docs content"],
+          "fullName": "docs content all lessons parse against the schema",
+          "status": "passed",
+          "title": "all lessons parse against the schema",
+          "duration": 21.439206000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["docs content"],
+          "fullName": "docs content ships at least three interactive lessons",
+          "status": "passed",
+          "title": "ships at least three interactive lessons",
+          "duration": 0.5548839999996744,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["docs content"],
+          "fullName": "docs content every `lab` content block references a real lab in the lesson",
+          "status": "passed",
+          "title": "every `lab` content block references a real lab in the lesson",
+          "duration": 1.5046149999998306,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["docs content"],
+          "fullName": "docs content resolves the default lesson and the three required slugs",
+          "status": "passed",
+          "title": "resolves the default lesson and the three required slugs",
+          "duration": 1.2555560000000696,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["docs content"],
+          "fullName": "docs content groups lessons into ordered sections for the nav",
+          "status": "passed",
+          "title": "groups lessons into ordered sections for the nav",
+          "duration": 2.142417000000023,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["docs content"],
+          "fullName": "docs content has unique heading ids within each lesson",
+          "status": "passed",
+          "title": "has unique heading ids within each lesson",
+          "duration": 2.049037999999655,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["docs content"],
+          "fullName": "docs content gives every quiz exactly one correct option",
+          "status": "passed",
+          "title": "gives every quiz exactly one correct option",
+          "duration": 2.2951359999997294,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["docs content"],
+          "fullName": "docs content keeps the introductory Kubernetes lesson focused on the mission",
+          "status": "passed",
+          "title": "keeps the introductory Kubernetes lesson focused on the mission",
+          "duration": 0.546364999999696,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["docs content"],
+          "fullName": "docs content keeps decisionTable rows aligned with their columns",
+          "status": "passed",
+          "title": "keeps decisionTable rows aligned with their columns",
+          "duration": 6.745072000000164,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802581796,
+      "endTime": 1789802581834.745,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/docs-content.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["product entry flow"],
+          "fullName": "product entry flow recognizes every product surface without treating lookalike paths as product routes",
+          "status": "passed",
+          "title": "recognizes every product surface without treating lookalike paths as product routes",
+          "duration": 1.5899320000000898,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["product entry flow"],
+          "fullName": "product entry flow keeps internal deep links and rejects external or non-product destinations",
+          "status": "passed",
+          "title": "keeps internal deep links and rejects external or non-product destinations",
+          "duration": 0.5789839999999913,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["product entry flow"],
+          "fullName": "product entry flow bypasses the landing page only after a session or explicit guest choice",
+          "status": "passed",
+          "title": "bypasses the landing page only after a session or explicit guest choice",
+          "duration": 0.2681509999999889,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802585687,
+      "endTime": 1789802585689.579,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/entry-flow.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["matchEvidence"],
+          "fullName": "matchEvidence matches a command signal only when both command and output match",
+          "status": "passed",
+          "title": "matches a command signal only when both command and output match",
+          "duration": 4.643487999999934,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["matchEvidence"],
+          "fullName": "matchEvidence matches a probe signal on path + status",
+          "status": "passed",
+          "title": "matches a probe signal on path + status",
+          "duration": 4.574240999999802,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["matchEvidence"],
+          "fullName": "matchEvidence matches an event-reason signal case-insensitively",
+          "status": "passed",
+          "title": "matches an event-reason signal case-insensitively",
+          "duration": 0.8417769999998654,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["matchEvidence"],
+          "fullName": "matchEvidence matches structured log and object-inspection signals",
+          "status": "passed",
+          "title": "matches structured log and object-inspection signals",
+          "duration": 0.9645359999999528,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["collectEvidence"],
+          "fullName": "collectEvidence reports only newly collected evidence",
+          "status": "passed",
+          "title": "reports only newly collected evidence",
+          "duration": 1.810452999999825,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802583387,
+      "endTime": 1789802583400.8105,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/evidence.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["foundation problem acceptance contracts"],
+          "fullName": "foundation problem acceptance contracts accepts a named targetPort when repairing the Service selector",
+          "status": "passed",
+          "title": "accepts a named targetPort when repairing the Service selector",
+          "duration": 25.078451999999743,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["foundation problem acceptance contracts"],
+          "fullName": "foundation problem acceptance contracts uses the named container port in the canonical port-routing repair",
+          "status": "passed",
+          "title": "uses the named container port in the canonical port-routing repair",
+          "duration": 4.03678200000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["foundation problem acceptance contracts"],
+          "fullName": "foundation problem acceptance contracts accepts qualified checkout DNS forms and rejects unrelated reachable upstreams",
+          "status": "passed",
+          "title": "accepts qualified checkout DNS forms and rejects unrelated reachable upstreams",
+          "duration": 13.217752000000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["foundation investigation evidence"],
+          "fullName": "foundation investigation evidence uses EndpointSlices or Service status instead of the deprecated Endpoints API",
+          "status": "passed",
+          "title": "uses EndpointSlices or Service status instead of the deprecated Endpoints API",
+          "duration": 9.615229999999883,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["foundation investigation evidence"],
+          "fullName": "foundation investigation evidence derives readiness evidence from signals available before the Pod is Ready",
+          "status": "passed",
+          "title": "derives readiness evidence from signals available before the Pod is Ready",
+          "duration": 3.017851999999948,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["foundation investigation evidence"],
+          "fullName": "foundation investigation evidence collects log evidence from the terminal quick commands as well as the Logs tab",
+          "status": "passed",
+          "title": "collects log evidence from the terminal quick commands as well as the Logs tab",
+          "duration": 0.8204070000001593,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["foundation investigation evidence"],
+          "fullName": "foundation investigation evidence distinguishes the failed short DNS lookup from discovery in shop",
+          "status": "passed",
+          "title": "distinguishes the failed short DNS lookup from discovery in shop",
+          "duration": 0.8882189999999355,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802583880,
+      "endTime": 1789802583936.8882,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/foundation-problems.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["intent-level Kubernetes goals"],
+          "fullName": "intent-level Kubernetes goals accepts equivalent PDB bounds only when quorum and drain progress both fit",
+          "status": "passed",
+          "title": "accepts equivalent PDB bounds only when quorum and drain progress both fit",
+          "duration": 2.037039000000277,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["intent-level Kubernetes goals"],
+          "fullName": "intent-level Kubernetes goals rejects spread and anti-affinity rules that select a different workload",
+          "status": "passed",
+          "title": "rejects spread and anti-affinity rules that select a different workload",
+          "duration": 0.788532000000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["intent-level Kubernetes goals"],
+          "fullName": "intent-level Kubernetes goals requires the serving container itself to own the graceful drain hook",
+          "status": "passed",
+          "title": "requires the serving container itself to own the graceful drain hook",
+          "duration": 0.42986400000017966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["intent-level Kubernetes goals"],
+          "fullName": "intent-level Kubernetes goals accepts native lifecycle sleep but rejects a TCP-only preStop hook",
+          "status": "passed",
+          "title": "accepts native lifecycle sleep but rejects a TCP-only preStop hook",
+          "duration": 0.32945199999994657,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["intent-level Kubernetes goals"],
+          "fullName": "intent-level Kubernetes goals accepts numeric and named Service targets but rejects an unrelated port",
+          "status": "passed",
+          "title": "accepts numeric and named Service targets but rejects an unrelated port",
+          "duration": 0.33953199999996286,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["intent-level Kubernetes goals"],
+          "fullName": "intent-level Kubernetes goals uses Kubernetes rounding and defaults for rolling-update bounds",
+          "status": "passed",
+          "title": "uses Kubernetes rounding and defaults for rolling-update bounds",
+          "duration": 0.5732179999999971,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["intent-level Kubernetes goals"],
+          "fullName": "intent-level Kubernetes goals accepts Kubernetes Service DNS forms but rejects the wrong endpoint",
+          "status": "passed",
+          "title": "accepts Kubernetes Service DNS forms but rejects the wrong endpoint",
+          "duration": 2.300011999999697,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["intent-level Kubernetes goals"],
+          "fullName": "intent-level Kubernetes goals treats omitted externalTrafficPolicy as Kubernetes' Cluster default",
+          "status": "passed",
+          "title": "treats omitted externalTrafficPolicy as Kubernetes' Cluster default",
+          "duration": 0.8984930000001441,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["intent-level Kubernetes goals"],
+          "fullName": "intent-level Kubernetes goals accepts any startup probe that checks the serving port for the full warm-up",
+          "status": "passed",
+          "title": "accepts any startup probe that checks the serving port for the full warm-up",
+          "duration": 0.6118200000000797,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802585303,
+      "endTime": 1789802585311.6118,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/goal-checks.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["account-aware playgrounds store"],
+          "fullName": "account-aware playgrounds store claims guest playgrounds once and removes the shared browser copy",
+          "status": "passed",
+          "title": "claims guest playgrounds once and removes the shared browser copy",
+          "duration": 46.54459700000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["account-aware playgrounds store"],
+          "fullName": "account-aware playgrounds store never writes authenticated playgrounds to localStorage",
+          "status": "passed",
+          "title": "never writes authenticated playgrounds to localStorage",
+          "duration": 3.27603900000031,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802583125,
+      "endTime": 1789802583175.2761,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/labs-store.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["LearningRoadmap"],
+          "fullName": "LearningRoadmap renders every section, including Real Incidents, as one explained course path",
+          "status": "passed",
+          "title": "renders every section, including Real Incidents, as one explained course path",
+          "duration": 1203.4816659999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["LearningRoadmap"],
+          "fullName": "LearningRoadmap marks completed lessons and surfaces cross-links into other modes",
+          "status": "passed",
+          "title": "marks completed lessons and surfaces cross-links into other modes",
+          "duration": 687.1625029999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["LearningRoadmap"],
+          "fullName": "LearningRoadmap counts completion per section",
+          "status": "passed",
+          "title": "counts completion per section",
+          "duration": 198.63945500000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802580476,
+      "endTime": 1789802582565.6394,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/learning-roadmap.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["curriculum lesson metadata"],
+          "fullName": "curriculum lesson metadata compiles known, de-duplicated activities in a stable display order",
+          "status": "passed",
+          "title": "compiles known, de-duplicated activities in a stable display order",
+          "duration": 3.8235490000001846,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["curriculum lesson metadata"],
+          "fullName": "curriculum lesson metadata reflects the authored block types without exposing those bodies",
+          "status": "passed",
+          "title": "reflects the authored block types without exposing those bodies",
+          "duration": 6.141194999999698,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["curriculum lesson metadata"],
+          "fullName": "curriculum lesson metadata gives every activity a label and icon",
+          "status": "passed",
+          "title": "gives every activity a label and icon",
+          "duration": 0.49878599999965445,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["curriculum lesson metadata"],
+          "fullName": "curriculum lesson metadata never suggests the bare empty sandbox",
+          "status": "passed",
+          "title": "never suggests the bare empty sandbox",
+          "duration": 3.3262759999997797,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["curriculum lesson metadata"],
+          "fullName": "curriculum lesson metadata compiles explicit problem references into playable links",
+          "status": "passed",
+          "title": "compiles explicit problem references into playable links",
+          "duration": 0.7656340000003183,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802585664,
+      "endTime": 1789802585678.7656,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/lesson-meta.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["local-labs storage"],
+          "fullName": "local-labs storage creates, reads, updates, and deletes a lab",
+          "status": "passed",
+          "title": "creates, reads, updates, and deletes a lab",
+          "duration": 7.164807999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["local-labs storage"],
+          "fullName": "local-labs storage defaults a blank name and keeps the old name on blank rename",
+          "status": "passed",
+          "title": "defaults a blank name and keeps the old name on blank rename",
+          "duration": 0.9295770000001085,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["local-labs storage"],
+          "fullName": "local-labs storage sorts most recently updated first",
+          "status": "passed",
+          "title": "sorts most recently updated first",
+          "duration": 8.209819000000152,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["local-labs storage"],
+          "fullName": "local-labs storage migrates legacy sandboxes once and clears the old key",
+          "status": "passed",
+          "title": "migrates legacy sandboxes once and clears the old key",
+          "duration": 2.2465819999999894,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["local-labs storage"],
+          "fullName": "local-labs storage survives corrupted storage",
+          "status": "passed",
+          "title": "survives corrupted storage",
+          "duration": 0.7914680000001226,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802584466,
+      "endTime": 1789802584485.7915,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/local-labs.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["parseManifests"],
+          "fullName": "parseManifests parses a multi-document file into typed manifests",
+          "status": "passed",
+          "title": "parses a multi-document file into typed manifests",
+          "duration": 16.77878499999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseManifests"],
+          "fullName": "parseManifests returns ok with no manifests for empty input",
+          "status": "passed",
+          "title": "returns ok with no manifests for empty input",
+          "duration": 0.9762770000002092,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseManifests"],
+          "fullName": "parseManifests skips empty documents from trailing separators",
+          "status": "passed",
+          "title": "skips empty documents from trailing separators",
+          "duration": 1.1500599999999395,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseManifests"],
+          "fullName": "parseManifests rejects an unsupported kind with a helpful message",
+          "status": "passed",
+          "title": "rejects an unsupported kind with a helpful message",
+          "duration": 1.4935249999998632,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseManifests"],
+          "fullName": "parseManifests accepts structurally valid resources for policy and architecture assessment",
+          "status": "passed",
+          "title": "accepts structurally valid resources for policy and architecture assessment",
+          "duration": 0.994363999999905,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseManifests"],
+          "fullName": "parseManifests rejects a manifest missing metadata.name",
+          "status": "passed",
+          "title": "rejects a manifest missing metadata.name",
+          "duration": 1.6007179999999153,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseManifests"],
+          "fullName": "parseManifests reports a YAML syntax error rather than throwing",
+          "status": "passed",
+          "title": "reports a YAML syntax error rather than throwing",
+          "duration": 1.3720620000001418,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseManifests"],
+          "fullName": "parseManifests round-trips through stringifyManifest",
+          "status": "passed",
+          "title": "round-trips through stringifyManifest",
+          "duration": 5.996290999999928,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802582393,
+      "endTime": 1789802582423.9963,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/manifest-parser.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["evaluateDoCheck pods-ready"],
+          "fullName": "evaluateDoCheck pods-ready fails on empty cluster",
+          "status": "passed",
+          "title": "fails on empty cluster",
+          "duration": 7.016726999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["evaluateDoCheck pods-ready"],
+          "fullName": "evaluateDoCheck pods-ready passes when enough matching pods are ready",
+          "status": "passed",
+          "title": "passes when enough matching pods are ready",
+          "duration": 0.9248999999999796,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["evaluateDoCheck deployment-available"],
+          "fullName": "evaluateDoCheck deployment-available fails on empty cluster",
+          "status": "passed",
+          "title": "fails on empty cluster",
+          "duration": 0.8067389999998795,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["evaluateDoCheck deployment-available"],
+          "fullName": "evaluateDoCheck deployment-available passes when deployment has enough ready replicas",
+          "status": "passed",
+          "title": "passes when deployment has enough ready replicas",
+          "duration": 1.1366769999999633,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["evaluateDoCheck deployment-replicas"],
+          "fullName": "evaluateDoCheck deployment-replicas fails when desired exceeds the exact target, even if enough are ready",
+          "status": "passed",
+          "title": "fails when desired exceeds the exact target, even if enough are ready",
+          "duration": 0.9625779999996666,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["evaluateDoCheck deployment-replicas"],
+          "fullName": "evaluateDoCheck deployment-replicas fails while converging (desired matches but not enough ready)",
+          "status": "passed",
+          "title": "fails while converging (desired matches but not enough ready)",
+          "duration": 1.0514789999997447,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["evaluateDoCheck deployment-replicas"],
+          "fullName": "evaluateDoCheck deployment-replicas passes when desired matches exactly and replicas are ready",
+          "status": "passed",
+          "title": "passes when desired matches exactly and replicas are ready",
+          "duration": 0.44943400000011025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["evaluateDoCheck deployment-replicas"],
+          "fullName": "evaluateDoCheck deployment-replicas fails when the deployment does not exist",
+          "status": "passed",
+          "title": "fails when the deployment does not exist",
+          "duration": 1.8381540000000314,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["evaluateDoCheck service-has-endpoints"],
+          "fullName": "evaluateDoCheck service-has-endpoints fails when service has no ready endpoints",
+          "status": "passed",
+          "title": "fails when service has no ready endpoints",
+          "duration": 1.4899599999998827,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["evaluateDoCheck service-has-endpoints"],
+          "fullName": "evaluateDoCheck service-has-endpoints passes when service has ready endpoints",
+          "status": "passed",
+          "title": "passes when service has ready endpoints",
+          "duration": 0.7573789999996734,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802585090,
+      "endTime": 1789802585108.7573,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/mission-check.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["mission content"],
+          "fullName": "mission content registers Foundations missions in order",
+          "status": "passed",
+          "title": "registers Foundations missions in order",
+          "duration": 12.044585999999981,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["mission content"],
+          "fullName": "mission content resolves a mission by slug",
+          "status": "passed",
+          "title": "resolves a mission by slug",
+          "duration": 0.5040389999999206,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["mission content"],
+          "fullName": "mission content every mission's first section mission does not inherit and has seedManifests",
+          "status": "passed",
+          "title": "every mission's first section mission does not inherit and has seedManifests",
+          "duration": 0.3242609999997512,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["mission content"],
+          "fullName": "mission content every step has an action-bearing kind",
+          "status": "passed",
+          "title": "every step has an action-bearing kind",
+          "duration": 1.4470949999999903,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["mission content"],
+          "fullName": "mission content has exactly six Foundations missions ordered 1..6",
+          "status": "passed",
+          "title": "has exactly six Foundations missions ordered 1..6",
+          "duration": 0.9638230000000476,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["mission content"],
+          "fullName": "mission content grows a persistent cluster: only mission 1 seeds, missions 2-6 inherit it",
+          "status": "passed",
+          "title": "grows a persistent cluster: only mission 1 seeds, missions 2-6 inherit it",
+          "duration": 0.20219799999995303,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["mission content"],
+          "fullName": "mission content each Foundations mission advances the cluster with at least one do step",
+          "status": "passed",
+          "title": "each Foundations mission advances the cluster with at least one do step",
+          "duration": 0.2606270000001132,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["mission content"],
+          "fullName": "mission content every mission block embedded in a lesson resolves to a registered mission",
+          "status": "passed",
+          "title": "every mission block embedded in a lesson resolves to a registered mission",
+          "duration": 0.6357460000003812,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["mission content"],
+          "fullName": "mission content every registered mission is embedded in the lesson that shares its slug",
+          "status": "passed",
+          "title": "every registered mission is embedded in the lesson that shares its slug",
+          "duration": 3.8003920000001017,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["mission content"],
+          "fullName": "mission content accumulated seeds grow monotonically along the mission arc",
+          "status": "passed",
+          "title": "accumulated seeds grow monotonically along the mission arc",
+          "duration": 0.7003789999998844,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802584159,
+      "endTime": 1789802584179.8003,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/mission-content.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["parseMission"],
+          "fullName": "parseMission accepts a valid mission",
+          "status": "passed",
+          "title": "accepts a valid mission",
+          "duration": 12.284977000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMission"],
+          "fullName": "parseMission rejects a mission with no steps",
+          "status": "passed",
+          "title": "rejects a mission with no steps",
+          "duration": 2.5078790000000026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["parseMission"],
+          "fullName": "parseMission rejects an unknown step kind",
+          "status": "passed",
+          "title": "rejects an unknown step kind",
+          "duration": 1.0498740000000453,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["assertMissionInvariants"],
+          "fullName": "assertMissionInvariants passes when a quiz has exactly one correct option",
+          "status": "passed",
+          "title": "passes when a quiz has exactly one correct option",
+          "duration": 1.1997670000000653,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["assertMissionInvariants"],
+          "fullName": "assertMissionInvariants throws when a quiz has no correct option",
+          "status": "passed",
+          "title": "throws when a quiz has no correct option",
+          "duration": 1.262749999999869,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["assertMissionInvariants"],
+          "fullName": "assertMissionInvariants throws when step ids are not unique",
+          "status": "passed",
+          "title": "throws when step ids are not unique",
+          "duration": 0.5342710000002171,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802582985,
+      "endTime": 1789802583004.5342,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/mission-schema.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["DoStep"],
+          "fullName": "DoStep does not complete before Apply, and stays incomplete if the check still fails after Apply",
+          "status": "passed",
+          "title": "does not complete before Apply, and stays incomplete if the check still fails after Apply",
+          "duration": 409.8910499999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DoStep"],
+          "fullName": "DoStep completes exactly once when a ready snapshot arrives after Apply",
+          "status": "passed",
+          "title": "completes exactly once when a ready snapshot arrives after Apply",
+          "duration": 103.06644400000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DoStep"],
+          "fullName": "DoStep offers compact Editor, Terminal, and Cluster views",
+          "status": "passed",
+          "title": "offers compact Editor, Terminal, and Cluster views",
+          "duration": 96.17257599999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DoStep"],
+          "fullName": "DoStep minimizes into a reading companion without remounting the mission",
+          "status": "passed",
+          "title": "minimizes into a reading companion without remounting the mission",
+          "duration": 242.08706200000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["DoStep"],
+          "fullName": "DoStep keeps the mission recap closed until the learner chooses to open it",
+          "status": "passed",
+          "title": "keeps the mission recap closed until the learner chooses to open it",
+          "duration": 212.5378780000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802579076,
+      "endTime": 1789802580140.5378,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/mission-steps.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["MultiFileEditor"],
+          "fullName": "MultiFileEditor keeps Add file pinned outside the horizontal tab scroller",
+          "status": "passed",
+          "title": "keeps Add file pinned outside the horizontal tab scroller",
+          "duration": 266.6306159999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MultiFileEditor"],
+          "fullName": "MultiFileEditor adds a unique file when the length-based name already exists",
+          "status": "passed",
+          "title": "adds a unique file when the length-based name already exists",
+          "duration": 109.6749850000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MultiFileEditor"],
+          "fullName": "MultiFileEditor renames a file inline and preserves its contents",
+          "status": "passed",
+          "title": "renames a file inline and preserves its contents",
+          "duration": 152.20651700000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MultiFileEditor"],
+          "fullName": "MultiFileEditor keeps rename open when the requested name already exists",
+          "status": "passed",
+          "title": "keeps rename open when the requested name already exists",
+          "duration": 75.5900099999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["MultiFileEditor"],
+          "fullName": "MultiFileEditor supports F2 as the keyboard equivalent for renaming",
+          "status": "passed",
+          "title": "supports F2 as the keyboard equivalent for renaming",
+          "duration": 75.45511799999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802578335,
+      "endTime": 1789802579015.455,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/multi-file-editor.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["NetworkActivity"],
+          "fullName": "NetworkActivity shows health probe traffic by default",
+          "status": "passed",
+          "title": "shows health probe traffic by default",
+          "duration": 279.7475179999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802578306,
+      "endTime": 1789802578585.7476,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/network-activity.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["playground templates"],
+          "fullName": "playground templates all templates parse against the schema",
+          "status": "passed",
+          "title": "all templates parse against the schema",
+          "duration": 3.7824279999999817,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playground templates"],
+          "fullName": "playground templates has unique ids and at least the six required templates",
+          "status": "passed",
+          "title": "has unique ids and at least the six required templates",
+          "duration": 1.2611860000001798,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playground templates"],
+          "fullName": "playground templates exposes a resolvable default template",
+          "status": "passed",
+          "title": "exposes a resolvable default template",
+          "duration": 0.5100469999997586,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["playground templates"],
+          "fullName": "playground templates every template has at least one editable file",
+          "status": "passed",
+          "title": "every template has at least one editable file",
+          "duration": 0.6813300000003437,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802585497,
+      "endTime": 1789802585502.6814,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/playground-templates.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["problem review batch 03 regressions"],
+          "fullName": "problem review batch 03 regressions shows both ReplicaSets involved in the broken Recreate rollout",
+          "status": "passed",
+          "title": "shows both ReplicaSets involved in the broken Recreate rollout",
+          "duration": 7.2717680000000655,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["problem review batch 03 regressions"],
+          "fullName": "problem review batch 03 regressions rejects an immutable selector mutation while repairing the rollout",
+          "status": "passed",
+          "title": "rejects an immutable selector mutation while repairing the rollout",
+          "duration": 1.1268950000003315,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["problem review batch 03 regressions"],
+          "fullName": "problem review batch 03 regressions resets the immutable-selector incident to broken after a successful repair",
+          "status": "passed",
+          "title": "resets the immutable-selector incident to broken after a successful repair",
+          "duration": 1.069688000000042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["problem review batch 03 regressions"],
+          "fullName": "problem review batch 03 regressions rejects every shape of immutable selector mutation",
+          "status": "passed",
+          "title": "rejects every shape of immutable selector mutation",
+          "duration": 0.6558559999998579,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802585405,
+      "endTime": 1789802585415.6558,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/problem-batch-03.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Problems 25, 26, and 28 acceptance contracts"],
+          "fullName": "Problems 25, 26, and 28 acceptance contracts keeps the CoreDNS workload identity while restoring exactly three replicas",
+          "status": "passed",
+          "title": "keeps the CoreDNS workload identity while restoring exactly three replicas",
+          "duration": 9.993502999999691,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 25, 26, and 28 acceptance contracts"],
+          "fullName": "Problems 25, 26, and 28 acceptance contracts accepts the additional Pod range in any array position and preserves both primary ranges",
+          "status": "passed",
+          "title": "accepts the additional Pod range in any array position and preserves both primary ranges",
+          "duration": 1.1751899999999296,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 25, 26, and 28 acceptance contracts"],
+          "fullName": "Problems 25, 26, and 28 acceptance contracts does not accept ndots repair by replacing the telemetry workload",
+          "status": "passed",
+          "title": "does not accept ndots repair by replacing the telemetry workload",
+          "duration": 4.633765999999923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problem 26 fixture fidelity"],
+          "fullName": "Problem 26 fixture fidelity shows Pending sandbox failures before the fix and addressed Pods afterward",
+          "status": "passed",
+          "title": "shows Pending sandbox failures before the fix and addressed Pods afterward",
+          "duration": 3.3109120000003713,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802584145,
+      "endTime": 1789802584164.3108,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/problem-batch-25.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Problems 29-32 end-to-end fidelity"],
+          "fullName": "Problems 29-32 end-to-end fidelity moves hostnetwork-lost-cluster-dns from failing to passing with its canonical repair",
+          "status": "passed",
+          "title": "moves hostnetwork-lost-cluster-dns from failing to passing with its canonical repair",
+          "duration": 21.569612000000234,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 29-32 end-to-end fidelity"],
+          "fullName": "Problems 29-32 end-to-end fidelity moves stateful-peers-cannot-discover from failing to passing with its canonical repair",
+          "status": "passed",
+          "title": "moves stateful-peers-cannot-discover from failing to passing with its canonical repair",
+          "duration": 5.6368209999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 29-32 end-to-end fidelity"],
+          "fullName": "Problems 29-32 end-to-end fidelity moves orphaned-ingress from failing to passing with its canonical repair",
+          "status": "passed",
+          "title": "moves orphaned-ingress from failing to passing with its canonical repair",
+          "duration": 10.40738199999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 29-32 end-to-end fidelity"],
+          "fullName": "Problems 29-32 end-to-end fidelity moves local-traffic-black-hole from failing to passing with its canonical repair",
+          "status": "passed",
+          "title": "moves local-traffic-black-hole from failing to passing with its canonical repair",
+          "duration": 2.5261350000000675,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 29-32 end-to-end fidelity"],
+          "fullName": "Problems 29-32 end-to-end fidelity executes every hostnetwork-lost-cluster-dns reference command against the fixture",
+          "status": "passed",
+          "title": "executes every hostnetwork-lost-cluster-dns reference command against the fixture",
+          "duration": 20.908280000000104,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 29-32 end-to-end fidelity"],
+          "fullName": "Problems 29-32 end-to-end fidelity executes every stateful-peers-cannot-discover reference command against the fixture",
+          "status": "passed",
+          "title": "executes every stateful-peers-cannot-discover reference command against the fixture",
+          "duration": 3.2860930000001645,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 29-32 end-to-end fidelity"],
+          "fullName": "Problems 29-32 end-to-end fidelity executes every orphaned-ingress reference command against the fixture",
+          "status": "passed",
+          "title": "executes every orphaned-ingress reference command against the fixture",
+          "duration": 3.2347610000001623,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 29-32 end-to-end fidelity"],
+          "fullName": "Problems 29-32 end-to-end fidelity executes every local-traffic-black-hole reference command against the fixture",
+          "status": "passed",
+          "title": "executes every local-traffic-black-hole reference command against the fixture",
+          "duration": 3.3689750000003187,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 29-32 end-to-end fidelity"],
+          "fullName": "Problems 29-32 end-to-end fidelity keeps the host-network agent's policy-api destination healthy during the DNS incident",
+          "status": "passed",
+          "title": "keeps the host-network agent's policy-api destination healthy during the DNS incident",
+          "duration": 3.349529000000075,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 29-32 end-to-end fidelity"],
+          "fullName": "Problems 29-32 end-to-end fidelity exposes the StatefulSet bootstrap deadlock and publishes all peers after repair",
+          "status": "passed",
+          "title": "exposes the StatefulSet bootstrap deadlock and publishes all peers after repair",
+          "duration": 8.894262000000253,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 29-32 end-to-end fidelity"],
+          "fullName": "Problems 29-32 end-to-end fidelity keeps the IngressClass and backing Service observable while the Ingress is repaired",
+          "status": "passed",
+          "title": "keeps the IngressClass and backing Service observable while the Ingress is repaired",
+          "duration": 1.3311610000000655,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 29-32 end-to-end fidelity"],
+          "fullName": "Problems 29-32 end-to-end fidelity models the six-node Local-policy black hole and accepts the omitted Cluster default",
+          "status": "passed",
+          "title": "models the six-node Local-policy black hole and accepts the omitted Cluster default",
+          "duration": 2.938293000000158,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 29-32 end-to-end fidelity"],
+          "fullName": "Problems 29-32 end-to-end fidelity routes cross-namespace Services only to Pods in the Service namespace",
+          "status": "passed",
+          "title": "routes cross-namespace Services only to Pods in the Service namespace",
+          "duration": 1.6731249999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802581242,
+      "endTime": 1789802581331.673,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/problem-batch-29-32.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Problems 33–36 architecture contracts"],
+          "fullName": "Problems 33–36 architecture contracts keeps all four canonical workspaces accepted by constraints and semantics",
+          "status": "passed",
+          "title": "keeps all four canonical workspaces accepted by constraints and semantics",
+          "duration": 78.08757300000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 33–36 architecture contracts"],
+          "fullName": "Problems 33–36 architecture contracts enforces collection cardinality for arrays and objects",
+          "status": "passed",
+          "title": "enforces collection cardinality for arrays and objects",
+          "duration": 13.81329599999981,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 33–36 architecture contracts"],
+          "fullName": "Problems 33–36 architecture contracts accepts order-independent certificate SANs but rejects a second listener",
+          "status": "passed",
+          "title": "accepts order-independent certificate SANs but rejects a second listener",
+          "duration": 6.132038999999622,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 33–36 architecture contracts"],
+          "fullName": "Problems 33–36 architecture contracts rejects a route port the referenced Service does not expose",
+          "status": "passed",
+          "title": "rejects a route port the referenced Service does not expose",
+          "duration": 5.5947250000003805,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 33–36 architecture contracts"],
+          "fullName": "Problems 33–36 architecture contracts accepts required zone anti-affinity as an equivalent hard spread",
+          "status": "passed",
+          "title": "accepts required zone anti-affinity as an equivalent hard spread",
+          "duration": 11.240638000000217,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 33–36 architecture contracts"],
+          "fullName": "Problems 33–36 architecture contracts rejects a hard single-zone pin that defeats the declared spread",
+          "status": "passed",
+          "title": "rejects a hard single-zone pin that defeats the declared spread",
+          "duration": 7.260074000000259,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 33–36 architecture contracts"],
+          "fullName": "Problems 33–36 architecture contracts rejects extra primary claims and extra restore volumes",
+          "status": "passed",
+          "title": "rejects extra primary claims and extra restore volumes",
+          "duration": 8.757023000000117,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 34–35 repair fidelity"],
+          "fullName": "Problems 34–35 repair fidelity pins the GKE provisioner and preserves the 12-shard workload",
+          "status": "passed",
+          "title": "pins the GKE provisioner and preserves the 12-shard workload",
+          "duration": 1.2060089999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 34–35 repair fidelity"],
+          "fullName": "Problems 34–35 repair fidelity shows the real bound-volume zone conflict and the migrated healthy placement",
+          "status": "passed",
+          "title": "shows the real bound-volume zone conflict and the migrated healthy placement",
+          "duration": 14.194433000000117,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 34–35 repair fidelity"],
+          "fullName": "Problems 34–35 repair fidelity shows one blocked ordinal plus stale attachments, then a fully attached fleet",
+          "status": "passed",
+          "title": "shows one blocked ordinal plus stale attachments, then a fully attached fleet",
+          "duration": 8.041169999999966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802581023,
+      "endTime": 1789802581179.0413,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/problem-batch-33-36.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Problems 37–40 acceptance regressions"],
+          "fullName": "Problems 37–40 acceptance regressions accepts either Role rule order but rejects authority outside the operator contract",
+          "status": "passed",
+          "title": "accepts either Role rule order but rejects authority outside the operator contract",
+          "duration": 22.166591000000153,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 37–40 acceptance regressions"],
+          "fullName": "Problems 37–40 acceptance regressions rejects an invalid zero webhook timeout and a redirected webhook client",
+          "status": "passed",
+          "title": "rejects an invalid zero webhook timeout and a redirected webhook client",
+          "duration": 3.4099310000001424,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 37–40 acceptance regressions"],
+          "fullName": "Problems 37–40 acceptance regressions rejects extra admin credentials and broader policy traffic",
+          "status": "passed",
+          "title": "rejects extra admin credentials and broader policy traffic",
+          "duration": 18.803143999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 37–40 acceptance regressions"],
+          "fullName": "Problems 37–40 acceptance regressions preserves the recommendation workload while removing only its CPU limit",
+          "status": "passed",
+          "title": "preserves the recommendation workload while removing only its CPU limit",
+          "duration": 1.422888999999941,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problem 38 fixture fidelity"],
+          "fullName": "Problem 38 fixture fidelity models the policy-system webhook Service with no ready endpoint until repaired",
+          "status": "passed",
+          "title": "models the policy-system webhook Service with no ready endpoint until repaired",
+          "duration": 11.321856000000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802581196,
+      "endTime": 1789802581253.3218,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/problem-batch-37.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Problems 41–44 acceptance regressions"],
+          "fullName": "Problems 41–44 acceptance regressions requires the full collector budget without allowing workload replacement",
+          "status": "passed",
+          "title": "requires the full collector budget without allowing workload replacement",
+          "duration": 16.69654999999966,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 41–44 acceptance regressions"],
+          "fullName": "Problems 41–44 acceptance regressions preserves the queue worker's existing resource reservations",
+          "status": "passed",
+          "title": "preserves the queue worker's existing resource reservations",
+          "duration": 1.5335399999999026,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 41–44 acceptance regressions"],
+          "fullName": "Problems 41–44 acceptance regressions preserves the catalog workload identity and limits while adding HPA inputs",
+          "status": "passed",
+          "title": "preserves the catalog workload identity and limits while adding HPA inputs",
+          "duration": 4.678053999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 41–44 acceptance regressions"],
+          "fullName": "Problems 41–44 acceptance regressions rejects an extra whole-Pod metric that can reintroduce the sidecar signal",
+          "status": "passed",
+          "title": "rejects an extra whole-Pod metric that can reintroduce the sidecar signal",
+          "duration": 0.9420529999997598,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 41–44 fixture fidelity"],
+          "fullName": "Problems 41–44 fixture fidelity shows the HPA metric failure before repair and a valid metric afterward",
+          "status": "passed",
+          "title": "shows the HPA metric failure before repair and a valid metric afterward",
+          "duration": 21.588194999999814,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 41–44 fixture fidelity"],
+          "fullName": "Problems 41–44 fixture fidelity exposes both application and sidecar containers for the skewed scaling incident",
+          "status": "passed",
+          "title": "exposes both application and sidecar containers for the skewed scaling incident",
+          "duration": 0.5975600000001577,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802583594,
+      "endTime": 1789802583640.5977,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/problem-batch-41.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Problems 45–48 acceptance regressions"],
+          "fullName": "Problems 45–48 acceptance regressions rejects unbounded or contradictory additions to the flash-sale design",
+          "status": "passed",
+          "title": "rejects unbounded or contradictory additions to the flash-sale design",
+          "duration": 33.417321999999785,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 45–48 acceptance regressions"],
+          "fullName": "Problems 45–48 acceptance regressions accepts either numeric or named checkout target ports",
+          "status": "passed",
+          "title": "accepts either numeric or named checkout target ports",
+          "duration": 1.0955629999998564,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 45–48 acceptance regressions"],
+          "fullName": "Problems 45–48 acceptance regressions accepts equivalent PDB syntax but rejects a zero-disruption budget",
+          "status": "passed",
+          "title": "accepts equivalent PDB syntax but rejects a zero-disruption budget",
+          "duration": 4.269714000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 45–48 acceptance regressions"],
+          "fullName": "Problems 45–48 acceptance regressions preserves the pricing rollout identity while adding the stability gate",
+          "status": "passed",
+          "title": "preserves the pricing rollout identity while adding the stability gate",
+          "duration": 3.3948310000000674,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 46 and 48 fixture fidelity"],
+          "fullName": "Problems 46 and 48 fixture fidelity expands checkout endpoints from the one canary to all ten Ready Pods",
+          "status": "passed",
+          "title": "expands checkout endpoints from the one canary to all ten Ready Pods",
+          "duration": 6.547618000000057,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 46 and 48 fixture fidelity"],
+          "fullName": "Problems 46 and 48 fixture fidelity keeps stable v3 replicas when the gated v4 replica crashes",
+          "status": "passed",
+          "title": "keeps stable v3 replicas when the gated v4 replica crashes",
+          "duration": 7.154422999999952,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802581403,
+      "endTime": 1789802581459.1545,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/problem-batch-45.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Problems 49-52 end-to-end contracts"],
+          "fullName": "Problems 49-52 end-to-end contracts shows a terminating Preview and deletes it after either empty or absent finalizers",
+          "status": "passed",
+          "title": "shows a terminating Preview and deletes it after either empty or absent finalizers",
+          "duration": 17.426384999999755,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 49-52 end-to-end contracts"],
+          "fullName": "Problems 49-52 end-to-end contracts models the unavailable converter and preserves both CRD versions",
+          "status": "passed",
+          "title": "models the unavailable converter and preserves both CRD versions",
+          "duration": 6.6478079999997135,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 49-52 end-to-end contracts"],
+          "fullName": "Problems 49-52 end-to-end contracts renders the informer OOM restart loop and rejects scale-to-zero or image swaps",
+          "status": "passed",
+          "title": "renders the informer OOM restart loop and rejects scale-to-zero or image swaps",
+          "duration": 8.895432999999684,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 49-52 end-to-end contracts"],
+          "fullName": "Problems 49-52 end-to-end contracts accepts equivalent bounded quantities and rejects resource or network escape hatches",
+          "status": "passed",
+          "title": "accepts equivalent bounded quantities and rejects resource or network escape hatches",
+          "duration": 75.13337300000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802581201,
+      "endTime": 1789802581309.1333,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/problem-batch-49-52.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Problems 53–56 acceptance regressions"],
+          "fullName": "Problems 53–56 acceptance regressions drops only the intended unbounded metric label",
+          "status": "passed",
+          "title": "drops only the intended unbounded metric label",
+          "duration": 9.996631999999863,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 53–56 acceptance regressions"],
+          "fullName": "Problems 53–56 acceptance regressions rejects disarming NOSPACE before space has been reclaimed",
+          "status": "passed",
+          "title": "rejects disarming NOSPACE before space has been reclaimed",
+          "duration": 3.603320000000167,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 53–56 acceptance regressions"],
+          "fullName": "Problems 53–56 acceptance regressions preserves the exact control-plane version and thirty-day rotation window",
+          "status": "passed",
+          "title": "preserves the exact control-plane version and thirty-day rotation window",
+          "duration": 1.05571000000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 53–56 acceptance regressions"],
+          "fullName": "Problems 53–56 acceptance regressions keeps the network-agent identity while applying the approved rollout",
+          "status": "passed",
+          "title": "keeps the network-agent identity while applying the approved rollout",
+          "duration": 1.1264380000002348,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 53–56 fixture fidelity"],
+          "fullName": "Problems 53–56 fixture fidelity moves Prometheus from OOMKilled to a ready endpoint after relabeling",
+          "status": "passed",
+          "title": "moves Prometheus from OOMKilled to a ready endpoint after relabeling",
+          "duration": 7.435362000000168,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 53–56 fixture fidelity"],
+          "fullName": "Problems 53–56 fixture fidelity recovers the failed etcd maintenance attempt only after the safe sequence",
+          "status": "passed",
+          "title": "recovers the failed etcd maintenance attempt only after the safe sequence",
+          "duration": 5.104631000000154,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 53–56 fixture fidelity"],
+          "fullName": "Problems 53–56 fixture fidelity restores the new-node network agent and the blocked application Pod",
+          "status": "passed",
+          "title": "restores the new-node network agent and the blocked application Pod",
+          "duration": 3.54238899999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802582830,
+      "endTime": 1789802582862.5425,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/problem-batch-53.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Problems 57-60 end-to-end contracts"],
+          "fullName": "Problems 57-60 end-to-end contracts accepts every canonical workspace",
+          "status": "passed",
+          "title": "accepts every canonical workspace",
+          "duration": 61.34826800000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 57-60 end-to-end contracts"],
+          "fullName": "Problems 57-60 end-to-end contracts rejects asymmetric RBAC and broadened DNS egress for either tenant",
+          "status": "passed",
+          "title": "rejects asymmetric RBAC and broadened DNS egress for either tenant",
+          "duration": 29.880587000000105,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 57-60 end-to-end contracts"],
+          "fullName": "Problems 57-60 end-to-end contracts shows quota admission failure before defaults and two ready Pods after repair",
+          "status": "passed",
+          "title": "shows quota admission failure before defaults and two ready Pods after repair",
+          "duration": 21.408494000000246,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 57-60 end-to-end contracts"],
+          "fullName": "Problems 57-60 end-to-end contracts renders same-tag split image identities and one digest-pinned repaired fleet",
+          "status": "passed",
+          "title": "renders same-tag split image identities and one digest-pinned repaired fleet",
+          "duration": 19.738616999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 57-60 end-to-end contracts"],
+          "fullName": "Problems 57-60 end-to-end contracts prefers declared runtime image IDs in fixture Pod status",
+          "status": "passed",
+          "title": "prefers declared runtime image IDs in fixture Pod status",
+          "duration": 0.7870100000000093,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems 57-60 end-to-end contracts"],
+          "fullName": "Problems 57-60 end-to-end contracts accepts task reordering but rejects artifact, signature, and network bypasses",
+          "status": "passed",
+          "title": "accepts task reordering but rejects artifact, signature, and network bypasses",
+          "duration": 70.53574299999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802580810,
+      "endTime": 1789802581013.5356,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/problem-batch-57-60.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["no free answers"],
+          "fullName": "no free answers pre-submission check details never state an unmet requirement's path or value",
+          "status": "passed",
+          "title": "pre-submission check details never state an unmet requirement's path or value",
+          "duration": 175.13586899999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["no free answers"],
+          "fullName": "no free answers scripted rejection events and logs never state an unmet requirement",
+          "status": "passed",
+          "title": "scripted rejection events and logs never state an unmet requirement",
+          "duration": 181.51230899999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["evidence reachability"],
+          "fullName": "evidence reachability every validator-triggered rule points at a check the level actually runs",
+          "status": "passed",
+          "title": "every validator-triggered rule points at a check the level actually runs",
+          "duration": 1.3981650000000627,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["evidence reachability"],
+          "fullName": "evidence reachability every scripted level's evidence is collectable from its broken state",
+          "status": "passed",
+          "title": "every scripted level's evidence is collectable from its broken state",
+          "duration": 188.0543929999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["fixture command reachability"],
+          "fullName": "fixture command reachability every fixture quick command resolves and executes against an authored object",
+          "status": "passed",
+          "title": "every fixture quick command resolves and executes against an authored object",
+          "duration": 45.09709799999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["position independence"],
+          "fullName": "position independence reordering a keyed list never changes a canonical solution's verdict",
+          "status": "passed",
+          "title": "reordering a keyed list never changes a canonical solution's verdict",
+          "duration": 54.715643,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["adversarial corpus"],
+          "fullName": "adversarial corpus accepts every alternative correct solution",
+          "status": "passed",
+          "title": "accepts every alternative correct solution",
+          "duration": 19.817983999999797,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["adversarial corpus"],
+          "fullName": "adversarial corpus rejects every near-miss that does not fix the incident",
+          "status": "passed",
+          "title": "rejects every near-miss that does not fix the incident",
+          "duration": 30.795168999999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["catalog distinctness"],
+          "fullName": "catalog distinctness levels do not collapse onto a shared investigation surface",
+          "status": "passed",
+          "title": "levels do not collapse onto a shared investigation surface",
+          "duration": 6.935305999999855,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802580834,
+      "endTime": 1789802581539.9353,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/problem-integrity.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Problems dashboard recommendations"],
+          "fullName": "Problems dashboard recommendations keeps the daily pick stable while avoiding solved and active problems",
+          "status": "passed",
+          "title": "keeps the daily pick stable while avoiding solved and active problems",
+          "duration": 1.796545000000151,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems dashboard recommendations"],
+          "fullName": "Problems dashboard recommendations ranks unlocked problems that build on practiced concepts ahead of detours",
+          "status": "passed",
+          "title": "ranks unlocked problems that build on practiced concepts ahead of detours",
+          "duration": 1.1792059999997946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Problems dashboard recommendations"],
+          "fullName": "Problems dashboard recommendations never recommends a problem whose prerequisites are still locked",
+          "status": "passed",
+          "title": "never recommends a problem whose prerequisites are still locked",
+          "duration": 7.568320000000313,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802585577,
+      "endTime": 1789802585587.5684,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/problem-recommendations.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["progress intent validation"],
+          "fullName": "progress intent validation creates unique submission IDs that survive strict parsing",
+          "status": "passed",
+          "title": "creates unique submission IDs that survive strict parsing",
+          "duration": 9.485478999999941,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress intent validation"],
+          "fullName": "progress intent validation rejects submissions without an id or with impossible check counts",
+          "status": "passed",
+          "title": "rejects submissions without an id or with impossible check counts",
+          "duration": 3.474920000000111,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress intent validation"],
+          "fullName": "progress intent validation rejects invalid solved dates",
+          "status": "passed",
+          "title": "rejects invalid solved dates",
+          "duration": 8.758344000000307,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress intent validation"],
+          "fullName": "progress intent validation rejects a delivery whose immutable owner differs from its batch",
+          "status": "passed",
+          "title": "rejects a delivery whose immutable owner differs from its batch",
+          "duration": 2.4956590000001597,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress intent validation"],
+          "fullName": "progress intent validation replays the captured solve day instead of the retry day's clock",
+          "status": "passed",
+          "title": "replays the captured solve day instead of the retry day's clock",
+          "duration": 0.9215009999998074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802581335,
+      "endTime": 1789802581360.9214,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/progress-intent.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["progress store identity isolation"],
+          "fullName": "progress store identity isolation keeps A's offline delivery dormant while B is active",
+          "status": "passed",
+          "title": "keeps A's offline delivery dormant while B is active",
+          "duration": 25.933129000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress store identity isolation"],
+          "fullName": "progress store identity isolation writes a late A response only to A's cache after switching to B",
+          "status": "passed",
+          "title": "writes a late A response only to A's cache after switching to B",
+          "duration": 58.37360399999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress store identity isolation"],
+          "fullName": "progress store identity isolation acknowledges exact IDs and preserves a delivery queued during a flush",
+          "status": "passed",
+          "title": "acknowledges exact IDs and preserves a delivery queued during a flush",
+          "duration": 66.12498200000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress store identity isolation"],
+          "fullName": "progress store identity isolation persists signed-in progress even when persistent browser storage is unavailable",
+          "status": "passed",
+          "title": "persists signed-in progress even when persistent browser storage is unavailable",
+          "duration": 4.992645000000039,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress store identity isolation"],
+          "fullName": "progress store identity isolation does not acknowledge an invalid 200 response",
+          "status": "passed",
+          "title": "does not acknowledge an invalid 200 response",
+          "duration": 5.798261999999795,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress store identity isolation"],
+          "fullName": "progress store identity isolation serializes two tabs and preserves both independently stored deliveries",
+          "status": "passed",
+          "title": "serializes two tabs and preserves both independently stored deliveries",
+          "duration": 10.166597000000138,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress store identity isolation"],
+          "fullName": "progress store identity isolation drains an oversized outbox in bounded batches",
+          "status": "passed",
+          "title": "drains an oversized outbox in bounded batches",
+          "duration": 28.48847099999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress store identity isolation"],
+          "fullName": "progress store identity isolation finishes a focus push before starting the pull",
+          "status": "passed",
+          "title": "finishes a focus push before starting the pull",
+          "duration": 106.11189300000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress store identity isolation"],
+          "fullName": "progress store identity isolation merges again only when the guest fact fingerprint changes",
+          "status": "passed",
+          "title": "merges again only when the guest fact fingerprint changes",
+          "duration": 18.86613699999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802580252,
+      "endTime": 1789802580576.8662,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/progress-store-identity.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["progress-store: guest"],
+          "fullName": "progress-store: guest applies mutations to the local cache with no network",
+          "status": "passed",
+          "title": "applies mutations to the local cache with no network",
+          "duration": 16.355549000000337,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress-store: guest"],
+          "fullName": "progress-store: guest composes rapid sequential mutations without losing updates",
+          "status": "passed",
+          "title": "composes rapid sequential mutations without losing updates",
+          "duration": 2.393732,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress-store: guest"],
+          "fullName": "progress-store: guest does not charge twice when the same hint intent is replayed",
+          "status": "passed",
+          "title": "does not charge twice when the same hint intent is replayed",
+          "duration": 1.3526499999998123,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress-store: signed in"],
+          "fullName": "progress-store: signed in merges + pulls on sign-in, then pushes queued intents",
+          "status": "passed",
+          "title": "merges + pulls on sign-in, then pushes queued intents",
+          "duration": 10.996876000000157,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress-store: signed in"],
+          "fullName": "progress-store: signed in keeps guest and signed-in caches separate",
+          "status": "passed",
+          "title": "keeps guest and signed-in caches separate",
+          "duration": 19.0299500000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress-store: signed in"],
+          "fullName": "progress-store: signed in does not send an ambiguous ownerless v1 queue",
+          "status": "passed",
+          "title": "does not send an ambiguous ownerless v1 queue",
+          "duration": 3.2290600000001177,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress-store: signed in"],
+          "fullName": "progress-store: signed in blocks account exit while a server write is still pending",
+          "status": "passed",
+          "title": "blocks account exit while a server write is still pending",
+          "duration": 2.7848909999997886,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress-store: signed in"],
+          "fullName": "progress-store: signed in clears only the exiting account's legacy browser artifacts",
+          "status": "passed",
+          "title": "clears only the exiting account's legacy browser artifacts",
+          "duration": 0.8102650000000722,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["progress-store: signed in"],
+          "fullName": "progress-store: signed in clears unclaimed guest progress after an account exits",
+          "status": "passed",
+          "title": "clears unclaimed guest progress after an account exits",
+          "duration": 0.524873999999727,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802583248,
+      "endTime": 1789802583305.525,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/progress-store.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Playground publish safety"],
+          "fullName": "Playground publish safety allows ordinary manifests and explicit placeholders",
+          "status": "passed",
+          "title": "allows ordinary manifests and explicit placeholders",
+          "duration": 7.521565999999893,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Playground publish safety"],
+          "fullName": "Playground publish safety blocks Kubernetes Secrets and sensitive literal environment values",
+          "status": "passed",
+          "title": "blocks Kubernetes Secrets and sensitive literal environment values",
+          "duration": 6.141665000000103,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["Playground publish safety"],
+          "fullName": "Playground publish safety blocks credential filenames and malformed YAML that cannot be inspected",
+          "status": "passed",
+          "title": "blocks credential filenames and malformed YAML that cannot be inspected",
+          "duration": 1.07104900000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802585412,
+      "endTime": 1789802585427.071,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/publish-safety.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["production repair fixture fidelity"],
+          "fullName": "production repair fixture fidelity derives the repaired Pod count from the repaired workload manifest",
+          "status": "passed",
+          "title": "derives the repaired Pod count from the repaired workload manifest",
+          "duration": 23.373047999999926,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production repair fixture fidelity"],
+          "fullName": "production repair fixture fidelity does not invent application Pods for a non-workload resource",
+          "status": "passed",
+          "title": "does not invent application Pods for a non-workload resource",
+          "duration": 4.737517000000025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["production repair fixture fidelity"],
+          "fullName": "production repair fixture fidelity keeps shared support objects and applies state-specific resource overlays",
+          "status": "passed",
+          "title": "keeps shared support objects and applies state-specific resource overlays",
+          "duration": 5.499242000000095,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802583256,
+      "endTime": 1789802583289.4993,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/repair-fixture.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["reviewed problem fixture fidelity"],
+          "fullName": "reviewed problem fixture fidelity shows all checkout replicas in zone-a before repair and three zones afterward",
+          "status": "passed",
+          "title": "shows all checkout replicas in zone-a before repair and three zones afterward",
+          "duration": 22.98316900000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["reviewed problem fixture fidelity"],
+          "fullName": "reviewed problem fixture fidelity exposes the priority chain and moves reporting behind the public API",
+          "status": "passed",
+          "title": "exposes the priority chain and moves reporting behind the public API",
+          "duration": 27.380611000000044,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["reviewed problem fixture fidelity"],
+          "fullName": "reviewed problem fixture fidelity makes the zombie ReplicaSet retirement valid YAML and keeps the curriculum moving",
+          "status": "passed",
+          "title": "makes the zombie ReplicaSet retirement valid YAML and keeps the curriculum moving",
+          "duration": 1.1374399999999696,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802582669,
+      "endTime": 1789802582721.1375,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/reviewed-problem-fixtures.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["community SEO foundations"],
+          "fullName": "community SEO foundations publishes absolute canonical URLs on the production origin",
+          "status": "passed",
+          "title": "publishes absolute canonical URLs on the production origin",
+          "duration": 1.6088079999999536,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["community SEO foundations"],
+          "fullName": "community SEO foundations escapes authored markup before embedding JSON-LD",
+          "status": "passed",
+          "title": "escapes authored markup before embedding JSON-LD",
+          "duration": 0.3787529999999606,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["community SEO foundations"],
+          "fullName": "community SEO foundations advertises the sitemap and keeps public Community routes crawlable",
+          "status": "passed",
+          "title": "advertises the sitemap and keeps public Community routes crawlable",
+          "duration": 1.024452999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802585830,
+      "endTime": 1789802585833.0244,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/seo.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["runValidators"],
+          "fullName": "runValidators fails every relevant check in the broken state",
+          "status": "passed",
+          "title": "fails every relevant check in the broken state",
+          "duration": 2.128345999999965,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["runValidators"],
+          "fullName": "runValidators passes once the cluster is healthy",
+          "status": "passed",
+          "title": "passes once the cluster is healthy",
+          "duration": 0.4908590000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["runValidators"],
+          "fullName": "runValidators rejects intermittent HTTP failures across a bounded sample",
+          "status": "passed",
+          "title": "rejects intermittent HTTP failures across a bounded sample",
+          "duration": 0.4784150000000409,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802585541,
+      "endTime": 1789802585543.491,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/validators.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["weekly community challenge"],
+          "fullName": "weekly community challenge uses a stable UTC Monday window for the full week",
+          "status": "passed",
+          "title": "uses a stable UTC Monday window for the full week",
+          "duration": 1.6284619999998995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["weekly community challenge"],
+          "fullName": "weekly community challenge rotates to a different catalog problem the following week",
+          "status": "passed",
+          "title": "rotates to a different catalog problem the following week",
+          "duration": 0.7040979999999308,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802585913,
+      "endTime": 1789802585915.704,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/unit/weekly-challenge.test.ts"
+    }
+  ]
+}

@@ -80,6 +80,7 @@ export async function POST(request: Request) {
     if (
       existing.slug !== parsed.data.slug ||
       existing.contentVersion !== parsed.data.contentVersion ||
+      level.files.some((file) => file.access === "editable" && !(file.path in parsed.data.files)) ||
       Object.entries(parsed.data.files).some(([path, value]) => existing.files[path] !== value)
     )
       return Response.json(

@@ -1,0 +1,64 @@
+{
+  "date": "2026-09-19",
+  "commit": "d53dda277c8e89999ce3ca01e780418f3ac0e0a3",
+  "application": {
+    "url": "http://localhost:3000",
+    "container": "k8lab-local-app-1",
+    "mode": "existing production build",
+    "sourceFilesCompared": 324,
+    "sourceFilesMatched": 324,
+    "freshBuildPerformed": false
+  },
+  "checks": {
+    "typecheck": "passed before audit probes were added",
+    "lint": "passed",
+    "levelGate": {
+      "passedTests": 101,
+      "failedTests": 0,
+      "canonicalProblems": 60
+    },
+    "remainingUnitAndComponent": { "passedTests": 285, "failedTests": 0 },
+    "api": { "passedTests": 54, "failedTests": 0 },
+    "remainingIntegration": { "passedTests": 4, "failedTests": 0 },
+    "totalExistingPassingTests": 444,
+    "providedQuickCommands": { "executed": 197, "executionFailures": 0 },
+    "dependencyAudit": {
+      "passed": false,
+      "vulnerabilities": { "critical": 2, "high": 1, "moderate": 3 }
+    }
+  },
+  "catalog": {
+    "total": 60,
+    "webernetes": 16,
+    "dedicatedScripted": 5,
+    "fixture": 30,
+    "staticArchitecture": 9
+  },
+  "manualBrowserFocus": [
+    "service-selector-mismatch",
+    "all-replicas-one-failure-domain",
+    "graceful-shutdown-502s",
+    "build-three-zone-api",
+    "conntrack-ghost"
+  ],
+  "confirmedBrowserReproductions": [
+    "Unapplied broken selector edit still passes submission",
+    "Explicit node pin passes topology-spread incident and earns XP",
+    "Events panel hides non-default namespace warning",
+    "System namespace incident resources missing from explorer",
+    "Terminal transcript disappears on investigation tab switch",
+    "Architecture starter omits arbitrary required identity and ownership values",
+    "390x844 viewport places primary editing and submit actions off-screen"
+  ],
+  "notPerformed": [
+    "Fresh production build",
+    "Repository Playwright suite execution",
+    "Manual solve of every problem",
+    "Real Kubernetes cluster validation",
+    "Live authenticated provider flow",
+    "External production database deployment",
+    "Load testing",
+    "Cross-browser qualification"
+  ],
+  "probeNotes": "Additional probes observe present behavior; they are not acceptance tests asserting correct behavior. Unit/component Vitest tests require NODE_ENV=test when run in the production container. Progress reproduction used PGlite and the actual input parser/repository, not a live production endpoint. Probe source is stored with a .txt suffix to keep observational code outside application compilation and test discovery. Temporary copies under container src/tests were removed."
+}
