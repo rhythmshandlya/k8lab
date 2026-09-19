@@ -49,7 +49,10 @@ export function createSchemaValidator(bundle: KubernetesSchemaBundle) {
       validate = ajv.compile(
         (definition
           ? { $ref: `#/definitions/${definition}`, definitions }
-          : rejectUnknownFields(extension)) as AnySchema,
+          : {
+              ...(rejectUnknownFields(extension) as Record<string, unknown>),
+              definitions,
+            }) as AnySchema,
       );
       validators.set(key, validate);
     }
@@ -71,15 +74,7 @@ const teachingSchemas: Record<string, AnySchema> = {
     properties: {
       apiVersion: { const: "platform.example.com/v1" },
       kind: { const: "Preview" },
-      metadata: {
-        type: "object",
-        required: ["name"],
-        properties: {
-          name: { type: "string" },
-          namespace: { type: "string" },
-          finalizers: { type: "array", items: { type: "string" } },
-        },
-      },
+      metadata: { $ref: "#/definitions/io.k8s.apimachinery.pkg.apis.meta.v1.ObjectMeta" },
       spec: { type: "object" },
       status: { type: "object" },
     },

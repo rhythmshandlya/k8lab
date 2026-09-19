@@ -765,11 +765,11 @@ export const LEVEL_VARIANTS: Record<string, LevelVariants> = {
   "graceful-shutdown-502s": {
     accepted: [
       {
-        reason: "A shorter drain inside a longer grace window still lets endpoints propagate first",
+        reason: "A twelve-second delay also covers propagation inside a twenty-second grace window",
         files: {
           "deployment.yaml": edgeApiDrain(
             20,
-            '                exec:\n                  command: ["/bin/sh", "-c", "sleep 5"]',
+            '                exec:\n                  command: ["/bin/sh", "-c", "sleep 12"]',
           ),
         },
       },
