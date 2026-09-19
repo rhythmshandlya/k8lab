@@ -93,4 +93,37 @@ test("compact workspace keeps all three panes usable without page overflow", asy
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   );
+  expect(
+    await page.evaluate(() => document.documentElement.scrollHeight <= window.innerHeight),
+  ).toBe(true);
+});
+
+test("problem panels contain overflow when checks extend below the viewport", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.goto("/problems/liveness-probe-death-spiral");
+  await expect(page.getByText("Scenario ready", { exact: true })).toBeVisible();
+  await expect(page.locator("#rail-left .sr-only").first()).toBeAttached();
+
+  for (const viewport of [
+    { width: 1280, height: 720 },
+    { width: 1920, height: 1080 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await expect
+      .poll(() =>
+        page.evaluate(() => ({
+          height: document.documentElement.scrollHeight,
+          width: document.documentElement.scrollWidth,
+        })),
+      )
+      .toEqual({ height: viewport.height, width: viewport.width });
+  }
+
+  await page.setViewportSize({ width: 1280, height: 720 });
+  const rail = page.getByRole("region", { name: "Problem details" });
+  await rail.hover();
+  await page.mouse.wheel(0, 700);
+  await expect.poll(() => rail.evaluate((element) => element.scrollTop)).toBeGreaterThan(0);
+  expect(await page.evaluate(() => window.scrollY)).toBe(0);
+  await expect(page.getByRole("button", { name: "Apply Changes", exact: true })).toBeInViewport();
 });
