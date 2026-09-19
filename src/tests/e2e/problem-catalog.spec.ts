@@ -2,11 +2,24 @@ import { expect, test } from "@playwright/test";
 import { LEVELS } from "@/content/levels";
 import { LEVEL_SOLUTIONS } from "@/content/levels/solutions";
 
+test.describe.configure({ retries: 0 });
+
 // Every published problem goes through the same editor/apply/submit/history path.
 for (const level of LEVELS) {
   test(`published problem: ${level.slug}`, async ({ page }) => {
     const errors: string[] = [];
-    page.on("pageerror", (error) => errors.push(error.message));
+    page.on("pageerror", (error) => {
+      // Match Monaco's isCancellationError contract for obsolete model work.
+      // Restrict the exclusion to the pinned vendor stack; every other page error
+      // still fails the test, with its full stack available for diagnosis.
+      if (
+        error.name === "Canceled" &&
+        error.message === "Canceled" &&
+        error.stack?.includes("/monaco-editor@0.55.1/")
+      )
+        return;
+      errors.push(error.stack ?? error.message);
+    });
     await page.goto(`/problems/${level.slug}`);
     await expect(page.getByText("Scenario ready", { exact: true })).toBeVisible({
       timeout: 60_000,
