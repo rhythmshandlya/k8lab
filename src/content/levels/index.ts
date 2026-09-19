@@ -130,7 +130,7 @@ export interface LevelSummary {
   xp: number;
   estimatedMinutes: number;
   successRate: number;
-  statsSource: "authored-estimate" | "client-validated";
+  statsSource: "authored-estimate" | "server-verified";
   statsSampleSize?: number;
   challengeMode: ProblemChallengeMode;
   concepts: KubernetesConcept[];

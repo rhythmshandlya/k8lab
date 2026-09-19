@@ -28,7 +28,7 @@ export function EventsTimeline({
   const filtered = useMemo(
     () =>
       [...events]
-        .filter((e) => (e.metadata?.namespace ?? "default") === namespace)
+        .filter((e) => namespace === "*" || (e.metadata?.namespace ?? "default") === namespace)
         .sort((a, b) => timeOf(b) - timeOf(a)),
     [events, namespace],
   );
@@ -63,6 +63,11 @@ export function EventsTimeline({
                   {event.reason ?? "Event"}
                 </span>
                 <span className="tabnums text-subtle text-[10px]">{eventAge(event)}</span>
+                {namespace === "*" ? (
+                  <span className="text-subtle text-[10px]">
+                    {event.metadata?.namespace ?? "default"}
+                  </span>
+                ) : null}
               </div>
               <p className="text-muted truncate text-xs" title={event.message ?? ""}>
                 {event.message ?? ""}

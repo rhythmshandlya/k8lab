@@ -185,9 +185,9 @@ function spreadsAcrossTopology(
 }
 
 /**
- * The Pod stops taking new traffic before it stops answering. An exec/HTTP signal or
- * native sleep action that fits inside the grace window counts; the exact command is
- * not the lesson. A bare TCP connect does not ask the application to drain.
+ * This exercise's application keeps its listener alive with a bounded sleep during
+ * endpoint propagation. Unknown hooks cannot prove that delay. HTTP handlers and
+ * arbitrary commands need an explicit application behavior model before grading.
  */
 function gracefulDrain(
   goal: Extract<GoalCheck, { goal: "graceful-drain" }>,
@@ -203,21 +203,26 @@ function gracefulDrain(
     if (!preStop) return undefined;
     const command = arrayAt(preStop, "exec.command").map(String);
     const nativeSleep = objectValue(preStop.sleep)?.seconds;
-    const signals =
-      command.length > 0 ||
-      objectValue(preStop.httpGet) !== undefined ||
-      (typeof nativeSleep === "number" && nativeSleep >= 0);
-    // A declared-but-empty hook is not a drain: the container still closes its
-    // listener the instant it is signalled.
-    if (!signals) return undefined;
-    const sleep = command.map(parseSleepSeconds).find((seconds) => seconds !== undefined);
-    // A non-sleep hook is a drain signal of unknown duration; accept it, because the
-    // lesson is "stop taking traffic before you stop answering", not "sleep N".
-    return sleep ?? (typeof nativeSleep === "number" ? nativeSleep : 0);
+    // This application has no drain endpoint. Only a bounded delay can keep its
+    // listener alive during propagation. Never infer behavior from an unknown hook.
+    const executable = command[0]?.replace(/^.*\//, "");
+    const shellSleep =
+      (executable === "sh" || executable === "bash") && command[1] === "-c" && command.length === 3
+        ? parseSleepSeconds(command[2] ?? "")
+        : undefined;
+    const directSleep =
+      executable === "sleep" && command.length === 2 && /^\d+(?:\.\d+)?$/.test(command[1] ?? "")
+        ? Number(command[1])
+        : undefined;
+    return shellSleep ?? directSleep ?? (typeof nativeSleep === "number" ? nativeSleep : undefined);
   });
 
   const drain = drains.find((seconds) => seconds !== undefined);
-  const passed = grace >= goal.minGraceSeconds && drain !== undefined && drain < grace;
+  const passed =
+    grace >= goal.minGraceSeconds &&
+    drain !== undefined &&
+    drain >= (goal.minDrainSeconds ?? 1) &&
+    drain < grace;
 
   return {
     passed,
@@ -490,7 +495,7 @@ function resolveReplicaBound(
 }
 
 function parseSleepSeconds(part: string): number | undefined {
-  const match = /(?:^|\s)sleep\s+(\d+(?:\.\d+)?)\s*$/.exec(part);
+  const match = /^\s*(?:\/bin\/)?sleep\s+(\d+(?:\.\d+)?)\s*$/.exec(part);
   return match ? Number(match[1]) : undefined;
 }
 

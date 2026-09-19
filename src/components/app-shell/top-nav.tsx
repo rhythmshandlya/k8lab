@@ -45,6 +45,26 @@ export function TopNav({
             );
           })}
         </nav>
+        <details className="relative md:hidden">
+          <summary className="text-muted cursor-pointer rounded border px-3 py-1 text-sm">
+            Menu
+          </summary>
+          <nav
+            aria-label="Mobile primary"
+            className="border-border bg-panel absolute top-10 left-0 z-50 grid min-w-40 rounded-md border p-2 shadow-xl"
+          >
+            {NAV_ITEMS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                aria-current={isSectionActive(pathname, item.href) ? "page" : undefined}
+                className="hover:bg-panel-elevated rounded px-3 py-2 text-sm"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        </details>
 
         <div className="ml-auto flex items-center gap-3">
           <div className="hidden items-center gap-2 sm:flex">

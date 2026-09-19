@@ -235,7 +235,7 @@ export type ManifestAssertion =
  */
 export type GoalCheck =
   | { goal: "spreads-across-topology"; topologyKey: string; maxSkew?: number }
-  | { goal: "graceful-drain"; container: string; minGraceSeconds: number }
+  | { goal: "graceful-drain"; container: string; minGraceSeconds: number; minDrainSeconds?: number }
   | { goal: "zero-downtime-rollout"; maxSurge?: number }
   | { goal: "rollout-fits-capacity"; schedulableReplicas: number }
   | { goal: "external-traffic-routes-cluster-wide" }

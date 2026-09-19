@@ -20,7 +20,7 @@ export const PUBLISHED_PROBLEM_V1: {
   challengeMode: ProblemChallengeMode;
   kubernetesVersion: KubernetesVersionRange;
 } = {
-  contentVersion: 1,
+  contentVersion: 2,
   publicationStatus: "published",
   challengeMode: "repair",
   kubernetesVersion: CURRENT_KUBERNETES_RANGE,

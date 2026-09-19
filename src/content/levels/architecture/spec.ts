@@ -111,9 +111,23 @@ export const excludes = (path: string, value: string): ManifestAssertion => ({
 });
 
 function starterManifest(file: ArchitectureFileSpec): string {
-  return `# ${file.label}
-# Author this Kubernetes resource from scratch.
-`;
+  // Required literals are part of the public problem contract, not hidden answers.
+  const requirements = file.assertions.map(
+    (rule) =>
+      `# ${rule.path}: ${rule.operator}${"value" in rule ? ` ${JSON.stringify(rule.value)}` : ""}`,
+  );
+  return [
+    `# ${file.label}`,
+    "# Acceptance contract:",
+    ...requirements,
+    `apiVersion: ${file.apiVersion}`,
+    `kind: ${file.kind}`,
+    "metadata:",
+    `  name: ${file.name}`,
+    ...(file.namespace ? [`  namespace: ${file.namespace}`] : []),
+    "# Complete the resource below to meet the brief and acceptance contract.",
+    "",
+  ].join("\n");
 }
 
 function buildConstraints(files: readonly ArchitectureFileSpec[]): LevelConstraint[] {
@@ -145,7 +159,7 @@ export function buildLevel(spec: ArchitectureBuildSpec): ProblemLevel {
   return {
     id: spec.id,
     slug: spec.id,
-    contentVersion: 1,
+    contentVersion: 2,
     publicationStatus: "published",
     challengeMode: "build",
     title: spec.title,

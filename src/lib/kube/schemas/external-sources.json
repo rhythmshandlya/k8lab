@@ -1,0 +1,72 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.6.2/config/crd/standard/gateway.networking.k8s.io_gatewayclasses.yaml",
+    "sha256": "47875d2b4d7491d574ba47116226d9507e287df80463ea2cec64340d7fdae0e9",
+    "license": "Apache-2.0"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.6.2/config/crd/standard/gateway.networking.k8s.io_gateways.yaml",
+    "sha256": "be942c2d5e2a5cd3adb506e5d19a493e412492b41577b43b49d7075674af9438",
+    "license": "Apache-2.0"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.6.2/config/crd/standard/gateway.networking.k8s.io_httproutes.yaml",
+    "sha256": "b460061056e52495dc9450dfcccf0f060ef0f5925d04f4f4905276fdb09eb8f9",
+    "license": "Apache-2.0"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.94.0/example/prometheus-operator-crd/monitoring.coreos.com_probes.yaml",
+    "sha256": "c942b830d51dfcf2547e49b532453d42758f5fffd57f2a4883a511a8cc7677e4",
+    "license": "Apache-2.0"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.94.0/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml",
+    "sha256": "4f581daffb3e9e5d4db8f5caaf8639ea9ee6e2eed233986bdb96c7762972f456",
+    "license": "Apache-2.0"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.94.0/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml",
+    "sha256": "2f2015458b5f70695efc918e2c5ca063563e1dd4c9b1324a28f7a0367de26e88",
+    "license": "Apache-2.0"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/v0.94.0/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml",
+    "sha256": "10a5f90038608d9a2758d5a8700e1be5adbaff5d6355a52fa7b6e8488b71156d",
+    "license": "Apache-2.0"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/cert-manager/cert-manager/v1.21.2/deploy/crds/cert-manager.io_certificates.yaml",
+    "sha256": "7ad91029c00ec959d54215b19d3b1a9b7e0247eaa60f987151c2b70d8661f8af",
+    "license": "Apache-2.0"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/GoogleCloudPlatform/k8s-config-connector/v1.156.0/config/crds/resources/apiextensions.k8s.io_v1_customresourcedefinition_containerclusters.container.cnrm.cloud.google.com.yaml",
+    "sha256": "c73bf166eb0810a89292e0f1fad24a6b71c2d54b5ac411d9e41c73dbbf24b63a",
+    "license": "Apache-2.0"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/kubernetes-sigs/cluster-api/v1.14.2/controlplane/kubeadm/config/crd/bases/controlplane.cluster.x-k8s.io_kubeadmcontrolplanes.yaml",
+    "sha256": "0c97877297fb7f4211e96a1716901ec415e9e1f676c2433cd22effc175cda805",
+    "license": "Apache-2.0"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/kyverno/kyverno/v1.19.1/config/crds/policies.kyverno.io/policies.kyverno.io_imagevalidatingpolicies.yaml",
+    "sha256": "32436252cd83925e228604dd33d5218509621946df7c8239f3d9df878d5f0503",
+    "license": "Apache-2.0"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/tektoncd/pipeline/v1.16.0/config/300-crds/300-task.yaml",
+    "sha256": "7d5659628e9abc63050f3d5718aeba20d10c94a9e30201f0a818b7b0609f0274",
+    "license": "Apache-2.0"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/tektoncd/pipeline/v1.16.0/config/300-crds/300-pipeline.yaml",
+    "sha256": "529a6caae1d106b4eb246d11a42f236e64562baa5a435833ae828d4dd48f6671",
+    "license": "Apache-2.0"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/tektoncd/pipeline/v1.16.0/config/300-crds/300-pipelinerun.yaml",
+    "sha256": "fc416ea4e2cb9e9a0d996cb192c7b5bc9f17b70b7ea962bde212b7b231453a3b",
+    "license": "Apache-2.0"
+  }
+]

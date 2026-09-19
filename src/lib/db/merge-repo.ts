@@ -1,4 +1,4 @@
-import { and, eq, sql } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 
 import { getLevelBySlug } from "@/content/levels";
 import { progressFingerprint, type Progress } from "@/lib/storage/local-progress";
@@ -63,10 +63,7 @@ export async function mergeGuestProgress(
     await db
       .insert(progressSolved)
       .values({ userId, levelSlug: slug, awardedXp, solvedDay: day })
-      .onConflictDoUpdate({
-        target: [progressSolved.userId, progressSolved.levelSlug],
-        set: { awardedXp: sql`greatest(${progressSolved.awardedXp}, ${awardedXp})` },
-      });
+      .onConflictDoNothing();
   }
 
   for (const slug of guest.attemptedLevelSlugs) {

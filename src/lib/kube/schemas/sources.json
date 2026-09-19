@@ -1,0 +1,20 @@
+[
+  {
+    "filename": "kubernetes-1.34.json",
+    "url": "https://raw.githubusercontent.com/kubernetes/kubernetes/v1.34.0/api/openapi-spec/swagger.json",
+    "sha256": "d3b0cdc2fda15c753206d25ab459dc7c12df64e2fd652b6809687471ea751c37",
+    "license": "Apache-2.0"
+  },
+  {
+    "filename": "kubernetes-1.35.json",
+    "url": "https://raw.githubusercontent.com/kubernetes/kubernetes/v1.35.0/api/openapi-spec/swagger.json",
+    "sha256": "483500149ee52ce5753d75f5639101d985bb4f5e902cc05b1ba7627465d62446",
+    "license": "Apache-2.0"
+  },
+  {
+    "filename": "kubernetes-1.36.json",
+    "url": "https://raw.githubusercontent.com/kubernetes/kubernetes/v1.36.0/api/openapi-spec/swagger.json",
+    "sha256": "dcede2063da1d7ad62ecb5af8adb6d7fabd0b52385a7fa0048afb491dac90450",
+    "license": "Apache-2.0"
+  }
+]

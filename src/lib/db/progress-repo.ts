@@ -1,3 +1,4 @@
+import { activeStreak, utcDay } from "@/lib/storage/streak";
 import { and, eq } from "drizzle-orm";
 import type { PgDatabase, PgQueryResultHKT } from "drizzle-orm/pg-core";
 
@@ -53,22 +54,9 @@ export async function applyIntents(
 
 async function applyOne(db: ProgressDb, userId: string, intent: ProgressIntent): Promise<void> {
   switch (intent.kind) {
-    case "solved": {
-      const level = requireLevel(intent.slug);
-      // Net the gross xp against penalties already accrued for this slug, so the
-      // server's Σ(awarded_xp) matches the client's running net total.
-      const penaltyRows = await db
-        .select({ penalty: hintReveals.penalty })
-        .from(hintReveals)
-        .where(and(eq(hintReveals.userId, userId), eq(hintReveals.levelSlug, intent.slug)));
-      const penalty = penaltyRows.reduce((sum, r) => sum + r.penalty, 0);
-      const awardedXp = Math.max(0, level.xp - penalty);
-      await db
-        .insert(progressSolved)
-        .values({ userId, levelSlug: intent.slug, awardedXp, solvedDay: intent.day })
-        .onConflictDoNothing();
+    case "solved":
+      // Legacy client claims are acknowledged but cannot award verified progress.
       return;
-    }
     case "attempted":
       await db
         .insert(progressAttempted)
@@ -169,9 +157,10 @@ export async function readProgress(db: ProgressDb, userId: string): Promise<Prog
         slug: progressSolved.levelSlug,
         awardedXp: progressSolved.awardedXp,
         day: progressSolved.solvedDay,
+        contentVersion: progressSolved.contentVersion,
       })
       .from(progressSolved)
-      .where(eq(progressSolved.userId, userId)),
+      .where(and(eq(progressSolved.userId, userId), eq(progressSolved.verified, true))),
     db
       .select({ slug: progressAttempted.levelSlug })
       .from(progressAttempted)
@@ -196,14 +185,17 @@ export async function readProgress(db: ProgressDb, userId: string): Promise<Prog
     hintFacts[row.slug] = { ...hintFacts[row.slug], [row.hintId]: row.penalty };
   }
 
-  const { streakDays, lastSolvedDay } = deriveStreak(solved.map((r) => r.day));
+  const currentSolves = solved.filter(
+    (row) => getLevelBySlug(row.slug)?.contentVersion === row.contentVersion,
+  );
+  const { streakDays, lastSolvedDay } = deriveStreak(currentSolves.map((r) => r.day));
 
   return {
     ...EMPTY_PROGRESS,
-    xp: solved.reduce((sum, r) => sum + r.awardedXp, 0),
+    xp: currentSolves.reduce((sum, r) => sum + r.awardedXp, 0),
     streakDays,
     lastSolvedDay,
-    solvedLevelSlugs: solved.map((r) => r.slug),
+    solvedLevelSlugs: currentSolves.map((r) => r.slug),
     attemptedLevelSlugs: attempted.map((r) => r.slug),
     savedProblemSlugs: saved.map((r) => r.slug),
     completedLessonSlugs: completedLessons.map((r) => r.slug),
@@ -216,7 +208,10 @@ export async function readProgress(db: ProgressDb, userId: string): Promise<Prog
  * recent one. Derived from the distinct set of client-local `solved_day` strings, so
  * it's timezone-correct and can't be corrupted by concurrent writes.
  */
-export function deriveStreak(days: readonly string[]): {
+export function deriveStreak(
+  days: readonly string[],
+  today = utcDay(),
+): {
   streakDays: number;
   lastSolvedDay?: string;
 } {
@@ -228,7 +223,7 @@ export function deriveStreak(days: readonly string[]): {
     if (dayAfter(unique[i - 1]!) === unique[i]!) streak += 1;
     else break;
   }
-  return { streakDays: streak, lastSolvedDay: last };
+  return { streakDays: activeStreak(streak, last, today), lastSolvedDay: last };
 }
 
 function dayAfter(day: string): string {

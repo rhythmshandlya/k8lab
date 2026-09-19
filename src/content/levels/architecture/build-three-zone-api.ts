@@ -113,6 +113,10 @@ spec:
       labels:
         app: checkout-api
     spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: topology.kubernetes.io/zone
@@ -122,6 +126,10 @@ spec:
               app: checkout-api
       containers:
         - name: api
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
           image: registry.example/checkout-api@sha256:1111111111111111111111111111111111111111111111111111111111111111
           ports:
             - name: http

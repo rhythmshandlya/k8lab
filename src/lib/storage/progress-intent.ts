@@ -19,8 +19,8 @@ import {
  * where each intent lowers to an idempotent keyed upsert. XP/streak/penalty are never
  * transmitted as totals: they are derived on each side from grow-only facts.
  *
- * `solved.xp` is the level's GROSS xp; both sides net out the hint penalty (the client
- * inside `recordSolved`, the server against its `hint_reveals` rows), so the totals agree.
+ * `solved` intents retain guest/offline compatibility only. Account awards now come
+ * exclusively from verified submissions; this legacy intent cannot award server XP.
  */
 export type ProgressIntent =
   | { kind: "solved"; slug: string; xp: number; day: string }
@@ -52,7 +52,11 @@ const solvedDaySchema = z
       date.getUTCMonth() === month! - 1 &&
       date.getUTCDate() === day
     );
-  }, "Invalid calendar date");
+  }, "Invalid calendar date")
+  .refine(
+    (value) => value <= new Date(Date.now() + 86_400_000).toISOString().slice(0, 10),
+    "Solve date cannot be in the future",
+  );
 
 const submissionIntentSchema = z.object({
   kind: z.literal("submission"),
@@ -91,6 +95,16 @@ export const progressIntentSchema: z.ZodType<ProgressIntent> = z
     submissionIntentSchema,
   ])
   .superRefine((value, context) => {
+    if (
+      value.kind === "submission" &&
+      value.passed !== (value.checksPassed === value.checksTotal)
+    ) {
+      context.addIssue({
+        code: "custom",
+        path: ["passed"],
+        message: "Verdict must agree with the check counts",
+      });
+    }
     if (value.kind === "submission" && value.checksPassed > value.checksTotal) {
       context.addIssue({
         code: "custom",

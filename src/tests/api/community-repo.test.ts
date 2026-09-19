@@ -30,6 +30,8 @@ async function seedSolve(
   solvedAt: Date,
 ) {
   await db.insert(progressSolved).values({
+    verified: true,
+    contentVersion: 2,
     userId,
     levelSlug,
     awardedXp,
@@ -46,10 +48,10 @@ describe("community-repo over pglite", () => {
       const b = await seedUser(db, "userB");
       const c = await seedUser(db, "userC");
 
-      await seedSolve(db, a, "level-1", 100, at("2026-07-01T10:00:00Z"));
-      await seedSolve(db, a, "level-2", 50, at("2026-07-02T10:00:00Z"));
-      await seedSolve(db, b, "level-1", 200, at("2026-07-03T10:00:00Z"));
-      await seedSolve(db, c, "level-3", 150, at("2026-07-04T10:00:00Z"));
+      await seedSolve(db, a, "broken-readiness-probe", 100, at("2026-07-01T10:00:00Z"));
+      await seedSolve(db, a, "service-selector-mismatch", 50, at("2026-07-02T10:00:00Z"));
+      await seedSolve(db, b, "broken-readiness-probe", 200, at("2026-07-03T10:00:00Z"));
+      await seedSolve(db, c, "port-routing-bug", 150, at("2026-07-04T10:00:00Z"));
 
       const board = await readLeaderboard(db, 10);
 
@@ -67,7 +69,7 @@ describe("community-repo over pglite", () => {
     try {
       for (let i = 0; i < 3; i++) {
         const id = await seedUser(db, `user${i}`);
-        await seedSolve(db, id, "level-1", 10 * (i + 1), at("2026-07-01T10:00:00Z"));
+        await seedSolve(db, id, "broken-readiness-probe", 10 * (i + 1), at("2026-07-01T10:00:00Z"));
       }
       expect(await readLeaderboard(db, 2)).toHaveLength(2);
     } finally {
@@ -81,11 +83,13 @@ describe("community-repo over pglite", () => {
       const visible = await seedUser(db, "visible");
       const privateUser = await seedUser(db, "private");
       await db.update(user).set({ publicProfile: false }).where(eq(user.id, privateUser));
-      await seedSolve(db, visible, "level-1", 10, new Date());
-      await seedSolve(db, privateUser, "level-2", 1_000, new Date());
+      await seedSolve(db, visible, "broken-readiness-probe", 10, new Date());
+      await seedSolve(db, privateUser, "service-selector-mismatch", 1_000, new Date());
 
       expect((await readLeaderboard(db, 10)).map((entry) => entry.userId)).toEqual([visible]);
-      expect((await readRecentSolves(db, 10)).map((entry) => entry.levelSlug)).toEqual(["level-1"]);
+      expect((await readRecentSolves(db, 10)).map((entry) => entry.levelSlug)).toEqual([
+        "broken-readiness-probe",
+      ]);
       expect(await readCommunityPulse(db)).toMatchObject({ players: 1 });
       expect(await readUserRank(db, privateUser)).toBeNull();
     } finally {
@@ -99,13 +103,16 @@ describe("community-repo over pglite", () => {
       const a = await seedUser(db, "userA");
       const b = await seedUser(db, "userB");
 
-      await seedSolve(db, a, "level-old", 10, at("2026-07-01T10:00:00Z"));
-      await seedSolve(db, b, "level-mid", 10, at("2026-07-02T10:00:00Z"));
-      await seedSolve(db, a, "level-new", 10, at("2026-07-03T10:00:00Z"));
+      await seedSolve(db, a, "broken-readiness-probe", 10, at("2026-07-01T10:00:00Z"));
+      await seedSolve(db, b, "service-selector-mismatch", 10, at("2026-07-02T10:00:00Z"));
+      await seedSolve(db, a, "port-routing-bug", 10, at("2026-07-03T10:00:00Z"));
 
       const feed = await readRecentSolves(db, 2);
 
-      expect(feed.map((s) => s.levelSlug)).toEqual(["level-new", "level-mid"]);
+      expect(feed.map((s) => s.levelSlug)).toEqual([
+        "port-routing-bug",
+        "service-selector-mismatch",
+      ]);
       expect(feed[0]!.solvedAt).toBe("2026-07-03T10:00:00.000Z");
     } finally {
       await client.close();
@@ -122,9 +129,9 @@ describe("community-repo over pglite", () => {
       const now = new Date();
       const daysAgo = (n: number) => new Date(now.getTime() - n * 24 * 60 * 60 * 1000);
 
-      await seedSolve(db, a, "level-1", 10, daysAgo(1));
-      await seedSolve(db, a, "level-2", 10, daysAgo(30));
-      await seedSolve(db, b, "level-1", 10, daysAgo(2));
+      await seedSolve(db, a, "broken-readiness-probe", 10, daysAgo(1));
+      await seedSolve(db, a, "service-selector-mismatch", 10, daysAgo(30));
+      await seedSolve(db, b, "broken-readiness-probe", 10, daysAgo(2));
 
       expect(await readCommunityPulse(db)).toEqual({ players: 2, solvesThisWeek: 2 });
     } finally {
@@ -140,9 +147,9 @@ describe("community-repo over pglite", () => {
       const c = await seedUser(db, "userC");
       const d = await seedUser(db, "userD");
 
-      await seedSolve(db, a, "level-1", 300, at("2026-07-01T10:00:00Z"));
-      await seedSolve(db, b, "level-1", 100, at("2026-07-01T11:00:00Z"));
-      await seedSolve(db, c, "level-2", 100, at("2026-07-01T12:00:00Z"));
+      await seedSolve(db, a, "broken-readiness-probe", 300, at("2026-07-01T10:00:00Z"));
+      await seedSolve(db, b, "broken-readiness-probe", 100, at("2026-07-01T11:00:00Z"));
+      await seedSolve(db, c, "service-selector-mismatch", 100, at("2026-07-01T12:00:00Z"));
 
       expect(await readUserRank(db, a)).toEqual({ rank: 1, totalRanked: 3, xp: 300 });
       // B and C tie on 100 XP → both rank 2 (competition ranking).
@@ -162,14 +169,16 @@ describe("community-repo over pglite", () => {
       const start = at("2026-08-10T00:00:00Z");
       const end = at("2026-08-17T00:00:00Z");
 
-      await seedSolve(db, a, "weekly-problem", 100, at("2026-08-10T10:00:00Z"));
-      await seedSolve(db, b, "other-problem", 250, at("2026-08-16T10:00:00Z"));
-      await seedSolve(db, a, "old-problem", 1_000, at("2026-08-09T23:59:00Z"));
+      await seedSolve(db, a, "broken-readiness-probe", 100, at("2026-08-10T10:00:00Z"));
+      await seedSolve(db, b, "service-selector-mismatch", 250, at("2026-08-16T10:00:00Z"));
+      await seedSolve(db, a, "port-routing-bug", 1_000, at("2026-08-09T23:59:00Z"));
 
       expect(
         (await readWeeklyLeaderboard(db, start, end, 10)).map((entry) => entry.userId),
       ).toEqual([b, a]);
-      expect(await readWeeklyChallengeCompletions(db, "weekly-problem", start, end)).toBe(1);
+      expect(await readWeeklyChallengeCompletions(db, "broken-readiness-probe", start, end)).toBe(
+        1,
+      );
     } finally {
       await client.close();
     }
@@ -179,7 +188,7 @@ describe("community-repo over pglite", () => {
     const { db, client } = await createTestDb();
     try {
       const userId = await seedUser(db, "private-status");
-      await seedSolve(db, userId, "level-1", 100, at("2026-08-10T10:00:00Z"));
+      await seedSolve(db, userId, "broken-readiness-probe", 100, at("2026-08-10T10:00:00Z"));
       await db.update(user).set({ publicProfile: false }).where(eq(user.id, userId));
 
       expect(await readUserCommunityStatus(db, userId)).toEqual({

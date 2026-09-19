@@ -5,6 +5,7 @@ import type { ValidationReport } from "@/lib/kube/validators";
 import {
   clearLevelWorkspace,
   readLevelWorkspace,
+  readArchivedWorkspace,
   saveLevelWorkspace,
 } from "@/lib/storage/level-workspace";
 
@@ -39,6 +40,8 @@ interface LevelState {
   hintsOpen: boolean;
   /** True when this session's workspace was rehydrated from a previous visit. */
   restoredFromStorage: boolean;
+  recoveredFiles: Record<string, string> | null;
+  restoreDraft: (files: Record<string, string>) => void;
 
   initLevel: (level: ProblemLevel) => void;
   /** Discard saved work and return every editable file to its authored state. */
@@ -118,9 +121,19 @@ export const useLevelStore = create<LevelState>((set, get) => ({
   selected: null,
   hintsOpen: false,
   restoredFromStorage: false,
+  recoveredFiles: null,
+
+  restoreDraft: (saved) => {
+    const state = get();
+    if (!state.level) return;
+    const { files } = restoreFiles(state.level, saved);
+    persist({ ...state, files });
+    set({ files, validation: null, checks: null, solved: false, restoredFromStorage: true });
+  },
 
   initLevel: (level) => {
-    const saved = readLevelWorkspace(level.slug, level.contentVersion);
+    const stored = readLevelWorkspace(level.slug, level.contentVersion);
+    const saved = stored?.contentVersion === level.contentVersion ? stored : null;
     const { files, changed } = restoreFiles(level, saved?.files ?? {});
     const visiblePaths = new Set(
       level.files.filter((file) => file.access !== "hidden").map((file) => file.path),
@@ -147,6 +160,8 @@ export const useLevelStore = create<LevelState>((set, get) => ({
       selected: null,
       hintsOpen: false,
       restoredFromStorage: changed,
+      recoveredFiles:
+        stored && !saved ? stored.files : (readArchivedWorkspace(level.slug)?.files ?? null),
     });
   },
 
@@ -172,7 +187,7 @@ export const useLevelStore = create<LevelState>((set, get) => ({
       if (!file || file.access !== "editable") return state;
       const next = { ...state, files: { ...state.files, [path]: content } };
       persist(next);
-      return { files: next.files };
+      return { files: next.files, validation: null, solved: false };
     }),
 
   setActiveFile: (path) =>

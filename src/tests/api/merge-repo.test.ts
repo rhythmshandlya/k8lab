@@ -21,18 +21,18 @@ const GUEST: Progress = {
 };
 
 describe("mergeGuestProgress over pglite", () => {
-  it("reconstructs per-slug xp and merges all facts", async () => {
+  it("imports guest learning facts without trusting guest XP claims", async () => {
     const { db, client } = await createTestDb();
     try {
       const uid = await seedUser(db);
       await mergeGuestProgress(db, uid, GUEST);
       const p = await readProgress(db, uid);
 
-      expect(p.solvedLevelSlugs).toEqual(["broken-readiness-probe"]);
+      expect(p.solvedLevelSlugs).toEqual([]);
       expect(p.attemptedLevelSlugs).toEqual(["service-selector-mismatch"]);
       expect(p.savedProblemSlugs).toEqual(["port-routing-bug"]);
       expect(p.hintReveals).toEqual({ "broken-readiness-probe": { "hint-1": 15 } });
-      expect(p.xp).toBe(85); // Catalog XP and hint penalty replace forged guest values.
+      expect(p.xp).toBe(0); // Catalog XP and hint penalty replace forged guest values.
     } finally {
       await client.close();
     }
@@ -46,9 +46,9 @@ describe("mergeGuestProgress over pglite", () => {
       await mergeGuestProgress(db, uid, GUEST);
       const p = await readProgress(db, uid);
 
-      expect(p.solvedLevelSlugs).toEqual(["broken-readiness-probe"]);
+      expect(p.solvedLevelSlugs).toEqual([]);
       expect(p.hintReveals).toEqual({ "broken-readiness-probe": { "hint-1": 15 } });
-      expect(p.xp).toBe(85); // NOT doubled
+      expect(p.xp).toBe(0); // NOT doubled
     } finally {
       await client.close();
     }

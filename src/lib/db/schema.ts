@@ -100,6 +100,8 @@ export const progressSolved = pgTable(
     awardedXp: integer("awarded_xp").notNull(),
     /** Client-local calendar day (YYYY-MM-DD): streaks derive from the distinct set. */
     solvedDay: text("solved_day").notNull(),
+    contentVersion: integer("content_version").notNull().default(1),
+    verified: boolean("verified").notNull().default(false),
     solvedAt: timestamp("solved_at").notNull().defaultNow(),
   },
   (t) => [primaryKey({ columns: [t.userId, t.levelSlug] })],
@@ -162,7 +164,7 @@ export const hintReveals = pgTable(
   (t) => [primaryKey({ columns: [t.userId, t.levelSlug, t.hintId] })],
 );
 
-/** Append-only browser-validated telemetry for qualified success/time aggregates. */
+/** Append-only versioned submission history and legacy telemetry for qualified success/time aggregates. */
 export const submissions = pgTable(
   "submissions",
   {
@@ -171,6 +173,8 @@ export const submissions = pgTable(
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
     levelSlug: text("level_slug").notNull(),
+    contentVersion: integer("content_version").notNull().default(1),
+    verified: boolean("verified").notNull().default(false),
     passed: boolean("passed").notNull(),
     checksTotal: integer("checks_total").notNull(),
     checksPassed: integer("checks_passed").notNull(),
@@ -189,6 +193,22 @@ export const submissions = pgTable(
     index("submissions_level_created_idx").on(t.levelSlug, t.createdAt),
     index("submissions_user_level_idx").on(t.userId, t.levelSlug),
   ],
+);
+
+/** Versioned per-account drafts. Revision provides optimistic concurrency across devices. */
+export const problemDrafts = pgTable(
+  "problem_drafts",
+  {
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    levelSlug: text("level_slug").notNull(),
+    contentVersion: integer("content_version").notNull(),
+    revision: integer("revision").notNull().default(1),
+    snapshot: jsonb("snapshot").notNull(),
+    updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  },
+  (table) => [primaryKey({ columns: [table.userId, table.levelSlug, table.contentVersion] })],
 );
 
 /** Named playground saves (arbitrary manifest sets), synced for signed-in users. */
@@ -308,6 +328,7 @@ export const schema = {
   bookmarks,
   hintReveals,
   submissions,
+  problemDrafts,
   sandboxes,
   communityDiscussions,
   communityDiscussionReplies,
