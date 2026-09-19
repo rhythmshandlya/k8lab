@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { applyIntents } from "@/lib/db/progress-repo";
 import { readLevelStats } from "@/lib/db/stats-repo";
 import type { ProgressIntent } from "@/lib/storage/progress-intent";
+import { submissions } from "@/lib/db/schema";
 
 import { createTestDb, seedUser } from "./pglite";
 
@@ -36,6 +37,10 @@ describe("readLevelStats over pglite", () => {
       await applyIntents(db, c, [sub(x, false)]);
       // Only A attempts y and fails → 0/1.
       await applyIntents(db, a, [sub(y, false)]);
+
+      expect(await readLevelStats(db)).toEqual({}); // Client telemetry is never authoritative.
+      // Seed server-verified rows to exercise the aggregate independently of the judge.
+      await db.update(submissions).set({ verified: true, contentVersion: 2 });
 
       const stats = await readLevelStats(db);
 

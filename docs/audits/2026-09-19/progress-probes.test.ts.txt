@@ -1,0 +1,25 @@
+/** Phase-1 audit observations; copy into src/tests/api and use vitest.api.config.ts. */
+import { writeFileSync } from "node:fs";
+import { it, expect } from "vitest";
+import { applyIntents, readProgress } from "@/lib/db/progress-repo";
+import { submissions } from "@/lib/db/schema";
+import { parseProgressBatch } from "@/lib/storage/progress-intent";
+import { createTestDb, seedUser } from "@/tests/api/pglite";
+
+it("records whether an authenticated progress intent can claim an unverified solve", async()=>{
+  const {db,client}=await createTestDb();
+  try {
+    const uid=await seedUser(db,"phase1-audit");
+    const batch=parseProgressBatch({ownerId:uid,deliveries:[
+      {id:"audit-delivery-0001",ownerId:uid,createdAt:Date.now(),intent:{kind:"solved",slug:"build-three-zone-api",xp:500,day:"2099-01-01"}},
+      {id:"audit-delivery-0002",ownerId:uid,createdAt:Date.now(),intent:{kind:"submission",slug:"build-three-zone-api",passed:true,checksTotal:1,checksPassed:0,clientMutationId:"audit-submission-0001"}},
+    ]});
+    await applyIntents(db,uid,batch.deliveries.map(d=>d.intent));
+    const progress=await readProgress(db,uid);
+    const stored=await db.select().from(submissions);
+    const result={progress,submissions:stored};
+    expect(progress.xp).toBe(500);
+    writeFileSync("/tmp/k8lab-phase1-progress.json",JSON.stringify(result,null,2));
+    console.log(JSON.stringify(result,null,2));
+  } finally {await client.close();}
+});

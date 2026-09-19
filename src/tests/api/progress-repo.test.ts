@@ -12,25 +12,30 @@ describe("deriveStreak", () => {
   });
 
   it("counts a single day as a 1-day streak", () => {
-    expect(deriveStreak(["2026-07-09"])).toEqual({ streakDays: 1, lastSolvedDay: "2026-07-09" });
+    expect(deriveStreak(["2026-07-09"], "2026-07-09")).toEqual({
+      streakDays: 1,
+      lastSolvedDay: "2026-07-09",
+    });
   });
 
   it("counts consecutive days and ignores duplicates", () => {
-    expect(deriveStreak(["2026-07-07", "2026-07-08", "2026-07-09", "2026-07-09"])).toEqual({
+    expect(
+      deriveStreak(["2026-07-07", "2026-07-08", "2026-07-09", "2026-07-09"], "2026-07-09"),
+    ).toEqual({
       streakDays: 3,
       lastSolvedDay: "2026-07-09",
     });
   });
 
   it("resets the run at a gap, counting only the streak ending on the last day", () => {
-    expect(deriveStreak(["2026-07-01", "2026-07-08", "2026-07-09"])).toEqual({
+    expect(deriveStreak(["2026-07-01", "2026-07-08", "2026-07-09"], "2026-07-09")).toEqual({
       streakDays: 2,
       lastSolvedDay: "2026-07-09",
     });
   });
 
   it("crosses a month boundary", () => {
-    expect(deriveStreak(["2026-06-30", "2026-07-01"])).toEqual({
+    expect(deriveStreak(["2026-06-30", "2026-07-01"], "2026-07-01")).toEqual({
       streakDays: 2,
       lastSolvedDay: "2026-07-01",
     });
@@ -63,14 +68,14 @@ describe("progress-repo over pglite", () => {
       await applyIntents(db, uid, INTENTS);
       const p = await readProgress(db, uid);
 
-      expect(p.solvedLevelSlugs).toEqual([LEVEL]);
+      expect(p.solvedLevelSlugs).toEqual([]);
       expect(p.attemptedLevelSlugs).toEqual([LEVEL]);
       expect(p.savedProblemSlugs).toEqual(["port-routing-bug"]);
       expect(p.completedLessonSlugs).toEqual(["networking/services"]);
       expect(p.hintReveals).toEqual({ [LEVEL]: { "hint-1": 15 } });
-      expect(p.xp).toBe(85); // Catalog values win over the forged client values.
-      expect(p.streakDays).toBe(1);
-      expect(p.lastSolvedDay).toBe("2026-07-08");
+      expect(p.xp).toBe(0); // Catalog values win over the forged client values.
+      expect(p.streakDays).toBe(0);
+      expect(p.lastSolvedDay).toBeUndefined();
     } finally {
       await client.close();
     }
@@ -84,9 +89,9 @@ describe("progress-repo over pglite", () => {
       await applyIntents(db, uid, INTENTS);
       const p = await readProgress(db, uid);
 
-      expect(p.solvedLevelSlugs).toEqual([LEVEL]);
+      expect(p.solvedLevelSlugs).toEqual([]);
       expect(p.hintReveals).toEqual({ [LEVEL]: { "hint-1": 15 } });
-      expect(p.xp).toBe(85); // NOT doubled
+      expect(p.xp).toBe(0); // NOT doubled
       expect(p.savedProblemSlugs).toEqual(["port-routing-bug"]);
       expect(p.completedLessonSlugs).toEqual(["networking/services"]); // NOT duplicated
     } finally {
@@ -119,10 +124,10 @@ describe("progress-repo over pglite", () => {
         { kind: "solved", slug: "rolling-update-gone-wrong", xp: 1, day: "2026-07-08" },
       ]);
 
-      expect((await readProgress(db, a)).solvedLevelSlugs).toEqual(["broken-readiness-probe"]);
-      expect((await readProgress(db, a)).xp).toBe(100);
-      expect((await readProgress(db, b)).solvedLevelSlugs).toEqual(["rolling-update-gone-wrong"]);
-      expect((await readProgress(db, b)).xp).toBe(150);
+      expect((await readProgress(db, a)).solvedLevelSlugs).toEqual([]);
+      expect((await readProgress(db, a)).xp).toBe(0);
+      expect((await readProgress(db, b)).solvedLevelSlugs).toEqual([]);
+      expect((await readProgress(db, b)).xp).toBe(0);
     } finally {
       await client.close();
     }

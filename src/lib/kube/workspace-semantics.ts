@@ -1,3 +1,5 @@
+import { validateKubernetesSchema, validatePodAdmission } from "./schema-validation";
+import { evaluateFixtureConsistency } from "./fixture-consistency";
 import type {
   ContainerResourceBudget,
   NetworkPolicyContract,
@@ -36,6 +38,8 @@ export function evaluateWorkspaceSemantics(
   const policy: WorkspaceSemanticPolicy = level.semanticPolicy ?? {};
   const issues: string[] = [];
   const resources = parsed.resources;
+  if (resources.length > 100) return ["A learning workspace supports at most 100 resources."];
+  issues.push(...evaluateFixtureConsistency(level, resources));
   const workloads = resources.filter((resource) => WORKLOAD_KINDS.has(resource.kind));
   const requireClosedGraph = level.challengeMode === "build";
   const restrictedNamespaces = new Set(
@@ -43,12 +47,15 @@ export function evaluateWorkspaceSemantics(
       .filter(
         (resource) =>
           resource.kind === "Namespace" &&
-          stringAt(resource.raw, "metadata.labels.securityProfile") === "restricted",
+          stringAt(resource.raw, "/metadata/labels/pod-security.kubernetes.io~1enforce") ===
+            "restricted",
       )
       .map((resource) => resource.name),
   );
 
   for (const resource of resources) {
+    issues.push(...validateKubernetesSchema(resource));
+    issues.push(...validatePodAdmission(resource, restrictedNamespaces.has(resource.namespace)));
     validateImageDigests(resource.raw, `${resource.kind}/${resource.name}`, issues);
 
     if (
@@ -100,7 +107,7 @@ export function evaluateWorkspaceSemantics(
     if (
       requireClosedGraph &&
       resource.kind === "Namespace" &&
-      restrictedNamespaces.has(resource.name) &&
+      stringAt(resource.raw, "metadata.labels.securityProfile") === "restricted" &&
       stringAt(resource.raw, "/metadata/labels/pod-security.kubernetes.io~1enforce") !==
         "restricted"
     ) {

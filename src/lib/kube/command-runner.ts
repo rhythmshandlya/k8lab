@@ -204,11 +204,33 @@ function parseArgs(args: string[]): ParsedArgs {
     sortByLastTimestamp: false,
   };
   const setOutput = (value: string | undefined) => {
+    if (value !== "yaml" && value !== "wide")
+      throw new Error(
+        `Output format ${JSON.stringify(value)} is not supported. Use -o yaml or -o wide.`,
+      );
     parsed.outputYaml = value === "yaml";
     parsed.outputWide = value === "wide";
   };
   for (let i = 0; i < args.length; i++) {
     const arg = args[i] ?? "";
+    if (
+      [
+        "-o",
+        "--output",
+        "-n",
+        "--namespace",
+        "-l",
+        "--selector",
+        "-c",
+        "--container",
+        "-f",
+        "--filename",
+        "--replicas",
+        "--sort-by",
+      ].includes(arg) &&
+      (!args[i + 1] || args[i + 1]!.startsWith("-"))
+    )
+      throw new Error(`${arg} requires a value.`);
     if (arg === "-o" || arg === "--output") {
       setOutput(args[++i]);
     } else if (arg.startsWith("-o=") || arg.startsWith("--output=")) {
@@ -237,12 +259,41 @@ function parseArgs(args: string[]): ParsedArgs {
       parsed.replicas = Number(args[++i]);
     } else if (arg.startsWith("--replicas=")) {
       parsed.replicas = Number(arg.split("=")[1]);
-    } else if (arg.startsWith("--sort-by")) {
-      parsed.sortByLastTimestamp = arg.includes("lastTimestamp") || !arg.includes("=");
+    } else if (arg === "--sort-by" || arg.startsWith("--sort-by=")) {
+      const value = arg.includes("=") ? arg.slice(arg.indexOf("=") + 1) : args[++i];
+      if (value !== ".lastTimestamp")
+        throw new Error("Only --sort-by=.lastTimestamp is supported.");
+      parsed.sortByLastTimestamp = true;
     } else if (!arg.startsWith("-")) {
       positionals.push(arg);
+    } else {
+      throw new Error(
+        `Unsupported option ${arg}. Type help to see the supported command contract.`,
+      );
     }
   }
+  return parsed;
+}
+
+function parseFor(
+  args: string[],
+  allowed: readonly (keyof ParsedArgs)[],
+  maxPositionals: number,
+): ParsedArgs {
+  const parsed = parseArgs(args);
+  for (const [field, value] of Object.entries(parsed)) {
+    if (
+      field !== "positionals" &&
+      value !== false &&
+      value !== undefined &&
+      !allowed.includes(field as keyof ParsedArgs)
+    )
+      throw new Error(
+        `The ${field} option is not supported for this command. Type help for supported commands.`,
+      );
+  }
+  if (parsed.positionals.length > maxPositionals)
+    throw new Error("Too many arguments for this command.");
   return parsed;
 }
 
@@ -268,6 +319,14 @@ export function matchesLabelSelector(
 }
 
 export function parseCommand(line: string): Command {
+  try {
+    return parseCommandUnchecked(line);
+  } catch (error) {
+    return unsupported(error instanceof Error ? error.message : "Unsupported command options");
+  }
+}
+
+function parseCommandUnchecked(line: string): Command {
   const tokens = tokenize(line.trim());
   const head = tokens[0];
   if (!head) return { kind: "unsupported", message: "" };
@@ -280,12 +339,12 @@ export function parseCommand(line: string): Command {
     case "-h":
       return { kind: "help" };
     case "curl": {
-      const url = parseArgs(tokens.slice(1)).positionals[0];
+      const url = parseFor(tokens.slice(1), [], 1).positionals[0];
       if (!url) return unsupported("curl: no URL specified. Try: curl http://web-svc/");
       return { kind: "curl", url };
     }
     case "dig": {
-      const name = parseArgs(tokens.slice(1)).positionals[0];
+      const name = parseFor(tokens.slice(1), [], 1).positionals[0];
       if (!name) return unsupported("dig: no name specified. Try: dig web-svc");
       return { kind: "dig", name };
     }
@@ -304,7 +363,18 @@ function parseKubectl(args: string[]): Command {
   const rest = args.slice(1);
   switch (sub) {
     case "get": {
-      const parsed = parseArgs(rest);
+      const parsed = parseFor(
+        rest,
+        [
+          "namespace",
+          "outputYaml",
+          "outputWide",
+          "allNamespaces",
+          "selector",
+          "sortByLastTimestamp",
+        ],
+        2,
+      );
       const resourceToken = parsed.positionals[0];
       if (!resourceToken)
         return unsupported("kubectl get: specify a resource, e.g. 'kubectl get pods'.");
@@ -313,6 +383,8 @@ function parseKubectl(args: string[]): Command {
       // admission webhooks, operator resources), which keep their normalized token.
       const resource =
         GET_RESOURCE_ALIASES[resourceToken.toLowerCase()] ?? resourceToken.toLowerCase();
+      if (parsed.sortByLastTimestamp && resource !== "events")
+        return unsupported("Sorting by lastTimestamp is only supported for events.");
       return {
         kind: "get",
         resource,
@@ -326,7 +398,7 @@ function parseKubectl(args: string[]): Command {
       };
     }
     case "describe": {
-      const parsed = parseArgs(rest);
+      const parsed = parseFor(rest, ["namespace"], 2);
       const typeToken = (parsed.positionals[0] ?? "").toLowerCase();
       const name = parsed.positionals[1];
       const describable: Partial<Record<GetResource, string>> = {
@@ -344,7 +416,7 @@ function parseKubectl(args: string[]): Command {
       return { kind: "describe", resource, name, namespace: parsed.namespace };
     }
     case "scale": {
-      const parsed = parseArgs(rest);
+      const parsed = parseFor(rest, ["namespace", "replicas"], 2);
       const target = parseKindNameTarget(parsed.positionals, "deployments");
       if (!target || target.resource !== "deployments") {
         return unsupported(
@@ -354,9 +426,12 @@ function parseKubectl(args: string[]): Command {
       if (
         parsed.replicas === undefined ||
         !Number.isInteger(parsed.replicas) ||
-        parsed.replicas < 0
+        parsed.replicas < 0 ||
+        parsed.replicas > 50
       ) {
-        return unsupported("kubectl scale: specify a non-negative --replicas=<count>.");
+        return unsupported(
+          "kubectl scale: this learning runtime supports --replicas between 0 and 50.",
+        );
       }
       return {
         kind: "scale",
@@ -370,7 +445,7 @@ function parseKubectl(args: string[]): Command {
       if (verb !== "status" && verb !== "restart" && verb !== "history") {
         return unsupported("kubectl rollout: supported verbs are status, restart, history.");
       }
-      const parsed = parseArgs(rest.slice(1));
+      const parsed = parseFor(rest.slice(1), ["namespace"], 2);
       const target = parseKindNameTarget(parsed.positionals, "deployments");
       if (!target || target.resource !== "deployments") {
         return unsupported(
@@ -385,7 +460,11 @@ function parseKubectl(args: string[]): Command {
       const own = separator === -1 ? rest : rest.slice(0, separator);
       const argv = separator === -1 ? [] : rest.slice(separator + 1);
       // Tolerate the ubiquitous -it/-i/-t; this terminal is not a TTY either way.
-      const parsed = parseArgs(own.filter((a) => !["-it", "-ti", "-i", "-t"].includes(a)));
+      const parsed = parseFor(
+        own.filter((a) => !["-it", "-ti", "-i", "-t"].includes(a)),
+        ["namespace", "container"],
+        1,
+      );
       const pod = parsed.positionals[0];
       if (!pod || argv.length === 0) {
         return unsupported(
@@ -395,7 +474,7 @@ function parseKubectl(args: string[]): Command {
       return { kind: "exec", pod, container: parsed.container, argv, namespace: parsed.namespace };
     }
     case "create": {
-      const parsed = parseArgs(rest);
+      const parsed = parseFor(rest, [], 2);
       const what = (parsed.positionals[0] ?? "").toLowerCase();
       const name = parsed.positionals[1];
       if (GET_RESOURCE_ALIASES[what] !== "namespaces") {
@@ -407,13 +486,13 @@ function parseKubectl(args: string[]): Command {
       return { kind: "create-namespace", name };
     }
     case "logs": {
-      const parsed = parseArgs(rest);
+      const parsed = parseFor(rest, ["namespace", "container"], 1);
       const pod = parsed.positionals[0];
       if (!pod) return unsupported("kubectl logs: specify a pod name.");
       return { kind: "logs", pod, container: parsed.container, namespace: parsed.namespace };
     }
     case "apply": {
-      const file = parseArgs(rest).file;
+      const file = parseFor(rest, ["file"], 0).file;
       if (!file)
         return unsupported(
           "kubectl apply: specify a file with -f, e.g. 'kubectl apply -f deployment.yaml'.",
@@ -421,7 +500,7 @@ function parseKubectl(args: string[]): Command {
       return { kind: "apply", file };
     }
     case "kustomize": {
-      const path = parseArgs(rest).positionals[0];
+      const path = parseFor(rest, [], 1).positionals[0];
       if (!path) {
         return unsupported(
           "kubectl kustomize: specify a directory, e.g. 'kubectl kustomize overlays/production'.",
@@ -430,7 +509,11 @@ function parseKubectl(args: string[]): Command {
       return { kind: "kustomize", path };
     }
     case "delete": {
-      const parsed = parseArgs(rest);
+      const parsed = parseFor(rest, ["namespace", "file"], 2);
+      if (parsed.file && (parsed.namespace || parsed.positionals.length))
+        return unsupported(
+          "delete -f uses the namespaces in the file and does not accept additional targets or options.",
+        );
       if (parsed.file) return { kind: "delete", file: parsed.file };
       // `kubectl delete <resource> <name>` / `<resource>/<name>`
       const target = parseKindNameTarget(parsed.positionals);

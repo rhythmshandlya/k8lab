@@ -50,6 +50,20 @@
       "when": 1786425458626,
       "tag": "0006_slow_baron_zemo",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1789805137290,
+      "tag": "0007_verified_problems",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1789805284176,
+      "tag": "0008_problem_drafts",
+      "breakpoints": true
     }
   ]
 }

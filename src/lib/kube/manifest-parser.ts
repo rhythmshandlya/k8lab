@@ -67,10 +67,25 @@ export function parseKubernetesManifests(
   if (yamlText.trim() === "") {
     return ok([]);
   }
+  if (yamlText.length > 100_000) return err({ message: "A manifest file must not exceed 100 KB." });
 
   let documents: unknown[];
   try {
     documents = loadAll(yamlText);
+    let nodes = 0;
+    const ancestors = new Set<object>();
+    const check = (value: unknown, depth: number): void => {
+      if (++nodes > 50_000 || depth > 64)
+        throw new Error("Manifest exceeds the supported nesting or object size limit");
+      if (value === null || typeof value !== "object") return;
+      if (ancestors.has(value))
+        throw new Error("Recursive YAML aliases are not valid Kubernetes JSON");
+      ancestors.add(value);
+      for (const child of Object.values(value)) check(child, depth + 1);
+      ancestors.delete(value);
+    };
+    if (documents.length > 100) throw new Error("At most 100 documents are supported per file");
+    check(documents, 0);
   } catch (error) {
     if (error instanceof YAMLException) {
       return err({
@@ -112,7 +127,11 @@ export function parseKubernetesManifests(
     }
 
     const metadata = isPlainObject(doc.metadata) ? doc.metadata : undefined;
-    const name = metadata?.name;
+    const name =
+      metadata?.name ??
+      (kind === "Kustomization" && apiVersion === "kustomize.config.k8s.io/v1beta1"
+        ? "kustomization"
+        : undefined);
     if (typeof name !== "string" || name === "") {
       return err({
         message: `${kind} is missing "metadata.name".`,

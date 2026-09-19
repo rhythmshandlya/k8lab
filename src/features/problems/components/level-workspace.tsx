@@ -31,10 +31,15 @@ import { isPodReady, readyEndpointCount } from "@/lib/kube/kubectl/format";
 import { resolveQuickCommand } from "@/lib/kube/quick-command";
 import type { ClusterSnapshot } from "@/lib/kube/simulator";
 import { flushLevelWorkspace } from "@/lib/storage/level-workspace";
-import { createClientMutationId } from "@/lib/storage/progress-intent";
-import { mutateProgress } from "@/lib/storage/progress-store";
+import { createClientMutationId, PROGRESS_OWNER_HEADER } from "@/lib/storage/progress-intent";
+import { flush, getIdentity, mutateProgress, pullRemote } from "@/lib/storage/progress-store";
+import { utcDay } from "@/lib/storage/streak";
+import { JUDGE_VERSION, type SubmissionRecord } from "@/lib/problems/submission";
+import { workspaceRevision } from "@/lib/kube/workspace-revision";
 import { cn } from "@/lib/utils/cn";
 
+import { useCompactWorkspace } from "../hooks/use-compact-workspace";
+import { useProblemOwner } from "../hooks/use-problem-owner";
 import { useProblemEngine } from "../hooks/use-problem-engine";
 import { useLevelStore, type CenterTab } from "../level-store";
 import { EvidenceBoard } from "./evidence-board";
@@ -44,6 +49,8 @@ import { IncidentBrief } from "./incident-brief";
 import { ArchitectureInventory } from "./architecture-inventory";
 import { NetworkProbe } from "./network-probe";
 import { ValidationDialog } from "./validation-dialog";
+import { DraftStatus } from "./draft-status";
+import { SubmissionHistory, saveGuestSubmission } from "./submission-history";
 
 const ServiceTopology = dynamic(
   () => import("@/components/topology/service-topology").then((m) => m.ServiceTopology),
@@ -66,16 +73,9 @@ interface ApplyFeedback {
   message: string;
 }
 
-/** Local calendar day (YYYY-MM-DD) for the solved intent: streaks are per local day. */
-function todayLocal(): string {
-  const now = new Date();
-  const pad = (n: number) => String(n).padStart(2, "0");
-  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
-}
-
-/** Control-plane namespaces are simulator machinery, not part of any level's puzzle. */
+/** Include control-plane objects when an exercise exposes them. */
 function isWorkloadNamespace(namespace: string | undefined): boolean {
-  return !(namespace ?? "default").startsWith("kube-");
+  return namespace !== "";
 }
 
 /** Pick the most diagnostically interesting broken object for auto-selection. */
@@ -122,18 +122,27 @@ function findBrokenObject(
 }
 
 export function LevelWorkspace({ level }: { level: ProblemLevel }) {
+  const owner = useProblemOwner();
+  return (
+    <LevelWorkspaceSession key={`${level.slug}:${owner ?? "guest"}`} level={level} owner={owner} />
+  );
+}
+
+function LevelWorkspaceSession({ level, owner }: { level: ProblemLevel; owner: string | null }) {
+  const compact = useCompactWorkspace();
+  const [compactPane, setCompactPane] = useState<"brief" | "work" | "inspect">("work");
   const initLevel = useLevelStore((s) => s.initLevel);
   useEffect(() => {
     initLevel(level);
-    const flush = () => flushLevelWorkspace(level.slug);
-    window.addEventListener("pagehide", flush);
+    const flushDraft = () => flushLevelWorkspace(level.slug, owner);
+    window.addEventListener("pagehide", flushDraft);
     // Saved edits are debounced; flush on the way out so the last keystroke before a
     // navigation or refresh is never the one that gets lost.
     return () => {
-      window.removeEventListener("pagehide", flush);
-      flush();
+      window.removeEventListener("pagehide", flushDraft);
+      flushDraft();
     };
-  }, [level, initLevel]);
+  }, [level, initLevel, owner]);
 
   const files = useLevelStore((s) => s.files);
   const activeFilePath = useLevelStore((s) => s.activeFilePath);
@@ -163,6 +172,16 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
   const [validating, setValidating] = useState(false);
   const [refreshingChecks, setRefreshingChecks] = useState(false);
   const [applyFeedback, setApplyFeedback] = useState<ApplyFeedback | null>(null);
+  const [latestSubmission, setLatestSubmission] = useState<SubmissionRecord | null>(null);
+  const operation = useRef(false);
+  const mounted = useRef(true);
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
+  const pendingSubmission = useRef<{ revision: string; id: string } | null>(null);
   // Keyed by slug rather than reset in an effect, so navigating to another level
   // brings the notice back without a cascading render.
   const [restoreNoticeDismissedFor, setRestoreNoticeDismissedFor] = useState<string | null>(null);
@@ -249,12 +268,20 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
   const refreshChecks = useCallback(async () => {
     if (!scenarioReady) return;
     setRefreshingChecks(true);
+    const checkedFiles = { ...useLevelStore.getState().files };
+    const checkedRevision = workspaceRevision(level, checkedFiles);
     try {
-      setChecks(await validateProblem(level, useLevelStore.getState().files));
+      const report = await validateProblem(level, checkedFiles);
+      if (
+        mounted.current &&
+        getIdentity() === owner &&
+        workspaceRevision(level, useLevelStore.getState().files) === checkedRevision
+      )
+        setChecks(report);
     } finally {
       setRefreshingChecks(false);
     }
-  }, [scenarioReady, validateProblem, level, setChecks]);
+  }, [scenarioReady, validateProblem, level, setChecks, owner]);
 
   /** Refresh now and again after the controllers have had time to reconcile. */
   const scheduleChecks = useCallback(
@@ -276,7 +303,7 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
     if (!sim.ready) return;
     const timer = setTimeout(() => void refreshChecks(), 350);
     return () => clearTimeout(timer);
-  }, [sim.ready, sim.snapshot, refreshChecks]);
+  }, [sim.ready, sim.snapshot, files, refreshChecks]);
 
   // Auto-select the most relevant broken object once, so the details panel is never
   // an empty "select something" placeholder while the incident is live.
@@ -291,6 +318,8 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
 
   const runCommand = useCallback(
     async (line: string): Promise<TerminalRunResult> => {
+      if (operation.current)
+        return { output: "Wait for the current apply or submission to finish.", isError: true };
       if (!sim.ready) {
         return { output: "Cluster is still booting: try again in a moment.", isError: true };
       }
@@ -313,6 +342,8 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
   );
 
   const handleApply = useCallback(async () => {
+    if (operation.current || !sim.ready) return;
+    operation.current = true;
     setApplying(true);
     setApplyFeedback(null);
     markAttempted();
@@ -324,6 +355,7 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
           .map((file) => [file.path, currentFiles[file.path] ?? file.initialValue]),
       );
       const result = await sim.applyFiles(editableFiles);
+      if (!mounted.current || getIdentity() !== owner) return;
       if (!result.ok) {
         setApplyFeedback({
           tone: "error",
@@ -345,25 +377,108 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
       });
       scheduleChecks();
     } finally {
+      operation.current = false;
       setApplying(false);
     }
-  }, [sim, level.files, scheduleChecks, markAttempted, isBuild]);
+  }, [sim, level.files, scheduleChecks, markAttempted, isBuild, owner]);
 
   const handleReset = useCallback(async () => {
-    setApplyFeedback(null);
-    await sim.reset();
-    useLevelStore.getState().resetFiles();
-    select(null);
-    autoSelectedRef.current = false;
-    setChecks(null);
-    scheduleChecks([1200, 4000]);
-  }, [sim, select, setChecks, scheduleChecks]);
+    if (operation.current || !sim.ready) return;
+    operation.current = true;
+    setApplying(true);
+    try {
+      setApplyFeedback(null);
+      await sim.reset();
+      if (!mounted.current || getIdentity() !== owner) return;
+      useLevelStore.getState().resetFiles();
+      select(null);
+      autoSelectedRef.current = false;
+      setChecks(null);
+      scheduleChecks([1200, 4000]);
+    } finally {
+      operation.current = false;
+      setApplying(false);
+    }
+  }, [sim, select, setChecks, scheduleChecks, owner]);
 
   const handleValidate = useCallback(async () => {
-    if (!scenarioReady) return;
+    if (!scenarioReady || operation.current) return;
+    operation.current = true;
     setValidating(true);
     try {
-      const report = await validateProblem(level, useLevelStore.getState().files);
+      const submittedFiles = { ...useLevelStore.getState().files };
+      const revision = workspaceRevision(level, submittedFiles);
+      const localReport = await validateProblem(level, submittedFiles);
+      if (!mounted.current || getIdentity() !== owner) return;
+      // A pending editor revision must be applied before either local or server validation.
+      if (localReport.results.some((result) => result.id === "unapplied-files" && !result.passed)) {
+        setValidation(localReport);
+        setChecks(localReport);
+        setValidationOpen(true);
+        return;
+      }
+      const id =
+        pendingSubmission.current?.revision === revision
+          ? pendingSubmission.current.id
+          : createClientMutationId();
+      pendingSubmission.current = { revision, id };
+      let record: SubmissionRecord;
+      if (owner) {
+        await flush(); // Commit hint reveals before the server calculates the award.
+        const response = await fetch("/api/problems/submissions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", [PROGRESS_OWNER_HEADER]: owner },
+          body: JSON.stringify({
+            slug: level.slug,
+            contentVersion: level.contentVersion,
+            files: submittedFiles,
+            clientMutationId: id,
+            revealedHintIds: useLevelStore.getState().revealedHintIds,
+            durationMs: Math.min(86_400_000, Date.now() - startedAtRef.current),
+          }),
+        });
+        const body = await response.json();
+        if (!response.ok)
+          throw new Error(
+            body.error ?? "Submission could not be verified. Your draft is saved; retry.",
+          );
+        record = body as SubmissionRecord;
+        if (!mounted.current || getIdentity() !== owner) return;
+        await pullRemote();
+      } else {
+        record = {
+          id,
+          slug: level.slug,
+          contentVersion: level.contentVersion,
+          judgeVersion: JUDGE_VERSION,
+          files: submittedFiles,
+          report: localReport,
+          createdAt: new Date().toISOString(),
+          verified: false,
+        };
+        try {
+          saveGuestSubmission(record);
+        } catch {
+          setApplyFeedback({
+            tone: "error",
+            title: "History could not be saved",
+            message:
+              "Your result is available this session. Export the draft before leaving this page.",
+          });
+        }
+      }
+      pendingSubmission.current = null;
+      setLatestSubmission(record);
+      if (workspaceRevision(level, useLevelStore.getState().files) !== revision) {
+        setApplyFeedback({
+          tone: "success",
+          title: "Earlier draft submitted",
+          message:
+            "The workspace changed while this submission ran. Its result is in Submission history; apply and submit the current files separately.",
+        });
+        return;
+      }
+      const report = record.report;
       collectSignals(
         report.results.map((result) => ({
           type: "validator" as const,
@@ -375,29 +490,29 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
       setValidation(report);
       setChecks(report);
       setValidationOpen(true);
-      // Record browser-validated submission telemetry for qualified aggregate stats.
-      mutateProgress({
-        kind: "submission",
-        slug: level.slug,
-        passed: report.passed,
-        checksTotal: report.results.length,
-        checksPassed: report.results.filter((r) => r.passed).length,
-        durationMs: Date.now() - startedAtRef.current,
-        hintsRevealed: revealedHintIds.length,
-        clientMutationId: createClientMutationId(),
-      });
-      if (report.passed) {
+      if (report.passed && workspaceRevision(level, useLevelStore.getState().files) === revision) {
         setSolved(true);
-        mutateProgress({ kind: "solved", slug: level.slug, xp: level.xp, day: todayLocal() });
+        if (!owner)
+          mutateProgress({ kind: "solved", slug: level.slug, xp: level.xp, day: utcDay() });
       }
+    } catch (error) {
+      setApplyFeedback({
+        tone: "error",
+        title: "Submission was not saved",
+        message:
+          error instanceof Error
+            ? error.message
+            : "Submission failed. Retry without changing your files.",
+      });
     } finally {
+      operation.current = false;
       setValidating(false);
     }
   }, [
     scenarioReady,
     validateProblem,
     level,
-    revealedHintIds.length,
+    owner,
     setValidation,
     setChecks,
     setSolved,
@@ -406,6 +521,7 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
 
   const handleRevealHint = useCallback(
     (hint: Hint) => {
+      if (operation.current) return;
       revealHint(hint.id);
       mutateProgress({
         kind: "revealHint",
@@ -437,7 +553,7 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
   const activeInvestigationTabId = `investigation-tab-${centerTab}`;
 
   // Namespaces that actually hold workload objects (multi-namespace levels).
-  // Control-plane namespaces (kube-*) are simulator machinery and stay hidden.
+  // Include namespaces used by control-plane and infrastructure exercises.
   const workspaceNamespaces = useMemo(() => {
     const set = new Set<string>([NAMESPACE]);
     for (const object of [
@@ -472,6 +588,7 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
   const netXp = Math.max(0, level.xp - hintPenalty);
   return (
     <div className="flex h-[calc(100dvh-3.5rem)] flex-col gap-2 overflow-x-auto p-3">
+      <DraftStatus level={level} owner={owner} />
       {sim.error ? (
         <div
           role="alert"
@@ -484,20 +601,43 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
           </div>
         </div>
       ) : null}
+      {compact ? (
+        <nav aria-label="Problem workspace" className="flex shrink-0 gap-2">
+          {(["brief", "work", "inspect"] as const).map((pane) => (
+            <button
+              key={pane}
+              type="button"
+              aria-pressed={compactPane === pane}
+              onClick={() => setCompactPane(pane)}
+              className={cn(
+                "flex-1 rounded border px-3 py-2 text-sm",
+                compactPane === pane && "bg-panel-elevated font-semibold",
+              )}
+            >
+              {pane === "brief" ? "Problem" : pane === "work" ? "Editor & tools" : "Cluster"}
+            </button>
+          ))}
+        </nav>
+      ) : null}
       <ResizableGroup
         orientation="horizontal"
         id="level-columns"
         defaultLayout={columnsLayout.defaultLayout}
         onLayoutChanged={columnsLayout.onLayoutChanged}
-        className="min-h-0 min-w-[1080px] flex-1"
+        className={cn(
+          "min-h-0 min-w-0 flex-1",
+          compact && compactPane === "work" && "[&>#rail-left]:hidden! [&>#rail-right]:hidden!",
+          compact && compactPane === "brief" && "[&>#center]:hidden! [&>#rail-right]:hidden!",
+          compact && compactPane === "inspect" && "[&>#center]:hidden! [&>#rail-left]:hidden!",
+        )}
       >
         {/* Left rail: resizable; one scroll container, cards keep their natural height. */}
         <ResizablePane
           id="rail-left"
           defaultSize="23%"
-          minSize="240px"
+          minSize={compact ? "0px" : "240px"}
           maxSize="42%"
-          className="h-full"
+          className={cn("h-full", compact && compactPane !== "brief" && "hidden")}
         >
           <div className="flex h-full flex-col gap-3 overflow-y-auto pr-1 pb-1">
             <div className="shrink-0">
@@ -512,6 +652,12 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
             <div className="shrink-0">
               <HintsCard onReveal={handleRevealHint} />
             </div>
+            <SubmissionHistory
+              level={level}
+              owner={owner}
+              latest={latestSubmission}
+              disabled={applying || validating}
+            />
             {/* XP is a footnote during debugging, not a panel (UX: prioritize investigation). */}
             <p className="text-subtle flex shrink-0 items-center gap-1.5 px-1 text-xs">
               <icons.xp className="text-purple size-3.5" aria-hidden />
@@ -529,10 +675,18 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
           </div>
         </ResizablePane>
 
-        <ResizableHandle orientation="vertical" aria-label="Resize incident rail" />
+        <ResizableHandle
+          orientation="vertical"
+          className={compact ? "hidden" : undefined}
+          aria-label="Resize incident rail"
+        />
 
         {/* Center column: vertical split so the editor height is adjustable. */}
-        <ResizablePane id="center" minSize="28%" className="h-full">
+        <ResizablePane
+          id="center"
+          minSize={compact ? "0%" : "28%"}
+          className={cn("h-full min-w-0", compact && compactPane !== "work" && "hidden")}
+        >
           <ResizableGroup
             orientation="vertical"
             id="level-center"
@@ -578,6 +732,10 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
                   })}
                 </div>
                 <PanelHeader
+                  className={cn(
+                    "h-auto min-h-10 flex-wrap py-1 [&>div:last-child]:max-w-full [&>div:last-child]:shrink",
+                    compact && "[&>div:first-child]:hidden [&>div:last-child]:w-full",
+                  )}
                   title={
                     activeFile?.access === "readonly"
                       ? isBuild
@@ -589,10 +747,10 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
                   }
                   icon={<icons.yaml />}
                   actions={
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex flex-wrap items-center gap-1.5">
                       <ToolbarButton
                         onClick={() => void handleApply()}
-                        disabled={applying || !sim.ready}
+                        disabled={applying || validating || !sim.ready}
                         primary
                       >
                         <icons.run aria-hidden />
@@ -606,7 +764,7 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
                       </ToolbarButton>
                       <ToolbarButton
                         onClick={() => void handleValidate()}
-                        disabled={validating || !sim.ready}
+                        disabled={validating || applying || !sim.ready}
                         primary
                       >
                         <icons.validate aria-hidden />
@@ -620,7 +778,10 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
                         <icons.diff aria-hidden />
                         Show Diff
                       </ToolbarButton>
-                      <ToolbarButton onClick={() => void handleReset()} disabled={!sim.ready}>
+                      <ToolbarButton
+                        onClick={() => void handleReset()}
+                        disabled={applying || validating || !sim.ready}
+                      >
                         <icons.reset aria-hidden />
                         Reset
                       </ToolbarButton>
@@ -651,7 +812,7 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
                     <YamlEditor
                       path={activeFilePath || "manifest.yaml"}
                       value={files[activeFilePath] ?? ""}
-                      readOnly={activeFile?.access !== "editable"}
+                      readOnly={applying || validating || activeFile?.access !== "editable"}
                       onChange={(value) => {
                         if (activeFile?.access !== "editable") return;
                         setApplyFeedback(null);
@@ -667,7 +828,7 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
 
             <ResizablePane id="center-tools" minSize="18%" className="h-full">
               <Panel className="h-full">
-                <div className="border-border flex h-10 shrink-0 items-center justify-between gap-2 border-b pr-2">
+                <div className="border-border flex min-h-10 shrink-0 flex-wrap items-center justify-between gap-2 border-b pr-2">
                   <div
                     className="flex items-center"
                     role="tablist"
@@ -688,12 +849,13 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
                           onClick={() => setCenterTab(tab.id)}
                           className={cn(
                             "flex h-10 items-center gap-1.5 border-b-2 px-3 text-sm font-medium transition-colors",
+                            compact && "px-2 text-xs",
                             centerTab === tab.id
                               ? "border-foreground text-foreground"
                               : "text-muted hover:text-foreground border-transparent",
                           )}
                         >
-                          <Icon className="size-4" aria-hidden />
+                          <Icon className={cn("size-4", compact && "hidden")} aria-hidden />
                           {tab.label}
                         </button>
                       );
@@ -702,7 +864,9 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
                   <div className="flex items-center gap-2">
                     <ChallengeStatus
                       failing={checks ? checks.results.filter((r) => !r.passed).length : null}
-                      total={level.validators.length + level.constraints.length}
+                      total={
+                        checks?.results.length ?? level.validators.length + level.constraints.length
+                      }
                     />
                     <ScenarioStatus status={sim.status} />
                   </div>
@@ -716,7 +880,12 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
                 >
                   {/* Quick commands: one-click investigation starters (beginner training wheels). */}
                   {centerTab === "terminal" ? (
-                    <div className="border-border flex shrink-0 flex-wrap items-center gap-1.5 border-b px-3 py-2">
+                    <div
+                      className={cn(
+                        "border-border flex shrink-0 items-center gap-1.5 border-b px-3 py-2",
+                        compact ? "overflow-x-auto whitespace-nowrap" : "flex-wrap",
+                      )}
+                    >
                       <span className="text-subtle text-[11px] font-medium tracking-wide uppercase">
                         Try:
                       </span>
@@ -729,7 +898,7 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
                             type="button"
                             disabled={!sim.ready || !resolvable}
                             onClick={() => runQuickCommand(quickCommand)}
-                            className="border-border bg-panel-elevated text-muted hover:border-border-strong hover:text-foreground rounded-md border px-2 py-0.5 font-mono text-[11px] transition-colors disabled:opacity-40"
+                            className="border-border bg-panel-elevated text-muted hover:border-border-strong hover:text-foreground shrink-0 rounded-md border px-2 py-0.5 font-mono text-[11px] transition-colors disabled:opacity-40"
                           >
                             {quickCommand.command}
                           </button>
@@ -739,7 +908,7 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
                   ) : null}
 
                   <div className="min-h-0 flex-1">
-                    {centerTab === "terminal" ? (
+                    <div className={cn("h-full", centerTab !== "terminal" && "hidden")}>
                       <ErrorBoundary label="Terminal">
                         <XtermTerminal
                           onCommand={runCommand}
@@ -759,7 +928,8 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
                           ]}
                         />
                       </ErrorBoundary>
-                    ) : centerTab === "logs" ? (
+                    </div>
+                    {centerTab === "logs" ? (
                       <LogsView
                         snapshot={sim.snapshot}
                         getLogs={(namespace, pod) => sim.engine.getLogs(namespace, pod)}
@@ -769,20 +939,20 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
                       <div className="h-full overflow-auto">
                         <EventsTimeline
                           events={sim.snapshot.events}
-                          namespace={NAMESPACE}
+                          namespace="*"
                           onInspect={inspectEvents}
                         />
                       </div>
                     ) : centerTab === "network" ? (
                       <NetworkProbe onProbe={handleProbe} presets={level.probeTargets} />
-                    ) : (
+                    ) : centerTab === "diff" ? (
                       <ErrorBoundary label="Diff">
                         <DiffView
                           original={activeFile?.initialValue ?? ""}
                           modified={files[activeFilePath] ?? ""}
                         />
                       </ErrorBoundary>
-                    )}
+                    ) : null}
                   </div>
                 </div>
               </Panel>
@@ -790,15 +960,19 @@ export function LevelWorkspace({ level }: { level: ProblemLevel }) {
           </ResizableGroup>
         </ResizablePane>
 
-        <ResizableHandle orientation="vertical" aria-label="Resize cluster rail" />
+        <ResizableHandle
+          orientation="vertical"
+          className={compact ? "hidden" : undefined}
+          aria-label="Resize cluster rail"
+        />
 
         {/* A wider right rail keeps the topology square while leaving the explorer below it. */}
         <ResizablePane
           id="rail-right"
           defaultSize="33%"
-          minSize="320px"
+          minSize={compact ? "0px" : "320px"}
           maxSize="42%"
-          className="h-full"
+          className={cn("h-full", compact && compactPane !== "inspect" && "hidden")}
         >
           <ResizableGroup
             orientation="vertical"

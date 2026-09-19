@@ -1,16 +1,17 @@
 import { countDistinct, sql } from "drizzle-orm";
+import { currentProblemFilter } from "./verified-problem-filter";
 
 import type { ProgressDb } from "./progress-repo";
 import { submissions } from "./schema";
 
 /**
- * Client-validated per-problem telemetry, computed from submission history:
+ * Server-verified per-problem outcomes, computed from submission history:
  *  - successRate = distinct solvers / distinct attempters (0 to 1)
  *  - avgSolveMs  = average duration of passing submissions
  *  - sampleSize  = distinct attempters
  *
- * Browser validation is not a server-verifiable completion claim. The dashboard
- * labels this source and keeps the authored estimate below a sample floor.
+ * Only current, server-verified submissions contribute to these aggregates. The dashboard
+ * keeps the authored estimate below a sample floor; durations remain client telemetry.
  * One GROUP BY over an indexed table; the page caches it with ISR.
  */
 
@@ -33,6 +34,7 @@ export async function readLevelStats(db: ProgressDb): Promise<Record<string, Lev
       >`avg(${submissions.durationMs}) filter (where ${submissions.passed})`,
     })
     .from(submissions)
+    .where(currentProblemFilter(submissions))
     .groupBy(submissions.levelSlug);
 
   const out: Record<string, LevelStat> = {};

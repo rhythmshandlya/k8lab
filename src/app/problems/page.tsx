@@ -11,12 +11,12 @@ export const metadata: Metadata = { title: "Problems" };
 // Revalidate the (public, aggregate) stats hourly; the catalog itself is static code.
 export const revalidate = 3600;
 
-/** Show aggregate telemetry only after enough client-validated attempts. */
+/** Show aggregate telemetry only after enough server-verified attempts. */
 const MIN_SAMPLE = 20;
 
 /**
  * Server component. The catalog is static code; when a database is configured we
- * overlay client-validated success rate + average solve time from submission telemetry.
+ * overlay server-verified success rate + average solve time from submission telemetry.
  * These are explicitly labeled in the UI; browser-side validation is not presented as
  * server-verified truth. Below the sample floor, authored estimates remain visible.
  */
@@ -48,7 +48,7 @@ async function buildCatalog(): Promise<LevelSummary[]> {
         estimatedMinutes: stat.avgSolveMs
           ? Math.max(1, Math.round(stat.avgSolveMs / 60000))
           : level.estimatedMinutes,
-        statsSource: "client-validated",
+        statsSource: "server-verified",
         statsSampleSize: stat.sampleSize,
       };
     });

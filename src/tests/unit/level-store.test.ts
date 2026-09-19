@@ -18,6 +18,23 @@ describe("problem level file store", () => {
 
   afterEach(() => clearLevelWorkspace(level.slug));
 
+  it("invalidates the displayed verdict and quiet checks when the submitted files change", () => {
+    const store = useLevelStore.getState();
+    const passed = { passed: true, results: [] };
+    store.setValidation(passed);
+    store.setChecks(passed);
+    store.setSolved(true);
+    store.setFile("pod.yaml", "edited after submission");
+    expect(useLevelStore.getState()).toMatchObject({
+      validation: null,
+      checks: null,
+      solved: false,
+    });
+    store.setChecks(passed);
+    store.resetFiles();
+    expect(useLevelStore.getState().checks).toBeNull();
+  });
+
   it("restores edits, active file, hints, and evidence from this content version", () => {
     const store = useLevelStore.getState();
     store.setFile("pod.yaml", "edited");

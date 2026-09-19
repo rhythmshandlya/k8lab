@@ -8,3 +8,5 @@ test-results
 drizzle/meta
 pnpm-lock.yaml
 *.md
+src/lib/kube/schemas/*.json
+.codex-*

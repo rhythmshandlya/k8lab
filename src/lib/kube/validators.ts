@@ -3,6 +3,7 @@ import { assertNever } from "@/lib/utils/exhaustive";
 
 import { isPodReady, podPhase, podRestarts, readyEndpointCount } from "./kubectl/format";
 import { evaluateLevelConstraints } from "./manifest-constraints";
+import { evaluateWorkspaceSemantics } from "./workspace-semantics";
 import type { ClusterSnapshot, ProbeResult } from "./simulator";
 
 /**
@@ -60,7 +61,19 @@ export async function runLevelValidation(
 ): Promise<ValidationReport> {
   const runtime = await runValidators(level.validators, ctx);
   const constraints = evaluateLevelConstraints(level, currentFiles);
-  const results = [...runtime.results, ...constraints];
+  const issues = evaluateWorkspaceSemantics(level, currentFiles);
+  const results = [
+    ...runtime.results,
+    ...constraints,
+    ...issues.map((detail, index) => ({
+      id: `workspace-validity-${index}`,
+      title: "Submitted Kubernetes configuration is valid",
+      passed: false,
+      detail: "The submitted configuration has a Kubernetes validity issue.",
+      diagnostic: detail,
+      label: "Correct the submitted manifest",
+    })),
+  ];
   return { passed: results.every((result) => result.passed), results };
 }
 

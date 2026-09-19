@@ -127,9 +127,11 @@ export const gracefulShutdown502s = {
         },
         { path: "spec.template.spec.containers[name=api].readinessProbe", operator: "present" },
       ],
-      // Any drain action that finishes inside the grace window teaches the lesson;
-      // demanding the literal string "sleep 10" only teaches copying.
-      goals: [{ goal: "graceful-drain", container: "api", minGraceSeconds: 15 }],
+      // A supported delay must cover this application's propagation window;
+      // equivalent direct, shell, and native sleep actions are accepted.
+      goals: [
+        { goal: "graceful-drain", container: "api", minGraceSeconds: 15, minDrainSeconds: 10 },
+      ],
     },
   ],
   files: [

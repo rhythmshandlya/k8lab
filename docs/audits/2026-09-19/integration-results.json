@@ -1,0 +1,98 @@
+{
+  "numTotalTestSuites": 6,
+  "numPassedTestSuites": 6,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 4,
+  "numPassedTests": 4,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1789802747960,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["klab/api upstream response contract"],
+          "fullName": "klab/api upstream response contract propagates a reachable upstream's error status and reports it in the body",
+          "status": "passed",
+          "title": "propagates a reachable upstream's error status and reports it in the body",
+          "duration": 2643.577268,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802748748,
+      "endTime": 1789802751391.5771,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/integration/api-upstream-status.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["Playground: Deployment + Service template"],
+          "fullName": "Playground: Deployment + Service template applies the template, reconciles ready pods, and stays stable (no churn)",
+          "status": "passed",
+          "title": "applies the template, reconciles ready pods, and stays stable (no churn)",
+          "duration": 12426.475753,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802748721,
+      "endTime": 1789802761147.4758,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/integration/playground-template.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["KubeSimulator (real Webernetes boot)"],
+          "fullName": "KubeSimulator (real Webernetes boot) boots, applies a Deployment + Service, and reconciles ready state",
+          "status": "passed",
+          "title": "boots, applies a Deployment + Service, and reconciles ready state",
+          "duration": 3170.1413140000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["KubeSimulator (real Webernetes boot)"],
+          "fullName": "KubeSimulator (real Webernetes boot) serializes an overlapping boot → close → boot (React StrictMode) into a ready cluster",
+          "status": "passed",
+          "title": "serializes an overlapping boot → close → boot (React StrictMode) into a ready cluster",
+          "duration": 12.278708999999708,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1789802748716,
+      "endTime": 1789802751898.2788,
+      "status": "passed",
+      "message": "",
+      "name": "/app/src/tests/integration/simulator.test.ts"
+    }
+  ]
+}

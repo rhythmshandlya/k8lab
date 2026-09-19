@@ -16,6 +16,7 @@ export default defineConfig({
     testTimeout: 60000,
     clearMocks: true,
     restoreMocks: true,
+    server: { deps: { inline: [/@ngrok[\\/]webernetes/] } },
   },
   resolve: {
     alias: {

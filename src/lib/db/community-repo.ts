@@ -2,6 +2,7 @@ import { and, count, desc, eq, gte, lt, max, sql, sum } from "drizzle-orm";
 
 import type { ProgressDb } from "./progress-repo";
 import { progressSolved, user } from "./schema";
+import { currentProblemFilter } from "./verified-problem-filter";
 
 /**
  * Read-only community aggregates over existing tables (no schema changes):
@@ -60,7 +61,7 @@ export async function readCommunityPulse(db: ProgressDb): Promise<CommunityPulse
     })
     .from(progressSolved)
     .innerJoin(user, eq(user.id, progressSolved.userId))
-    .where(eq(user.publicProfile, true));
+    .where(and(eq(user.publicProfile, true), currentProblemFilter(progressSolved)));
   const row = rows[0];
   return { players: row?.players ?? 0, solvesThisWeek: row?.solvesThisWeek ?? 0 };
 }
@@ -82,7 +83,7 @@ export async function readLeaderboard(db: ProgressDb, limit: number): Promise<Le
     })
     .from(progressSolved)
     .innerJoin(user, eq(user.id, progressSolved.userId))
-    .where(eq(user.publicProfile, true))
+    .where(and(eq(user.publicProfile, true), currentProblemFilter(progressSolved)))
     .groupBy(progressSolved.userId, user.name, user.image, user.isAnonymous)
     .orderBy(desc(xp), desc(solves), desc(lastSolvedAt))
     .limit(limit);
@@ -123,6 +124,7 @@ export async function readWeeklyLeaderboard(
     .where(
       and(
         eq(user.publicProfile, true),
+        currentProblemFilter(progressSolved),
         gte(progressSolved.solvedAt, startsAt),
         lt(progressSolved.solvedAt, endsAt),
       ),
@@ -157,6 +159,7 @@ export async function readWeeklyChallengeCompletions(
     .where(
       and(
         eq(user.publicProfile, true),
+        currentProblemFilter(progressSolved),
         eq(progressSolved.levelSlug, levelSlug),
         gte(progressSolved.solvedAt, startsAt),
         lt(progressSolved.solvedAt, endsAt),
@@ -177,7 +180,7 @@ export async function readRecentSolves(db: ProgressDb, limit: number): Promise<R
     })
     .from(progressSolved)
     .innerJoin(user, eq(user.id, progressSolved.userId))
-    .where(eq(user.publicProfile, true))
+    .where(and(eq(user.publicProfile, true), currentProblemFilter(progressSolved)))
     .orderBy(desc(progressSolved.solvedAt))
     .limit(limit);
 
@@ -203,7 +206,7 @@ export async function readUserRank(db: ProgressDb, userId: string): Promise<User
     })
     .from(progressSolved)
     .innerJoin(user, eq(user.id, progressSolved.userId))
-    .where(eq(user.publicProfile, true))
+    .where(and(eq(user.publicProfile, true), currentProblemFilter(progressSolved)))
     .groupBy(progressSolved.userId)
     .as("totals");
 
@@ -240,7 +243,7 @@ export async function readUserCommunityStatus(
     db
       .select({ solveCount: count(progressSolved.levelSlug) })
       .from(progressSolved)
-      .where(eq(progressSolved.userId, userId)),
+      .where(and(eq(progressSolved.userId, userId), currentProblemFilter(progressSolved))),
   ]);
   const publicProfile = profiles[0]?.publicProfile ?? false;
   return {

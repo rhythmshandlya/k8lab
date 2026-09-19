@@ -346,7 +346,7 @@ class GracefulShutdownScenario implements ScriptedScenarioRuntime {
     if (!deployment) return err("The edge-api Deployment is missing.");
 
     this.fixed = evaluateGoal(
-      { goal: "graceful-drain", container: "api", minGraceSeconds: 15 },
+      { goal: "graceful-drain", container: "api", minGraceSeconds: 15, minDrainSeconds: 10 },
       deployment.raw,
     ).passed;
     this.probeIndex = 0;

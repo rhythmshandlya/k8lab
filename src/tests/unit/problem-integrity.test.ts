@@ -132,7 +132,15 @@ function unmetRequirements(
 
   // Words the brief already uses are the author's own language, not disclosure: an
   // RBAC verb like "update" is both a rubric value and an ordinary English word.
-  const authored = `${level.story} ${level.objective} ${level.blurb}`.toLowerCase();
+  // Build assignments publish their required literals in the starter contract.
+  const contract =
+    level.challengeMode === "build"
+      ? level.files
+          .filter((file) => file.access !== "hidden")
+          .map((file) => file.initialValue)
+          .join("\n")
+      : "";
+  const authored = `${level.story} ${level.objective} ${level.blurb} ${contract}`.toLowerCase();
 
   return {
     paths,

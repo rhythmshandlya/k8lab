@@ -136,6 +136,10 @@ spec:
       labels:
         app: sale-api
     spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       priorityClassName: sale-critical
       topologySpreadConstraints:
         - maxSkew: 1
@@ -146,6 +150,10 @@ spec:
               app: sale-api
       containers:
         - name: api
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
           image: registry.example/sale-api:2.0.0
           ports:
             - name: http
@@ -229,6 +237,10 @@ spec:
       labels:
         app: sale-worker
     spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: topology.kubernetes.io/zone
@@ -238,6 +250,10 @@ spec:
               app: sale-worker
       containers:
         - name: worker
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: [ALL]
           image: registry.example/sale-worker:2.0.0
           resources:
             requests:

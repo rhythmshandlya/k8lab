@@ -133,6 +133,7 @@ const goalCheckSchema = z.discriminatedUnion("goal", [
     goal: z.literal("graceful-drain"),
     container: z.string().min(1),
     minGraceSeconds: z.number().int().positive(),
+    minDrainSeconds: z.number().positive().optional(),
   }),
   z.object({
     goal: z.literal("zero-downtime-rollout"),

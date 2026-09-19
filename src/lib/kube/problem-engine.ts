@@ -9,7 +9,8 @@ import type {
 import { err, ok, type Result } from "@/lib/utils/result";
 
 import { fixtureLogs, fixtureProbe, renderFixtureSnapshot } from "./cluster-fixture";
-import { runCommandLine, type CommandResult } from "./command-runner";
+import { parseCommand, runCommandLine, type CommandResult } from "./command-runner";
+import { initialWorkspace, workspaceRevision } from "./workspace-revision";
 import { evaluateLevelConstraints } from "./manifest-constraints";
 import { evaluateWorkspaceSemantics } from "./workspace-semantics";
 import type { LogLine } from "./images/log-sink";
@@ -373,7 +374,12 @@ function resourcesFromWorkspace(
 ): FixtureResource[] {
   return level.files.flatMap((file) => {
     const parsed = parseKubernetesManifests(files[file.path] ?? file.initialValue);
-    return parsed.ok ? parsed.value.map((manifest) => manifest.raw as FixtureResource) : [];
+    // Kustomization is an authoring document, not a cluster API object.
+    return parsed.ok
+      ? parsed.value
+          .filter((manifest) => manifest.kind !== "Kustomization")
+          .map((manifest) => manifest.raw as FixtureResource)
+      : [];
   });
 }
 
@@ -418,7 +424,127 @@ function resourceIdentity(resource: FixtureResource): string {
 }
 
 export function createProblemEngine(spec: ProblemEngineSpec): ProblemEngine {
-  if (spec.kind === "webernetes") return new WebernetesProblemEngine();
-  if (spec.kind === "fixture") return new FixtureIncidentEngine(spec.fixture);
-  return new ScriptedIncidentEngine(spec.scenarioId);
+  const engine =
+    spec.kind === "webernetes"
+      ? new WebernetesProblemEngine()
+      : spec.kind === "fixture"
+        ? new FixtureIncidentEngine(spec.fixture)
+        : new ScriptedIncidentEngine(spec.scenarioId);
+  return new RevisionedProblemEngine(engine);
+}
+
+/** Serialize mutations and bind formal verdicts to the files actually applied. */
+class RevisionedProblemEngine implements ProblemEngine {
+  private level: ProblemLevel | undefined;
+  private appliedFiles: Record<string, string> = {};
+  private imperativeChanges = false;
+  private tail: Promise<unknown> = Promise.resolve();
+  constructor(private readonly runtime: ProblemEngine) {}
+  get kind() {
+    return this.runtime.kind;
+  }
+  get capabilities() {
+    return this.runtime.capabilities;
+  }
+  private serialize<T>(operation: () => Promise<T>): Promise<T> {
+    const next = this.tail.then(operation, operation);
+    this.tail = next.catch(() => undefined);
+    return next;
+  }
+  boot(level: ProblemLevel) {
+    return this.serialize(async () => {
+      const result = await this.runtime.boot(level);
+      if (result.ok) {
+        this.level = level;
+        this.appliedFiles = initialWorkspace(level);
+        this.imperativeChanges = false;
+      }
+      return result;
+    });
+  }
+  reset(level: ProblemLevel) {
+    return this.serialize(async () => {
+      const result = await this.runtime.reset(level);
+      if (result.ok) {
+        this.level = level;
+        this.appliedFiles = initialWorkspace(level);
+        this.imperativeChanges = false;
+      }
+      return result;
+    });
+  }
+  close() {
+    return this.serialize(() => this.runtime.close());
+  }
+  subscribe(listener: ProblemSnapshotListener) {
+    return this.runtime.subscribe(listener);
+  }
+  getSnapshot() {
+    return this.runtime.getSnapshot();
+  }
+  probe(url: string) {
+    return this.runtime.probe(url);
+  }
+  getLogs(namespace: string, pod: string, container?: string) {
+    return this.runtime.getLogs(namespace, pod, container);
+  }
+  applyFiles(files: Readonly<Record<string, string>>) {
+    const revision = { ...files };
+    return this.serialize(async () => {
+      const result = await this.runtime.applyFiles(revision);
+      if (result.ok) {
+        this.appliedFiles = { ...this.appliedFiles, ...revision };
+        if (
+          this.level?.files
+            .filter((file) => file.access === "editable")
+            .every((file) => file.path in revision)
+        )
+          this.imperativeChanges = false;
+      }
+      return result;
+    });
+  }
+  validate(level: ProblemLevel, files: Readonly<Record<string, string>>) {
+    const revision = { ...files };
+    return this.serialize(async () => {
+      const report = await this.runtime.validate(level, revision);
+      if (
+        this.imperativeChanges ||
+        this.level?.slug !== level.slug ||
+        workspaceRevision(level, revision) !== workspaceRevision(level, this.appliedFiles)
+      ) {
+        report.results.push({
+          id: "unapplied-files",
+          title: "Submitted files are applied",
+          passed: false,
+          detail: this.imperativeChanges
+            ? "The terminal changed the cluster. Reflect the intended solution in the editor and Apply Changes before submitting."
+            : "The editor contains unapplied changes. Apply this revision before submitting.",
+          label: "Apply the current files",
+        });
+        report.passed = false;
+      }
+      return report;
+    });
+  }
+  runCommand(line: string, namespace: string, files: Record<string, string>) {
+    const revision = { ...files };
+    return this.serialize(async () => {
+      const command = parseCommand(line);
+      const result = await this.runtime.runCommand(line, namespace, revision);
+      if (
+        !result.isError &&
+        (["delete", "delete-resource", "scale", "create-namespace"].includes(command.kind) ||
+          (command.kind === "rollout" && command.verb === "restart"))
+      )
+        this.imperativeChanges = true;
+      if (!result.isError && command.kind === "apply") {
+        this.appliedFiles =
+          this.kind === "fixture" || this.level?.challengeMode === "build"
+            ? { ...this.appliedFiles, ...revision }
+            : { ...this.appliedFiles, [command.file]: revision[command.file] ?? "" };
+      }
+      return result;
+    });
+  }
 }
