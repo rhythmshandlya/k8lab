@@ -32,8 +32,15 @@ Create a Neon database and set:
 - `DATABASE_URL`: pooled/serverless connection string used at runtime.
 - `DATABASE_URL_UNPOOLED`: direct connection string used for migrations.
 
-Pull the production values locally, apply every checked-in migration, and never run `db:push`
-against production:
+Vercel production builds apply checked-in migrations before building the application.
+`vercel.json` selects `pnpm build`, which requires `DATABASE_URL_UNPOOLED` when
+`VERCEL_ENV=production`. A PostgreSQL advisory lock serializes overlapping production
+builds; a missing connection or failed migration stops deployment. Preview and local
+builds never run this production migration step. Keep migrations additive and compatible
+with the currently serving application, since a later build failure does not undo them.
+
+For initial provisioning or an explicit manual recovery, pull the production values locally
+and apply checked-in migrations. Never run `db:push` against production:
 
 ```bash
 pnpm exec vercel env pull .env.production.local --environment=production
@@ -78,7 +85,7 @@ gh pr merge --squash --delete-branch
 ```
 
 After the merge, GitHub Actions runs CI, starts a remote Vercel build (so sensitive values remain
-inside Vercel), creates a production deployment, and executes the smoke suite against the public
+inside Vercel), applies migrations before building, creates a production deployment, and runs the smoke suite against the public
 production alias. Monitor it with `gh run watch`.
 
 For a deliberate local deployment or recovery operation:
