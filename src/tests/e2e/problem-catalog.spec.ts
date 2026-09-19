@@ -13,8 +13,8 @@ for (const level of LEVELS) {
       // Restrict the exclusion to the pinned vendor stack; every other page error
       // still fails the test, with its full stack available for diagnosis.
       if (
-        error.name === "Canceled" &&
         error.message === "Canceled" &&
+        /^(?:Uncaught \(in promise\) )?Canceled: Canceled(?:\n|$)/.test(error.stack ?? "") &&
         error.stack?.includes("/monaco-editor@0.55.1/")
       )
         return;
