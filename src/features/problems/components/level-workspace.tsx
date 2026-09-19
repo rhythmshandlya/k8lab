@@ -462,6 +462,15 @@ function LevelWorkspaceSession({ level, owner }: { level: ProblemLevel; owner: s
       }
       pendingSubmission.current = null;
       setLatestSubmission(record);
+      if (workspaceRevision(level, useLevelStore.getState().files) !== revision) {
+        setApplyFeedback({
+          tone: "success",
+          title: "Earlier draft submitted",
+          message:
+            "The workspace changed while this submission ran. Its result is in Submission history; apply and submit the current files separately.",
+        });
+        return;
+      }
       const report = record.report;
       collectSignals(
         report.results.map((result) => ({
